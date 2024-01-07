@@ -1,0 +1,10 @@
+syntax = "proto3";
+option csharp_namespace = "Centurion.Contracts";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts";
+option java_package = "gg.centurion.contract";
+
+message WebhookSettings {
+  string user_id = 1;
+  string success_url = 2;
+  string failure_url = 3;
+}

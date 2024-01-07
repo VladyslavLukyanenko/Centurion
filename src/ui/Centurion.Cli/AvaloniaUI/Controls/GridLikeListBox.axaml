@@ -1,0 +1,135 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20" Background="#050A2A" Height="190">
+      <controls:GridLikeListBox Background="Transparent" Width="150">
+        <ListBox.Items>
+          <controls:GridLikeListBoxItem>Item1</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item2</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item3</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item4</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item5</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item6</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item7</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item8</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item9</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item10</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item11</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item12</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item13</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item14</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item15</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item16</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item17</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item18</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item19</controls:GridLikeListBoxItem>
+          <controls:GridLikeListBoxItem>Item20</controls:GridLikeListBoxItem>
+        </ListBox.Items>
+      </controls:GridLikeListBox>
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="controls|GridLikeListBox">
+    <Setter Property="TextBlock.Foreground" Value="#A9B5E0" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="MinWidth" Value="0" />
+    <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource ListBoxBorderThemeThickness}" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <ScrollViewer Name="PART_ScrollViewer"
+                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                        AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}">
+            <!-- <controls:ScrollPropagatingStackPanel> -->
+            <ItemsPresenter
+              Name="PART_ItemsPresenter"
+              Items="{TemplateBinding Items}"
+              ItemsPanel="{TemplateBinding ItemsPanel}"
+              ItemTemplate="{TemplateBinding ItemTemplate}"
+              Margin="{TemplateBinding Padding}"
+              VirtualizationMode="{TemplateBinding VirtualizationMode}" />
+            <!-- <TextBlock Foreground="#6B78A5" Margin="0, 22, 0, 0" Grid.Row="1" HorizontalAlignment="Center"> -->
+            <!-- You’ve reached the end of the list -->
+            <!-- </TextBlock> -->
+            <!-- </controls:ScrollPropagatingStackPanel> -->
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|GridLikeListBoxItem">
+    <Setter Property="Background" Value="#01000000" />
+    <Setter Property="Foreground" Value="#A9B5E0"></Setter>
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <BrushTransition Property="Background" Duration="0:0:.15" />
+        <BrushTransition Property="Foreground" Duration="0:0:.15" />
+      </Transitions>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter
+          Name="PART_ContentPresenter"
+          Background="{TemplateBinding Background}"
+          BorderBrush="{TemplateBinding BorderBrush}"
+          BorderThickness="{TemplateBinding BorderThickness}"
+          CornerRadius="{TemplateBinding CornerRadius}"
+          ContentTemplate="{TemplateBinding ContentTemplate}"
+          Content="{TemplateBinding Content}"
+          Padding="{TemplateBinding Padding}"
+          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|GridLikeListBoxItem">
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <!-- <Setter Property="Classes.IsOdd" Value="{Binding Index, " /> -->
+  </Style>
+  <Style Selector="controls|GridLikeListBoxItem:odd">
+    <Setter Property="Background" Value="#107777FF" />
+    <!-- <Setter Property="Classes.IsOdd" Value="{Binding Index, " /> -->
+  </Style>
+
+  <!--  Disabled State  -->
+  <Style Selector="controls|GridLikeListBoxItem:disabled">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+  </Style>
+
+  <!--  PointerOver State  -->
+  <Style Selector="controls|GridLikeListBoxItem:pointerover">
+    <Setter Property="Background" Value="#8F4254C5" />
+    <Setter Property="Foreground" Value="#fff" />
+    <Setter Property="CornerRadius" Value="4" />
+  </Style>
+
+  <!--  Pressed State  -->
+  <Style Selector="ListBoxItem:pressed">
+    <Setter Property="Background" Value="#A07777FF" />
+  </Style>
+
+  <!--  Selected State  -->
+  <Style Selector="controls|GridLikeListBoxItem:selected">
+    <Setter Property="Background" Value="#4254C5" />
+    <Setter Property="Foreground" Value="#fff" />
+    <Setter Property="CornerRadius" Value="4" />
+  </Style>
+
+</Styles>

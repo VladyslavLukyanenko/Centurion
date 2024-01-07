@@ -1,0 +1,79 @@
+<form (ngSubmit)="create()" [formGroup]="form" class="AppForm">
+  <p-dialog
+    (visibleChange)="isVisibleChange.emit($event)"
+    [visible]="isVisible"
+    [modal]="true"
+    [dismissableMask]="true"
+    styleClass="AppDialog"
+    class="dialogHeaderIconless"
+  >
+    <ng-template pTemplate="header">
+      <h2 class="AppDialog-title">Create licenses</h2>
+    </ng-template>
+    <div class="AppDialog-content AppForm-wrap">
+      <div class="row AppForm-row no-gutters">
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Key type</label>
+
+            <p-dropdown
+              formControlName="isLifetime"
+              class="AppForm-control"
+              [options]="keyTypes"
+              optionValue="value"
+              optionLabel="key"
+              placeholder="Key Type"
+            ></p-dropdown>
+            <app-field-error-required [control]="form.isLifetimeCtrl"></app-field-error-required>
+          </div>
+        </div>
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Plan</label>
+            <p-dropdown
+              formControlName="planId"
+              class="AppForm-control"
+              [options]="plans$ | async"
+              optionValue="id"
+              optionLabel="description"
+              placeholder="Plan"
+            ></p-dropdown>
+
+            <app-field-error-required [control]="form.planIdCtrl"></app-field-error-required>
+          </div>
+        </div>
+      </div>
+      <div class="row AppForm-row no-gutters">
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Trial days</label>
+            <input formControlName="trialDaysCount" class="AppForm-control" placeholder="Trial Days">
+            <app-field-error-required [control]="form.trialDaysCountCtrl"></app-field-error-required>
+          </div>
+        </div>
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Quantity</label>
+            <input formControlName="quantity" class="AppForm-control" placeholder="Quantity">
+
+            <app-field-error-required [control]="form.quantityCtrl"></app-field-error-required>
+          </div>
+        </div>
+      </div>
+      <div class="row AppForm-row no-gutters">
+        <div class="col-12 AppForm-col justify-content-between d-flex align-items-center">
+          <label class="AppForm-label is-inline">Allow Unbinding</label>
+
+          <p-inputSwitch formControlName="allowUnbinding"></p-inputSwitch>
+        </div>
+      </div>
+      <p-progressSpinner *ngIf="isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+    </div>
+
+    <p-footer>
+      <button [disabled]="asyncTracker.isLoading$ | async" class="AppDialog-btn is-primary">
+        Save Licenses
+      </button>
+    </p-footer>
+  </p-dialog>
+</form>

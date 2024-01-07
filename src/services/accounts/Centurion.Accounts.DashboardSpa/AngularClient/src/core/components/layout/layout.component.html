@@ -1,0 +1,14 @@
+<app-toolbar [(sidebarOpened)]="isSidebarOpened" class="Layout-toolbar"></app-toolbar>
+<div class="Layout-content">
+  <app-sidebar (navigated)="isSidebarOpened = false" class="Layout-sidebar"></app-sidebar>
+  <p-sidebar
+    [style]="{padding: 0, height: '100%', minHeight: 0, overflow: 'auto'}" class="Layout-sidebarMobile"
+    [(visible)]="isSidebarOpened"
+    [showCloseIcon]="false"
+    [baseZIndex]="1000"
+  >
+    <app-sidebar (navigated)="isSidebarOpened = false"></app-sidebar>
+  </p-sidebar>
+  <router-outlet></router-outlet>
+</div>
+

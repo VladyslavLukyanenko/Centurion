@@ -1,0 +1,48 @@
+.PlansGrid {
+  min-width: 1050px;
+
+  &-priceCell {
+    width: 140px;
+  }
+
+  &-trialCell {
+    width: 120px;
+  }
+
+  &-licenseCell {
+    width: 180px;
+  }
+
+  &-securityCell {
+    width: 240px;
+  }
+
+  &-actionsCell {
+    width: 180px;
+  }
+}
+
+.Plans {
+  &-header {
+    flex-wrap: nowrap;
+  }
+
+  &-content {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 100%;
+    overflow: visible;
+  }
+
+  @media screen and (max-width: 768px) {
+    &-content {
+      margin-top: 25px;
+    }
+  }
+
+
+}
+
+.ActionButton + .ActionButton {
+  margin-left: 5px;
+}

@@ -1,0 +1,76 @@
+version: "2.2"
+
+services:
+  create_certs:
+    container_name: create_certs
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
+    command: >
+      bash -c '
+        if [[ ! -f ./config/certificates/elastic-certificates.p12 ]]; then
+          bin/elasticsearch-certutil cert -out config/certificates/elastic-certificates.p12 -pass ""
+        fi;
+        chown -R 1000:0 /usr/share/elasticsearch/config/certificates
+      '
+    user: "0"
+    working_dir: /usr/share/elasticsearch
+    volumes: ['./data/elasticsearch/certs:/usr/share/elasticsearch/config/certificates']
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
+    environment:
+      - node.name=es
+      - cluster.name=olympus-es
+      - ELASTIC_PASSWORD=NotASecretPassword
+      - xpack.security.enabled=true
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - xpack.security.transport.ssl.keystore.path=/usr/share/elasticsearch/config/certificates/elastic-certificates.p12
+      - xpack.security.transport.ssl.truststore.path=/usr/share/elasticsearch/config/certificates/elastic-certificates.p12
+      - bootstrap.memory_lock=true
+      #      - discovery.seed_hosts=es
+      #      - cluster.initial_master_nodes=es
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./data/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./data/elasticsearch/certs:/usr/share/elasticsearch/config/certificates
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.14.1
+    #    volumes:
+    #      - ./cfg/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTICSEARCH_USERNAME: elastic
+      ELASTICSEARCH_PASSWORD: NotASecretPassword
+    ports:
+      - "10000:5601"
+    depends_on:
+      - elasticsearch
+
+  apm:
+    command: --strict.perms=false
+    image: docker.elastic.co/apm/apm-server:7.14.1
+    #    environment:
+    #      ELASTICSEARCH_URL: http://elasticsearch:9200
+    #      ELASTICSEARCH_HOSTS: elasticsearch:9200
+    #      output.elasticsearch.username: elastic
+    #      output.elasticsearch.password: MyPassword
+    #      ELASTICSEARCH_USERNAME: elastic
+    #      ELASTICSEARCH_PASSWORD: MyPassword
+    #    volumes:
+    volumes:
+      - ./cfg/apm-server.yml:/usr/share/apm-server/apm-server.yml
+    #      - ./cfg/apm/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
+    ports:
+      - "8200:8200"
+    depends_on:
+      - elasticsearch

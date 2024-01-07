@@ -1,0 +1,27 @@
+﻿syntax = "proto3";
+
+package cloudmanager;
+option csharp_namespace = "Centurion.Contracts.CloudManager";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/cloudmanager";
+option java_package = "gg.centurion.cloudmanager";
+
+import "cloudmanager/messages.proto";
+import "google/protobuf/timestamp.proto";
+
+message KeepAliveCommand {
+  string user_id = 1;
+  string user_name = 2;
+  google.protobuf.Timestamp timestamp = 3;
+}
+
+message NodeInfoBatch {
+  map<string, NodeInfo> per_user_info = 1;
+}
+
+message CloudCommandBatch {
+  map<string, KeepAliveCommand> per_user_commands = 1;
+}
+
+service Cloud {
+  rpc Connect(stream CloudCommandBatch) returns (stream NodeInfoBatch);
+}

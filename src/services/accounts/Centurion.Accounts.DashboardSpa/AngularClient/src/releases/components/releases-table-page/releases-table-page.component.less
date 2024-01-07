@@ -1,0 +1,87 @@
+.ReleasesGrid {
+  min-width: 1050px;
+
+  &-stockCell {
+    width: 140px;
+  }
+
+  &-releaseCell {
+    width: 140px;
+  }
+
+  &-typeCell {
+    width: 180px;
+  }
+
+  &-statusCell {
+    width: 120px;
+  }
+
+  &-actionsCell {
+    width: 180px;
+  }
+}
+
+.is-successText {
+  color: #1CFEAD;
+  font-weight: 600;
+}
+
+.is-dangerText {
+  color: #FE1C1C;
+  font-weight: 600;
+}
+
+.Releases {
+  &-header {
+    flex-wrap: nowrap;
+  }
+
+  &-content {
+    display: flex;
+    min-height: 0;
+    flex: 1 1 100%;
+    overflow: visible;
+  }
+
+  &-filters {
+    display: flex;
+    width: 100%;
+    margin-left: 20px;
+    align-items: center;
+  }
+
+  &-filterControls {
+    flex: 1 0 auto;
+  }
+
+  &-filterControls {
+    * + * {
+      margin-left: 10px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    &-filters {
+      position: absolute;
+      flex-direction: column-reverse;
+      align-items: flex-end;
+      margin: 0;
+      padding: 0 15px 0;
+      width: 100%;
+      left: 0;
+      right: 0;
+    }
+
+
+    &-content {
+      margin-top: 25px;
+    }
+  }
+
+
+}
+
+.ActionButton + .ActionButton {
+  margin-left: 5px;
+}

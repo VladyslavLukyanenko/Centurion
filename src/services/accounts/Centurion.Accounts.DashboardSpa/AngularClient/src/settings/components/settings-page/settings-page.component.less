@@ -1,0 +1,100 @@
+.SettingsPage {
+  &-scrollAreaWrap {
+    display: flex;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  &-controlsWrap {
+    display: flex;
+    min-height: 0;
+    overflow: auto;
+    height: 100%;
+    flex-direction: column;
+  }
+
+  &-sectionTitle {
+    margin-top: 40px;
+
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &-descEditorWrap {
+    height: 300px;
+  }
+
+  &-infoBlock {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    font-size: .8em;
+    background: #d1e8fd;
+    border-radius: 5px;
+  }
+
+  &-copyBtn {
+    cursor: pointer;
+  }
+}
+
+.SettingsPage-content {
+  overflow: visible;;
+}
+
+.HelpBtn {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+}
+
+::ng-deep {
+  .BackgroundEditor-logo .InteractivePictureUploader-uploadBtn.has-no-pic {
+    background: #334 !important;
+  }
+}
+
+.BackgroundEditor {
+  display: flex;
+  width: 100%;
+  position: relative;
+  padding-right: 30px;
+
+  &-backgroundCmp {
+    min-height: 240px;
+  }
+
+  &-logo {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateY(-20px);
+    height: 115px;
+    width: 115px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  &-logoCmp {
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 1070px) {
+
+  .BackgroundEditor {
+
+    &-backgroundWrap {
+      height: 240px;
+    }
+
+    &-background {
+      height: 100%;
+      width: auto;
+    }
+  }
+
+}

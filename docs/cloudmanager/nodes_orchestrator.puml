@@ -1,0 +1,21 @@
+﻿@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+
+  while (application running)
+    :Fetch NodeSnapshots;
+    :Fetch CloudNodes;
+    :Remove missing cloud nodes from DB and close connection with user;
+    :Ensure all nodes and snapshots are bound;
+    :Assign free outdated nodes to snapshots (If created more than 10sec ago);
+    :Schedule spawning new nodes for user;
+    :Execute node life stage changes;
+    :Schedule start containers on `Active` + `Running` nodes;
+    :Schedule stop containers on `PendingTermination` nodes;
+    :Schedule termination on `Terminating` stage nodes;
+  endwhile;
+
+stop
+
+@enduml

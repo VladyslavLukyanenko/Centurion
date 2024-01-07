@@ -1,0 +1,139 @@
+<header class="Page-header">
+  <h1 class="Page-title">Analytics</h1>
+
+  <p-accordion [style]="{width: '100%', 'margin-top': '10px'}" class="d-block d-md-none">
+    <p-accordionTab header="Filters">
+      <ng-container *ngTemplateOutlet="filters"></ng-container>
+    </p-accordionTab>
+  </p-accordion>
+  <ng-container *ngTemplateOutlet="filters; context: {$implicit: 'd-none d-md-block'}"></ng-container>
+</header>
+
+<div class="Page-content">
+  <nav class="LightweightTabs">
+    <ul class="LightweightTabs-list">
+      <ng-container *ngFor="let tab of tabs">
+        <li *appPermission="tab.permission" class="LightweightTabs-tab">
+          <a [routerLink]="tab.route" routerLinkActive="is-active" class="LightweightTabs-link">{{ tab.title }}</a>
+        </li>
+      </ng-container>
+    </ul>
+  </nav>
+  <div class="Analytics-content AnalyticsDiscord">
+    <div class="AnalyticsDiscord-subtitle">Growth & Activation</div>
+    <div class="row">
+      <div class="col-xl-4 col-lg-6">
+        <app-card
+          *ngIf="newMembers$ | async as newMembers"
+          class="StatsCard"
+          title="New Members"
+          [footer]="getFooterCardLabel(newMembers.prev?.toString())"
+        >
+          <app-stats-entry [value]="newMembers.curr" [percents]="newMembers.percents"></app-stats-entry>
+        </app-card>
+      </div>
+      <div class="col-xl-4 col-lg-6">
+        <app-card
+          *ngIf="newCommunicators$ | async as newCommunicators"
+          class="StatsCard"
+          title="New Communicators"
+          [footer]="getFooterCardLabel(newCommunicators.prev+ ' total users')"
+        >
+          <app-stats-entry
+            [value]="newCommunicators.curr"
+            [percents]="newCommunicators.percents"
+          ></app-stats-entry>
+        </app-card>
+      </div>
+      <div class="col-xl-4 col-lg-6">
+        <app-card
+          *ngIf="newMemberRetention$ | async as newMemberRetention"
+          class="StatsCard"
+          title="New Member Retention"
+          [footer]="getFooterCardLabel(newMemberRetention.prev + '% total users')"
+        >
+          <app-stats-entry
+            value="{{newMemberRetention.curr}}%"
+            [percents]="newMemberRetention.percents"
+          ></app-stats-entry>
+        </app-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <app-card class="StatsCard" title="Member joinage">
+          <app-chart-legend
+            card-title
+            [items]="memberJoinageLegend"
+            itemColorKey="color"
+            itemLabelKey="label"
+          ></app-chart-legend>
+          <echarts [autoResize]="true" [options]="memberJoinageOptions$ | async" style="height: 350px"></echarts>
+        </app-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6">
+        <app-card class="StatsCard" title="Total membership over time">
+          <app-chart-legend
+            card-title [items]="memberJoinageLineLegend"
+            itemColorKey="color"
+            itemLabelKey="label"
+          ></app-chart-legend>
+          <echarts [autoResize]="true" [options]="memberJoinageLineOptions$ | async" style="height: 350px"></echarts>
+        </app-card>
+      </div>
+      <div class="col-xl-6">
+        <app-card class="StatsCard" title="Server Leaves Over Time">
+          <app-chart-legend
+            [items]="serverLeavesOverTimeLegend"
+            card-title
+            itemColorKey="color"
+            itemLabelKey="label"
+          ></app-chart-legend>
+          <echarts [autoResize]="true" [options]="serverLeavesOverTimeOptions$ | async" style="height: 350px"></echarts>
+        </app-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <app-card class="StatsCard" title="How many members successfully activate on their first day?">
+          <app-chart-legend
+            card-title
+            [items]="successfulActivatesFirstDayLegend"
+            itemColorKey="color"
+            itemLabelKey="label"
+          ></app-chart-legend>
+          <echarts [autoResize]="true" [options]="successfulActivatesFirstDayOptions$ | async"
+                   style="height: 350px"></echarts>
+        </app-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <app-card class="StatsCard" title="How many members retain the next week?">
+          <app-chart-legend
+            card-title
+            [items]="retainNextWeekLegend"
+            itemColorKey="color"
+            itemLabelKey="label"
+          ></app-chart-legend>
+          <echarts [autoResize]="true" [options]="retainNextWeekOptions$ | async" style="height: 350px"></echarts>
+        </app-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #filters let-cls>
+  <app-analytics-discord-filters
+    (periodChange)="pushPeriod($event)"
+    (startAtChange)="pushStartAt($event)"
+    (endAtChange)="pushEndAt($event)"
+    [period]="period$ | async"
+    [startAt]="startAt$ | async"
+    [endAt]="endAt$ | async"
+    [class]="cls"
+  ></app-analytics-discord-filters>
+</ng-template>

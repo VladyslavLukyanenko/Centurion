@@ -1,0 +1,623 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+             xmlns:views="clr-namespace:Centurion.Cli.AvaloniaUI.Views"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Avalonia;assembly=LiveChartsCore.SkiaSharpView.Avalonia"
+             xmlns:converters="clr-namespace:Centurion.Cli.AvaloniaUI.Converters"
+             xmlns:home="clr-namespace:Centurion.Cli.Core.ViewModels.Home"
+             xmlns:tasks="clr-namespace:Centurion.Cli.Core.ViewModels.Tasks"
+             xmlns:ctx="clr-namespace:LiveChartsCore.Kernel;assembly=LiveChartsCore"
+             xmlns:behaviors="clr-namespace:Centurion.Cli.AvaloniaUI.Behaviors"
+             xmlns:taskManager="clr-namespace:Centurion.Contracts.TaskManager"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="450"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.HomeView">
+  <Design.DataContext>
+    <home:HomeViewModel />
+  </Design.DataContext>
+  <Grid ColumnDefinitions="315, 20, *, 20 200">
+    <!-- Task groups -->
+    <Popup Name="EditorPopup" PlacementTarget="CalendarTitle" VerticalOffset="10" IsLightDismissEnabled="True">
+      <Border
+        CornerRadius="8"
+        BorderBrush="#111A55"
+        BorderThickness="1"
+        Width="400"
+        Background="{StaticResource PrimaryBackgroundColor}">
+        <ContentControl Content="{Binding Editor}" />
+      </Border>
+    </Popup>
+    <Popup
+      IsLightDismissEnabled="True"
+      PlacementGravity="BottomLeft"
+      PlacementMode="Bottom"
+      IsOpen="{Binding #NewGroupBtn.IsChecked, Mode=TwoWay}"
+      PlacementTarget="NewGroupBtn"
+      VerticalOffset="5"
+      Topmost="False">
+      <Border
+        Background="{StaticResource PrimaryBackgroundColor}"
+        CornerRadius="8"
+        Width="230"
+        Height="160"
+        BorderThickness="1"
+        BorderBrush="#111A55">
+        <Grid RowDefinitions="*,  52">
+          <Grid Margin="13 12" RowDefinitions="36, *">
+            <TextBlock Text="Group Editor" Foreground="#A9B5E0" />
+            <StackPanel Grid.Row="1">
+              <Label Content="Group Name" Target="GroupName" />
+              <TextBox
+                IsEnabled="{Binding !Tasks.SaveCommand.IsExecuting^}"
+                Text="{Binding Tasks.EditingGroup.Name}"
+                Name="GroupName"
+                Watermark="Enter group name" />
+            </StackPanel>
+          </Grid>
+
+          <Border
+            Grid.Column="0"
+            Grid.Row="1"
+            Padding="12"
+            BorderThickness="0 1 0 0"
+            BorderBrush="#111A55">
+            <Grid ColumnDefinitions="*, *">
+
+              <Button
+                Margin="7 0 0 0"
+                Grid.Column="1"
+                Name="CreateBtn"
+                Classes="RegularButton"
+                HorizontalAlignment="Stretch"
+                Command="{Binding Tasks.SaveCommand}"
+                Content="Create" />
+            </Grid>
+          </Border>
+        </Grid>
+      </Border>
+    </Popup>
+    <Border
+      Grid.Column="0"
+      BorderThickness="0 0 1 0"
+      BorderBrush="#141E5A">
+
+      <Grid RowDefinitions="80, *">
+        <TextBlock
+          Grid.Row="0"
+          Text="Task Groups"
+          Classes="WidgetTitle"
+          Margin="32 0 0 0"
+          VerticalAlignment="Center" />
+
+        <ToggleButton
+          Name="NewGroupBtn"
+          Grid.Row="0"
+          Classes="LinkButton"
+          Command="{Binding Tasks.CreateGroupCommand}"
+          Content="New Group +"
+          Background="Transparent"
+          Foreground="#A9B5E0"
+          FontSize="11"
+          Margin="0 0 24 0"
+          HorizontalAlignment="Right"
+          VerticalAlignment="Center" />
+        <controls:TileListBox
+          BorderThickness="0 1 0 0"
+          BorderBrush="#141E5A"
+          Grid.Row="1"
+          Items="{Binding Tasks.TaskGroups}"
+          SelectedItem="{Binding Tasks.SelectedGroup}">
+          <controls:TileListBox.ContextFlyout>
+            <MenuFlyout>
+              <MenuFlyout.Items>
+                <MenuItem Header="Tasks">
+                  <MenuItem Header="Start" Command="{Binding Tasks.StartTasksCommand}" />
+                  <MenuItem Header="Stop" Command="{Binding Tasks.StopTasksCommand}" />
+                  <MenuItem Header="Edit" Command="{Binding Tasks.EditTasksCommand}" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Remove group" Command="{Binding Tasks.RemoveCommand}" />
+              </MenuFlyout.Items>
+            </MenuFlyout>
+          </controls:TileListBox.ContextFlyout>
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="tasks:TaskGroupViewModel">
+              <controls:TaskGroupTile TaskGroup="{Binding TaskGroup}" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </controls:TileListBox>
+      </Grid>
+    </Border>
+
+    <!-- Checkouts -->
+    <Grid Grid.Column="2" RowDefinitions="Auto, 19, *, 275" Margin="0 28 0 0">
+      <Grid ColumnDefinitions="*, *">
+        <TextBlock Text="Checkouts" Classes="WidgetTitle" />
+
+        <StackPanel
+          IsEnabled="False"
+          Orientation="Horizontal"
+          Grid.Column="1"
+          HorizontalAlignment="Right"
+          Spacing="15"
+          VerticalAlignment="Center">
+          <Button Classes="LinkButton">
+            <Button.Content>
+              <StackPanel Orientation="Horizontal" Spacing="9">
+                <Grid Height="9" Width="14">
+                  <Grid.Styles>
+                    <Style Selector="Border">
+                      <Setter Property="Background" Value="{Binding $parent[Button].Foreground}" />
+                      <Setter Property="Height" Value="1" />
+                      <Setter Property="CornerRadius" Value="6" />
+                      <Setter Property="Transitions">
+                        <Transitions>
+                          <BrushTransition Property="Background" Duration="0:0:.2" />
+                        </Transitions>
+                      </Setter>
+                    </Style>
+                  </Grid.Styles>
+
+                  <Border VerticalAlignment="Top" />
+                  <Border VerticalAlignment="Center" Width="10" />
+                  <Border VerticalAlignment="Bottom" Width="6" />
+                </Grid>
+
+                <TextBlock Text="Filter" />
+              </StackPanel>
+            </Button.Content>
+          </Button>
+          <Button Classes="LinkButton">
+            <Button.Styles>
+              <Style Selector="Path">
+                <Setter Property="Transitions">
+                  <Transitions>
+                    <BrushTransition Property="Fill" Duration="0:0:.2" />
+                  </Transitions>
+                </Setter>
+              </Style>
+            </Button.Styles>
+            <Button.Content>
+              <StackPanel Orientation="Horizontal" Spacing="9">
+                <Path
+                  Height="13"
+                  Width="13"
+                  Stretch="Uniform"
+                  Fill="{Binding $parent[Button].Foreground}"
+                  Data="M12.9965 14.0572C11.7036 15.1152 10.0509 15.75 8.25 15.75C4.10786 15.75 0.75 12.3921 0.75 8.25C0.75 4.10786 4.10786 0.75 8.25 0.75C12.3921 0.75 15.75 4.10786 15.75 8.25C15.75 10.051 15.1152 11.7037 14.0572 12.9966L17.0303 15.9697C17.3232 16.2626 17.3232 16.7374 17.0303 17.0303C16.7374 17.3232 16.2625 17.3232 15.9696 17.0303L12.9965 14.0572ZM14.25 8.25C14.25 11.5637 11.5637 14.25 8.25 14.25C4.93629 14.25 2.25 11.5637 2.25 8.25C2.25 4.93629 4.93629 2.25 8.25 2.25C11.5637 2.25 14.25 4.93629 14.25 8.25Z" />
+                <TextBlock Text="Search" />
+              </StackPanel>
+            </Button.Content>
+          </Button>
+        </StackPanel>
+      </Grid>
+
+      <TextBlock
+        Foreground="#8F57619B"
+        FontWeight="Bold"
+        IsVisible="{Binding !Checkouts.Count}"
+        FontSize="10"
+        Grid.Row="2"
+        Text="No checkouts found"
+        HorizontalAlignment="Center" />
+
+      <Grid Grid.Row="2" RowDefinitions="*, Auto">
+        <controls:GridLikeListBox
+          IsVisible="{Binding !!Checkouts.Count}"
+          Items="{Binding Checkouts}">
+          <controls:GridLikeListBox.Styles>
+            <Style Selector="controls|GridLikeListBoxItem">
+              <Setter Property="Margin" Value="0 0 0 1" />
+            </Style>
+            <Style Selector="controls|GridLikeListBoxItem:odd">
+              <Setter Property="Background" Value="#01000000" />
+            </Style>
+
+            <!--  Disabled State  -->
+            <Style Selector="controls|GridLikeListBoxItem:disabled">
+              <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+            </Style>
+
+            <!--  PointerOver State  -->
+            <Style Selector="controls|GridLikeListBoxItem:pointerover">
+              <Setter Property="Background" Value="#8F141C52" />
+              <Setter Property="CornerRadius" Value="4" />
+            </Style>
+
+            <!--  Pressed State  -->
+            <Style Selector="ListBoxItem:pressed">
+              <Setter Property="Background" Value="#8F141C52" />
+            </Style>
+
+            <!--  Selected State  -->
+            <Style Selector="controls|GridLikeListBoxItem:selected">
+              <Setter Property="Background" Value="#8F141C52" />
+              <Setter Property="CornerRadius" Value="4" />
+            </Style>
+          </controls:GridLikeListBox.Styles>
+          <controls:GridLikeListBox.ItemTemplate>
+            <DataTemplate>
+              <Grid ColumnDefinitions="*, 120, Auto" Background="#01000000" Margin="5">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                  <Border
+                    CornerRadius="3"
+                    BorderThickness="1"
+                    Background="#1A245F"
+                    Width="34"
+                    Height="34">
+                    <Border
+                      CornerRadius="3"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Width="30"
+                      behaviors:BitmapLoader.Source="{Binding Item.ProductPicture}"
+                      Height="30" />
+                  </Border>
+                  <StackPanel VerticalAlignment="Center" Margin="17 0 0 0">
+                    <TextBlock
+                      FontSize="13"
+                      LineHeight="17"
+                      Foreground="#fff"
+                      Text="{Binding Item.ProductName}" />
+                    <TextBlock
+                      Foreground="#57619B"
+                      FontSize="12"
+                      LineHeight="16"
+                      Text="{Binding Item.Price}" />
+                  </StackPanel>
+                </StackPanel>
+                <TextBlock
+                  Grid.Column="1"
+                  VerticalAlignment="Center"
+                  Text="{Binding Item.Store}" Classes="RegularTableHeader" />
+                <StackPanel
+                  Orientation="Horizontal"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center"
+                  Spacing="5"
+                  Grid.Column="2">
+                  <Border
+                    Background="#141C52"
+                    CornerRadius="5"
+                    Padding="8 2">
+                    <!--todo: capitalize-->
+                    <TextBlock
+                      FontSize="12"
+                      Foreground="#57619B"
+                      VerticalAlignment="Center"
+                      Text="{Binding Item.CheckedOutAt, Converter={x:Static converters:InstantHumanizerConverter.Instance}}" />
+                  </Border>
+                </StackPanel>
+              </Grid>
+            </DataTemplate>
+          </controls:GridLikeListBox.ItemTemplate>
+        </controls:GridLikeListBox>
+
+        <DockPanel IsEnabled="False" Grid.Row="1">
+          <Button Padding="0" Margin="0 0 0 9" FontSize="11" Classes="LinkButton" Foreground="#6B78A5">
+            <Button.Styles>
+              <Style Selector="Path">
+                <Setter Property="Transitions">
+                  <Transitions>
+                    <BrushTransition Property="Fill" Duration="0:0:.2" />
+                  </Transitions>
+                </Setter>
+              </Style>
+            </Button.Styles>
+            <Button.Content>
+              <StackPanel Orientation="Horizontal" Spacing="9">
+                <TextBlock Text="Expand" />
+                <Path
+                  Height="10"
+                  Width="10"
+                  Stretch="Uniform"
+                  Fill="{DynamicResource ButtonForegroundDisabled}"
+                  Data="M5.58325 1.33333C5.58325 1.01117 5.32208 0.75 4.99992 0.75C4.67775 0.75 4.41659 1.01117 4.41659 1.33333L4.41658 9.25838L1.32906 6.17085C1.10126 5.94305 0.731912 5.94305 0.504107 6.17085C0.2763 6.39866 0.2763 6.76801 0.504107 6.99581L4.58744 11.0791C4.81525 11.307 5.18459 11.307 5.4124 11.0791L9.49573 6.99581C9.72354 6.76801 9.72354 6.39866 9.49573 6.17085C9.26793 5.94305 8.89858 5.94305 8.67077 6.17085L5.58325 9.25838L5.58325 1.33333Z" />
+                <!-- Fill="{Binding $parent[Button].Foreground}" -->
+              </StackPanel>
+            </Button.Content>
+          </Button>
+
+          <TextBlock
+            HorizontalAlignment="Right"
+            FontSize="11"
+            Foreground="#6B78A5"
+            DockPanel.Dock="Right"
+            Text="{Binding Page.TotalElements, StringFormat={}{0} Results, FallbackValue=0 Results}" />
+        </DockPanel>
+      </Grid>
+
+      <Border Grid.Row="3" BorderThickness="0 1 0 0" BorderBrush="#141E5A">
+        <Grid RowDefinitions="*, *" ColumnDefinitions="235, *">
+          <DockPanel
+            Margin="0 9 0 0"
+            VerticalAlignment="Top"
+            IsEnabled="False"
+            Grid.ColumnSpan="2">
+            <Button Padding="0" FontSize="11" Classes="LinkButton" Foreground="#6B78A5" DockPanel.Dock="Right">
+              <Button.Styles>
+                <Style Selector="Path">
+                  <Setter Property="Transitions">
+                    <Transitions>
+                      <BrushTransition Property="Fill" Duration="0:0:.2" />
+                    </Transitions>
+                  </Setter>
+                </Style>
+              </Button.Styles>
+              <Button.Content>
+                <StackPanel Orientation="Horizontal" Spacing="9">
+                  <TextBlock Text="Expand" />
+                  <Path
+                    Height="10"
+                    Width="10"
+                    Stretch="Uniform"
+                    Fill="{DynamicResource ButtonForegroundDisabled}"
+                    Data="M5.58325 1.33333C5.58325 1.01117 5.32208 0.75 4.99992 0.75C4.67775 0.75 4.41659 1.01117 4.41659 1.33333L4.41658 9.25838L1.32906 6.17085C1.10126 5.94305 0.731912 5.94305 0.504107 6.17085C0.2763 6.39866 0.2763 6.76801 0.504107 6.99581L4.58744 11.0791C4.81525 11.307 5.18459 11.307 5.4124 11.0791L9.49573 6.99581C9.72354 6.76801 9.72354 6.39866 9.49573 6.17085C9.26793 5.94305 8.89858 5.94305 8.67077 6.17085L5.58325 9.25838L5.58325 1.33333Z" />
+                </StackPanel>
+              </Button.Content>
+            </Button>
+            <TextBlock
+              VerticalAlignment="Top"
+              HorizontalAlignment="Left"
+              Foreground="#6B78A5"
+              FontSize="11"
+              Text="Here's Today's Analytics" />
+
+          </DockPanel>
+
+          <StackPanel
+            VerticalAlignment="Center"
+            Grid.Column="0"
+            Grid.Row="0"
+            Orientation="Horizontal">
+            <Canvas Width="42" Height="42">
+              <Border
+                CornerRadius="3"
+                Height="22"
+                Width="22"
+                Background="#141C52" />
+              <Path
+                Canvas.Top="2"
+                Canvas.Left="3"
+                Height="22"
+                Width="22"
+                Data="M23.6994 2.01338C23.7543 1.68431 23.6468 1.34901 23.4109 1.11311C23.175 0.877207 22.8397 0.769754 22.5106 0.8246L16.3125 1.85761C16.0615 1.89946 15.8347 2.03251 15.6757 2.23125L8.13262 11.6601L6.8827 10.4102C6.47928 10.0068 5.82521 10.0068 5.4218 10.4102C5.01838 10.8136 5.01838 11.4677 5.4218 11.8711L6.7574 13.2067L1.28975 18.6744C0.886328 19.0778 0.886328 19.7319 1.28975 20.1353L4.38878 23.2343C4.7922 23.6377 5.44627 23.6377 5.84968 23.2343L11.3173 17.7667L12.6529 19.1022C13.0563 19.5056 13.7104 19.5056 14.1138 19.1022C14.5172 18.6988 14.5172 18.0447 14.1138 17.6413L12.8639 16.3914L22.2928 8.84828C22.4915 8.68929 22.6246 8.46252 22.6664 8.21146L23.6994 2.01338ZM9.85644 16.3058L8.2183 14.6676L7.61315 15.2728L9.25129 16.9109L9.85644 16.3058ZM11.394 14.9215L9.60251 13.13L17.0421 3.83055L21.4237 3.10027L20.6935 7.48191L11.394 14.9215ZM6.15225 16.7337L7.79039 18.3718L7.18526 18.977L5.54712 17.3388L6.15225 16.7337ZM4.08622 18.7997L5.72436 20.4379L5.11923 21.043L3.4811 19.4048L4.08622 18.7997Z"
+                Fill="#E7C879" />
+            </Canvas>
+
+            <StackPanel>
+              <TextBlock
+                Foreground="#fff"
+                FontSize="24"
+                FontWeight="800"
+                Text="{Binding Summary.TodayStats.CheckoutsCount, FallbackValue=0}" />
+
+              <TextBlock
+                Foreground="#6B78A5"
+                FontSize="15"
+                Text="Checkouts Today" />
+            </StackPanel>
+          </StackPanel>
+          <StackPanel
+            VerticalAlignment="Top"
+            Grid.Column="0"
+            Grid.Row="1"
+            Orientation="Horizontal">
+            <Canvas Width="42" Height="42">
+              <Border
+                CornerRadius="3"
+                Height="22"
+                Width="22"
+                Background="#141C52" />
+              <Path
+                Canvas.Top="5"
+                Canvas.Left="3"
+                Height="22"
+                Width="22"
+                Data="M4.94995 1.25461C5.14493 1.01089 5.47317 0.864502 5.82467 0.864502H18.4399C18.7914 0.864502 19.1197 1.01089 19.3147 1.25461L23.5197 6.51098C23.762 6.81382 23.7544 7.20995 23.5005 7.50613L12.9878 19.771C12.7904 20.0012 12.4718 20.1378 12.1323 20.1378C11.7928 20.1378 11.4742 20.0012 11.2768 19.771L0.764116 7.50613C0.51025 7.20995 0.502585 6.81382 0.74486 6.51098L4.94995 1.25461ZM6.38729 2.61662L3.58389 6.12087H7.1695L8.57119 2.61662H6.38729ZM10.7875 2.61662L9.38578 6.12087H14.8788L13.4771 2.61662H10.7875ZM15.6934 2.61662L17.0951 6.12087H20.6807L17.8773 2.61662H15.6934ZM20.6022 7.87299H17.1304L14.8158 14.6238L20.6022 7.87299ZM12.1323 16.0729L14.9437 7.87299H9.32092L12.1323 16.0729ZM7.13423 7.87299L9.44879 14.6238L3.66239 7.87299H7.13423Z"
+                Fill="#E7C879" />
+            </Canvas>
+
+            <StackPanel>
+              <TextBlock
+                Foreground="#fff"
+                FontSize="24"
+                FontWeight="800"
+                Text="{Binding Summary.TodayStats.SpentTotal, FallbackValue=0}" />
+
+              <TextBlock
+                Foreground="#6B78A5"
+                FontSize="15"
+                Text="Spent Today" />
+            </StackPanel>
+          </StackPanel>
+
+          <lvc:CartesianChart
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.RowSpan="2"
+            Name="Chart"
+            AutoUpdateEnabled="True"
+            Height="254">
+
+            <lvc:CartesianChart.TooltipTemplate>
+              <DataTemplate>
+                <Border Background="Transparent" Padding="12">
+                  <Border
+                    Width="130"
+                    Height="60"
+                    Background="{StaticResource GoldGradientBrush}"
+                    CornerRadius="4"
+                    BoxShadow="0 0 10 0 #40000000, 0 0 10 0 #40000000, 0 0 10 0 #40000000, 0 0 10 0 #40000000">
+                    <ItemsControl
+                      Items="{Binding Points, RelativeSource={RelativeSource AncestorType=lvc:DefaultTooltip}}">
+                      <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                      </ItemsControl.ItemsPanel>
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type ctx:ChartPoint}">
+                          <Border Padding="7 5">
+                            <StackPanel Orientation="Vertical">
+                              <TextBlock
+                                Text="{Binding Context.DataSource.Date, StringFormat={} {0:MMMM dd}}"
+                                FontSize="11"
+                                Foreground="#8FFFFFFF"
+                                HorizontalAlignment="Left"
+                                FontWeight="SemiBold" />
+                              <TextBlock
+                                Text="{Binding Context.DataSource.Count, StringFormat={}{0} Checkouts}"
+                                FontSize="16"
+                                Foreground="#FFFFFF"
+                                FontWeight="SemiBold" />
+                            </StackPanel>
+                          </Border>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </Border>
+                </Border>
+              </DataTemplate>
+            </lvc:CartesianChart.TooltipTemplate>
+          </lvc:CartesianChart>
+        </Grid>
+      </Border>
+    </Grid>
+
+    <!-- Release Calendar -->
+    <Grid Grid.Column="4" RowDefinitions="Auto, *" Margin="0 28 0 0">
+      <TextBlock Name="CalendarTitle" Text="Release Calendar" Classes="WidgetTitle" Margin="12 0 0 15" />
+
+      <ListBox
+        Background="#01000000"
+        ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+        Items="{Binding Presets}"
+        Grid.Row="1">
+        <ListBox.Styles>
+          <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Height" Value="122" />
+          </Style>
+
+          <!--  Disabled State  -->
+          <Style Selector="ListBoxItem:disabled">
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+          </Style>
+          <Style Selector="ListBoxItem:disabled /template/ ContentPresenter">
+            <Setter Property="Background" Value="#01000000" />
+          </Style>
+
+          <!--  PointerOver State  -->
+          <Style Selector="ListBoxItem:pointerover">
+            <Setter Property="Background" Value="#01000000" />
+          </Style>
+          <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#01000000" />
+          </Style>
+
+          <!--  Pressed State  -->
+          <Style Selector="ListBoxItem:pressed">
+            <Setter Property="Background" Value="#01000000" />
+          </Style>
+          <Style Selector="ListBoxItem:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="#01000000" />
+          </Style>
+
+          <!--  Selected State  -->
+          <Style Selector="ListBoxItem:selected">
+            <Setter Property="Background" Value="#01000000" />
+          </Style>
+          <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+            <Setter Property="Background" Value="#01000000" />
+          </Style>
+
+
+          <Style Selector="Button.PresetWrapBtn">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Background" Value="#01000000" />
+            <Setter Property="BorderThickness" Value="0" />
+          </Style>
+        </ListBox.Styles>
+
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Grid ColumnDefinitions="70, *">
+              <Grid.Styles>
+                <Style Selector="TextBlock">
+                  <Setter Property="Foreground" Value="#58648E" />
+                </Style>
+                <Style Selector="TextBlock.Today">
+                  <Setter Property="Foreground" Value="#A9B5E0" />
+                </Style>
+              </Grid.Styles>
+              <TextBlock
+                FontSize="44"
+                Classes.Today="{Binding IsToday}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Text="{Binding Date.Day}" />
+
+              <Ellipse
+                Grid.Column="1"
+                Margin="0 0 7 0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Height="6"
+                Width="6"
+                IsVisible="{Binding !!Presets.Count}"
+                Fill="#E4C983" />
+              <Path
+                Grid.Column="1"
+                IsVisible="{Binding !Presets.Count}"
+                Stroke="#141E5A"
+                StrokeThickness="1"
+                Stretch="Fill">
+                <Path.Data>
+                  <LineGeometry StartPoint="0,0" EndPoint="1,1" />
+                </Path.Data>
+              </Path>
+              <Border
+                Grid.Column="1"
+                BorderBrush="#141E5A"
+                Padding="0 26 0 0"
+                BorderThickness="0 0 0 1">
+                <ItemsRepeater Items="{Binding Presets}" Width="70" HorizontalAlignment="Left">
+                  <ItemsRepeater.Layout>
+                    <WrapLayout
+                      HorizontalSpacing="5"
+                      VerticalSpacing="5" />
+                  </ItemsRepeater.Layout>
+                  <ItemsRepeater.ItemTemplate>
+                    <DataTemplate DataType="taskManager:PresetData">
+                      <Button
+                        Classes="PresetWrapBtn"
+                        behaviors:ButtonPopup.Popup="{Binding #EditorPopup}"
+                        behaviors:ButtonPopup.CommandParameter="{Binding}"
+                        behaviors:ButtonPopup.Command="{Binding $parent[views:HomeView].ViewModel.OpenTaskEditorForPresetCommand}">
+                        <Border
+                          CornerRadius="3"
+                          Background="#1A245F"
+                          Width="32"
+                          Height="32">
+                          <Border
+                            Width="30"
+                            Height="30"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            behaviors:BitmapLoader.Source="{Binding ProductPicture}" />
+                        </Border>
+                      </Button>
+                    </DataTemplate>
+                  </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+              </Border>
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Grid>
+  </Grid>
+</UserControl>

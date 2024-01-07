@@ -1,0 +1,10 @@
+﻿@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+
+:Switch node to `LostConnection` stage;
+
+stop
+
+@enduml

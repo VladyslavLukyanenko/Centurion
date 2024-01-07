@@ -1,0 +1,237 @@
+.LoginDecoration {
+  height: 983px;
+  width: 865px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &-wrap {
+    position: absolute;
+    left: 0;
+    right: -15px; // bootstrap's row margin
+    bottom: 0;
+    top: 0;
+    overflow: hidden;
+  }
+
+  &-topShapes {
+    position: relative;
+    z-index: 2;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #718096;
+      opacity: 0.1;
+      width: 730px;
+      height: 730px;
+      border-radius: 50%;
+      transform: translate(30%, -50%);
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -170px;
+      background: #1A202C;
+      opacity: 0.5;
+      width: 340px;
+      height: 365px;
+      z-index: 2;
+    }
+  }
+
+  &-pic {
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    right: 0;
+  }
+
+  &-bgPic {
+    transform: translateY(-50%);
+    z-index: 4;
+  }
+
+  &-bottomShapeHelper {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: #1A202C;
+    opacity: 0.5;
+    width: 388px;
+    height: 388px;
+    border-radius: 50%;
+    transform: translate(200px, 50px);
+    z-index: 2;
+  }
+
+  &-bottomShapes {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    height: 100%;
+
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: #1A202C;
+      opacity: 0.2;
+      width: 730px;
+      height: 730px;
+      border-radius: 50%;
+      transform: translate(245px, 50px);
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -320px;
+      background: #fff;
+      z-index: 12;
+      height: 100%;
+      width: 500px;
+    }
+  }
+}
+
+.Logo {
+  text-align: left;
+
+  &-pic {
+  }
+
+  &-img {
+    height: 46px;
+  }
+}
+
+.Login {
+  max-width: 420px;
+  width: 100%;
+
+  &-header {
+    color: #1C48FE;
+    text-align: left;
+    font-size: 24px;
+    margin: 25px 0 40px;
+  }
+
+  &-title {
+    margin: 0;
+    font-style: normal;
+    font-weight: 600;
+    font-size: inherit;
+
+    color: #1C48FE;
+  }
+
+  &-titleEmphasis {
+    display: block;
+    font-weight: 700;
+    font-size: inherit;
+  }
+
+  &-logInBtn {
+    background: #1C48FE;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+    font-size: 16px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity .3s;
+
+    &:hover {
+      opacity: .75;
+    }
+
+    &:active,
+    &:focus {
+      opacity: .9;
+    }
+
+    &[disabled] {
+      opacity: .5;
+    }
+  }
+
+  &-logInIcon {
+
+    vertical-align: middle;
+  }
+}
+
+
+@media screen and (max-width: 1920px) {
+  .LoginDecoration {
+    left: auto;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 1072px) {
+  .Login {
+    position: fixed;
+    z-index: 2;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 40px;
+    max-width: 500px;
+    background: rgba(#fff, .2);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 5px;
+    box-shadow: 0px 3px 8px -1px rgba(50, 50, 71, 0.15);
+    filter: drop-shadow(0px 0px 1px rgba(12, 26, 75, 0.24)), drop-shadow(30px 20px 30px rgba(0, 0, 0, 0.04));
+  }
+
+  .LoginDecoration {
+    left: auto;
+    right: 0;
+    position: fixed;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .Login {
+    background: rgba(#fff, .1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: none;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: none;
+    padding: 20px;
+
+    &-header {
+      font-size: 16px;
+      margin: 15px 0 20px;
+    }
+
+    &-logInBtn {
+      font-size: 14px;
+    }
+  }
+
+  .LoginDecoration {
+    //display: none;
+  }
+}

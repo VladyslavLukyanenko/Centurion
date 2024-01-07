@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+package monitor.integration;
+option csharp_namespace = "Centurion.Contracts.Monitor.Integration";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/monitor/integration";
+option java_package = "gg.centurion.monitor.integration";
+
+import "module.proto";
+import "task_status.proto";
+import "common/events.proto";
+
+message MonitoringStatusChanged {
+  EventMetadata meta = 1;
+
+  string sku = 2;
+  Module module = 3;
+  TaskStatusData status = 4;
+  map<string, string> extra_data = 5;
+}

@@ -1,0 +1,32 @@
+<nz-table
+  #tbl
+  *ngFor="let s of stats"
+  [nzTitle]="s.componentName"
+  [nzData]="parseMonitorEntries(s.stats)"
+  [nzPageSize]="5"
+  [nzFrontPagination]="true"
+  style="overflow: auto"
+>
+  <thead>
+  <tr>
+    <th>Picture</th>
+    <th>Title</th>
+    <th>Product Url</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of tbl.data">
+    <td class="ComponentStatsTable-picCell">
+      <img class="ComponentStatsTable-pic" [src]="row.productPic || fallbackPic" [alt]="row.productUrl">
+    </td>
+    <td class="ComponentStatsTable-titleCell">
+      {{row.title}}
+    </td>
+    <td>
+      <a [href]="row.productUrl" target="_blank">
+        {{row.productUrl}}
+      </a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

@@ -1,0 +1,56 @@
+﻿syntax = "proto3";
+
+
+package checkout.integration;
+option csharp_namespace = "Centurion.Contracts.Checkout.Integration";
+option java_package = "gg.centurion.checkout.integration";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/checkout/integration";
+
+import "google/protobuf/duration.proto";
+
+import "common/events.proto";
+import "task_status.proto";
+
+message CheckoutStatusChanged {
+  EventMetadata meta = 1;
+  TaskStatusData status = 2;
+}
+
+message ProductCheckedOut {
+  EventMetadata meta = 1;
+
+  string title = 2;
+  string picture = 3;
+  double price = 4;
+  string formatted_price = 5;
+  string thumbnail = 6;
+  string url = 7;
+  string mode = 8;
+  uint32 qty = 9;
+  google.protobuf.Duration delay = 10;
+  string profile = 11;
+  string store = 12;
+  repeated CheckedOutProductAttr attrs = 13;
+  repeated string processing_log = 14;
+  string task_id = 15;
+  string user_id = 16;
+  string shop_icon_url = 17;
+  string shop_title = 18;
+  repeated CheckedOutProductLink links = 19;
+  string sku = 20;
+  optional string account = 21;
+  google.protobuf.Duration duration = 22;
+  optional string proxy = 23;
+}
+
+message CheckedOutProductAttr {
+  string name = 1;
+  string value = 2;
+  bool is_sensitive = 3;
+}
+
+message CheckedOutProductLink {
+  string name = 1;
+  string url = 2;
+  bool is_sensitive = 3;
+}

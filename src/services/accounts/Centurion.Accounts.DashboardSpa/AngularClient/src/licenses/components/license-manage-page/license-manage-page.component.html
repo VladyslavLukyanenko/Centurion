@@ -1,0 +1,192 @@
+<ng-container *ngIf="data$ | async as key">
+
+  <header class="Page-header LicenseSummary-header">
+    <h1 class="Page-title">License #{{key.id}}</h1>
+  </header>
+
+  <div class="LicenseSummary-content Page-content">
+    <form [formGroup]="form" class="row Page-scrollAreaWrap">
+      <div class="col-xl-9 col-md-8 mb-3 mb-sm-0 Page-scrollAreaWrap">
+        <div class="row Page-scrollArea LicenseSummary-scrollArea">
+          <div class="col-12 LicenseSummary-section">
+            <div class="ContentSection">
+              <header class="ContentSection-header">
+                <h2 class="ContentSection-title">Key Information</h2>
+              </header>
+              <div class="ContentSection-content">
+                <div class="row">
+                  <div class="col-xl-4 col-12 d-flex align-items-center mb-4 mb-xl-0">
+                    <div *ngIf="key.user" class="OwnerInfo">
+                      <div class="OwnerInfo-pic">
+                        <img [src]="key.user?.picture" [alt]="key.user?.fullName" class="OwnerInfo-img">
+                      </div>
+                      <div class="LabeledItem OwnerInfo-name">
+                        <div class="LabeledItem-title LicenseSummary-username">{{key.user.fullName}}</div>
+                        -
+                      </div>
+                    </div>
+
+                    <div *ngIf="!key.user" class="LabeledItem">
+                      <div class="LabeledItem-title">&lt;Not bound yet&gt;</div>
+                      -
+                    </div>
+                  </div>
+
+                  <div class="col-xl-4 col-6 d-flex align-items-center justify-content-start justify-content-xl-center">
+                    <div class="LabeledItem">
+                      <div class="LabeledItem-title">Member since</div>
+                      <ng-container *ngIf="key.user && key.user.joinedAt">
+                        {{getFormattedDate(key.user.joinedAt)}}
+                      </ng-container>
+                      <ng-container *ngIf="!key.user || !key.user.joinedAt">
+                        -
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="col-xl-4 col-6 d-flex align-items-center justify-content-end">
+                    <div class="LabeledItem">
+                      <div class="LabeledItem-title">Next renewal</div>
+                      <ng-container *ngIf="key.expiry;">
+                        {{getFormattedDate(key.expiry)}}
+                      </ng-container>
+                      <ng-container *ngIf="!key.expiry;">
+                        -
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+                <div class="row LicenseSummary-unbindingSection AppForm-row no-gutters">
+                  <div class="col-xl-6 col-12 mb-3 mb-xl-0 AppForm-col">
+                    <label class="RadioButtonCard">
+                      <p-radioButton
+                        name="isUnbindable"
+                        formControlName="isUnbindable"
+                        class="AppForm-control RadioButtonCard-radioBtn"
+                        [value]="true"
+                      ></p-radioButton>
+                      <span class="LabeledItem">
+                        <span class="LabeledItem-title">Unbindable key</span>
+                        User is able to unbind their license key.
+                        <small *ngIf="unbindableAfterTextVisible()" class="LicenseSummary-unbindableAfterText">
+                          After {{getFormattedDate(key.unbindableAfter)}}
+                        </small>
+                      </span>
+                    </label>
+                  </div>
+                  <div class="col-xl-6 col-12 AppForm-col">
+                    <label class="RadioButtonCard is-false">
+                      <p-radioButton
+                        name="isUnbindable"
+                        class="AppForm-control RadioButtonCard-radioBtn"
+                        formControlName="isUnbindable"
+                        [value]="false"
+                      ></p-radioButton>
+                      <span class="LabeledItem">
+                        <span class="LabeledItem-title">Non-unbindable key</span>
+                        License is permanently bound to user.
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="row AppForm-row no-gutters">
+                  <div class="col-sm-6 col-12 mb-4 mb-sm-0 AppForm-col">
+                    <div class="LabeledItem">
+                      <div class="LabeledItem-title">Key type</div>
+                      <p-dropdown
+                        class="AppForm-control"
+                        [options]="keyTypes"
+                        optionValue="value"
+                        optionLabel="key"
+                        placeholder="Key Type"
+                        formControlName="isLifetime"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-12 AppForm-col">
+                    <div class="LabeledItem">
+                      <div class="LabeledItem-title">Key plan</div>
+                      <p-dropdown
+                        class="AppForm-control"
+                        [options]="plans$ | async"
+                        optionValue="id"
+                        optionLabel="description"
+                        placeholder="Key Plan"
+                        formControlName="planId"
+                      ></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 LicenseSummary-section">
+            <div class="ContentSection">
+              <header class="ContentSection-header">
+                <h2 class="ContentSection-title">Notes</h2>
+              </header>
+
+              <div class="ContentSection-content">
+                <div class="row">
+                  <div class="col-12">
+                    <textarea
+                      class="AppForm-control"
+                      formControlName="notes"
+                      placeholder="Begin typing comments or notes about the user or license."
+                      rows="10"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-4 LicenseSummary-section">
+        <div class="ContentSection">
+          <header class="ContentSection-header">
+            <h2 class="ContentSection-title">Actions</h2>
+          </header>
+
+          <div class="ContentSection-content">
+            <button (click)="isAddExtraDaysVisible$.next(true)" class="Button is-block is-primary">
+              Add extra days
+            </button>
+
+            <ng-container *ngIf="form.isUnbindable">
+              <button *ngIf="!key.user" (click)="isBindDialogVisible$.next(true)" class="Button is-block is-primary is-outlined">Bind</button>
+              <button *ngIf="key.user" (click)="unbind($event)" class="Button is-block is-danger is-outlined">
+                Unbind
+              </button>
+            </ng-container>
+
+            <button
+              *appPermission="appPermissions.LicenseKeysDelete"
+              (click)="terminate($event)"
+              class="Button is-block is-danger"
+            >
+              Terminate license
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <app-bind-license-key-to-user-dialog
+    (isVisibleChange)="isBindDialogVisible$.next($event)"
+    (bound)="refreshData()"
+    [key]="key.value"
+    [membersDataSource]="membersDataSource"
+    [isVisible]="isBindDialogVisible$ | async"
+  ></app-bind-license-key-to-user-dialog>
+  <app-add-extra-days-dialog
+    (isVisibleChange)="isAddExtraDaysVisible$.next($event)"
+    (expirationProlonged)="isAddExtraDaysVisible$.next(false);refreshData(key.id)"
+    [isVisible]="isAddExtraDaysVisible$ | async"
+    [licenseId]="key.id"
+    [expiration]="key.expiry"
+  ></app-add-extra-days-dialog>
+</ng-container>
+<p-confirmPopup></p-confirmPopup>
+

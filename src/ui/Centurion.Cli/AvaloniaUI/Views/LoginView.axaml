@@ -1,0 +1,87 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="380" d:DesignHeight="420"
+        xmlns:vm="using:Centurion.Cli.Core.ViewModels"
+        xmlns:controls="using:Centurion.Cli.AvaloniaUI.Controls"
+        Width="380"
+        Height="420"
+        CanResize="False"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        x:Class="Centurion.Cli.AvaloniaUI.Views.LoginView"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        Title="LoginView">
+
+  <Design.DataContext>
+    <vm:LoginViewModel />
+  </Design.DataContext>
+
+  <Window.Styles>
+    <Style Selector="TextBox.Key">
+      <Setter Property="Foreground" Value="#57619B" />
+      <Setter Property="Background" Value="#141C52" />
+      <Setter Property="CaretBrush" Value="#bdd889" />
+      <Setter Property="BorderBrush" Value="#242D68" />
+      <Setter Property="SelectionBrush" Value="#E4C983" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="5" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Padding" Value="9, 7" />
+    </Style>
+  </Window.Styles>
+  <controls:ApplicationWindow Padding="30 0" ShowTitleBarDecorations="True">
+    <StackPanel Orientation="Vertical" ZIndex="2" Margin="0 -9">
+      <StackPanel Orientation="Horizontal">
+        <Image Height="43" Width="43" Margin="2 9 18 18" Source="/Assets/Design/Logo.png" />
+
+        <TextBlock
+          FontSize="26"
+          FontFamily="{StaticResource AccentThemeFontFamily}"
+          FontWeight="Bold"
+          VerticalAlignment="Center"
+          Foreground="{StaticResource GoldLinearGradientBrush}"
+          Text="Centurion" />
+      </StackPanel>
+      <TextBlock
+        FontFamily="{StaticResource AccentThemeFontFamily}"
+        FontWeight="Bold"
+        Foreground="White"
+        FontSize="18"
+        LineHeight="24">
+        Welcome back.
+      </TextBlock>
+      <TextBlock Foreground="#ADB6D6" LineHeight="23" FontSize="15" Margin="0 34 0 23">Enter your key to continue.</TextBlock>
+      <Label Target="Key">Key</Label>
+      <TextBox
+        IsEnabled="{Binding !Login.IsExecuting^}"
+        Name="Key"
+        Classes="Key"
+        Watermark="Enter your key here"
+        Text="{Binding  LicenseKey}" />
+
+      <Button Classes="gold" Content="Continue" Margin="0 48 0 0" Command="{Binding Login}" />
+
+
+      <Button Padding="0" Margin="0 21 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent">
+        <Button.Content>
+          <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBlock FontSize="12" FontWeight="Bold" Foreground="#6B78A5" VerticalAlignment="Center">
+              Dashboard
+            </TextBlock>
+
+            <Image
+              Name="DashboardIcon"
+              Stretch="Uniform"
+              VerticalAlignment="Center"
+              Height="9"
+              Width="9" />
+          </StackPanel>
+        </Button.Content>
+      </Button>
+    </StackPanel>
+  </controls:ApplicationWindow>
+</Window>

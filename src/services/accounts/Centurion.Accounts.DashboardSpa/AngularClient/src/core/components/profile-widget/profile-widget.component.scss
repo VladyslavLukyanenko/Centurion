@@ -1,0 +1,50 @@
+:host {
+  text-align: center;
+  display: block;
+}
+
+.ProfileWidget {
+  &-pic {
+    overflow: hidden;
+    border-radius: 50%;
+    display: inline-block;
+    font-size: 0;
+  }
+
+  &-img {
+    width: 128px;
+    height: 128px;
+  }
+
+  &-username {
+    margin-top: 10px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+    color: #494949;
+  }
+
+  &-roles {
+    margin-top: 6px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height */
+
+    text-align: center;
+
+    color: #494949;
+  }
+
+  &-role {
+    display: inline-block;
+    margin-left: 5px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+}

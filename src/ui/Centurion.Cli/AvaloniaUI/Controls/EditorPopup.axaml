@@ -1,0 +1,71 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:ctrl="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <!-- Add Controls for Previewer Here -->
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="ctrl|EditorPopup">
+    <Setter Property="Child">
+      <Border
+        Background="{StaticResource PrimaryBackgroundColor}"
+        CornerRadius="8"
+        Width="730"
+        Height="330"
+        BorderThickness="1"
+        BorderBrush="#111A55">
+        <Grid RowDefinitions="*,  52">
+          <Grid ColumnDefinitions="*,1, *">
+            <Grid Margin="13 12" RowDefinitions="36, *">
+              <TextBlock Text="New Proxies List" Foreground="#A9B5E0" />
+              <DockPanel Grid.Row="1">
+               <ContentControl Content="{TemplateBinding MainContent}"></ContentControl>
+              </DockPanel>
+            </Grid>
+            <GridSplitter MinWidth="1" Background="#111A55" Grid.Column="1" Width="1" />
+            <Grid Grid.Column="2" Margin="13 12" RowDefinitions="36, *">
+              <StackPanel Grid.Row="1" Spacing="5">
+                <Label Content="Group Name" Target="NewGroupName" Margin="0" />
+                <TextBox
+                  IsEnabled="{Binding !CreateCommand.IsExecuting^}"
+                  Text="{Binding NewGroupName}"
+                  Name="NewGroupName"
+                  Watermark="Enter group name" />
+
+                <CheckBox
+                  IsEnabled="{Binding !CreateCommand.IsExecuting^}"
+                  IsChecked="{Binding SkipAvailabilityCheck}"
+                  Content="Skip availability test" />
+              </StackPanel>
+            </Grid>
+          </Grid>
+
+          <Border
+            Grid.Column="0"
+            Grid.Row="1"
+            Padding="12"
+            BorderThickness="0 1 0 0"
+            BorderBrush="#111A55">
+            <Grid ColumnDefinitions="*, *">
+              <ProgressBar
+                Height="15"
+                Margin="0 0 7 0"
+                Value="{Binding ParseProgress}" />
+
+              <Button
+                Margin="7 0 0 0"
+                Grid.Column="1"
+                Name="CreateBtn"
+                Classes="RegularButton"
+                HorizontalAlignment="Stretch"
+                Command="{Binding CreateCommand}"
+                Content="Create" />
+            </Grid>
+          </Border>
+        </Grid>
+      </Border>
+    </Setter>
+  </Style>
+</Styles>

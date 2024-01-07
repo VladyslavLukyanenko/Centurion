@@ -1,0 +1,26 @@
+:host {
+  width: 100%;
+  flex-shrink: 0;
+  background: #FFFFFF;
+  border-right: 1px solid #EDF2F7;
+}
+
+.Sidebar {
+  &-logo {
+    border-bottom: 1px solid #EDF2F7;
+  }
+
+  &-userWidget {
+    margin-top: 40px;
+  }
+
+  &-menu {
+    margin-top: 53px;
+  }
+
+  @media screen and (min-width: 769px) {
+    &-logo {
+      display: none;
+    }
+  }
+}

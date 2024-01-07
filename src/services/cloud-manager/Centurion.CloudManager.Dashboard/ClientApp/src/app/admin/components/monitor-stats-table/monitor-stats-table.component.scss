@@ -1,0 +1,16 @@
+.ComponentStatsTable {
+  &-picCell {
+    width: 100px;
+  }
+
+  &-titleCell {
+    min-width: 250px;
+  }
+
+  &-pic {
+    max-width: 100px;
+    max-height: 100px;
+  }
+}
+
+

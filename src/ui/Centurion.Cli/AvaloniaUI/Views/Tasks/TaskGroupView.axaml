@@ -1,0 +1,548 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.Tasks.TaskGroupView"
+             xmlns:tasks="clr-namespace:Centurion.Cli.Core.ViewModels.Tasks"
+             xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+             behaviors:BlurEffect.Popup="{Binding #TaskEditorPopup}"
+             xmlns:views="clr-namespace:Centurion.Cli.AvaloniaUI.Views.Tasks"
+             xmlns:converters="clr-namespace:Centurion.Cli.AvaloniaUI.Converters"
+             xmlns:behaviors="clr-namespace:Centurion.Cli.AvaloniaUI.Behaviors">
+
+  <Design.DataContext>
+    <tasks:TaskGroupViewModel />
+  </Design.DataContext>
+  <UserControl.Styles>
+    <Style Selector="FlyoutPresenter">
+      <Setter Property="Background" Value="{StaticResource PrimaryBackgroundColor}" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="MaxWidth" Value="9999" />
+      <Setter Property="MaxHeight" Value="9999" />
+      <Setter Property="CornerRadius" Value="{DynamicResource OverlayCornerRadius}" />
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Name="LayoutRoot"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  Padding="{DynamicResource FlyoutBorderThemePadding}"
+                  CornerRadius="{TemplateBinding CornerRadius}">
+            <ScrollViewer
+              HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+              VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+              <ContentPresenter Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch" />
+            </ScrollViewer>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+    </Style>
+  </UserControl.Styles>
+  <Grid Margin="0 18 0 0">
+    <Popup Name="TaskEditorPopup" PlacementTarget="AddTasksBtn" VerticalOffset="10" IsLightDismissEnabled="True">
+      <Border
+        CornerRadius="8"
+        BorderBrush="#111A55"
+        BorderThickness="1"
+        Width="400"
+        Background="{StaticResource PrimaryBackgroundColor}">
+        <ContentControl Content="{Binding Editor}" />
+      </Border>
+    </Popup>
+
+    <Grid.Styles>
+      <Style Selector="Button.IconBtn">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="#7F95E4" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+      </Style>
+    </Grid.Styles>
+    <Grid.Resources>
+      <StreamGeometry x:Key="PauseBtnIcon">M 0 0 H 6 V 6 H 6 L 0 6</StreamGeometry>
+      <StreamGeometry x:Key="StartBtnIcon">M0.5 1.50261C0.5 0.855419 1.20557 0.455248 1.76102 0.787405L5.92532 3.27761C6.47159 3.60428 6.47158 4.39569 5.9253 4.72235L1.76101 7.21243C1.20555 7.54457 0.5 7.1444 0.5 6.49721V1.50261Z</StreamGeometry>
+    </Grid.Resources>
+    <Grid RowDefinitions="Auto, Auto, *, Auto">
+      <Grid ColumnDefinitions="*, *" VerticalAlignment="Stretch">
+
+        <!--Page Title -->
+        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="7">
+          <ToggleButton
+            Name="OptionsBtn"
+            VerticalAlignment="Center"
+            Classes="OptionsButton">
+            <ToggleButton.ContextMenu>
+              <controls:AttachedMenu IsShown="{Binding #OptionsBtn.IsChecked, Mode=TwoWay}">
+                <!-- <MenuItem Header="Edit" Command="{Binding }" /> -->
+                <MenuItem Header="Remove" Command="{Binding RemoveGroupCommand}" />
+              </controls:AttachedMenu>
+            </ToggleButton.ContextMenu>
+          </ToggleButton>
+
+          <TextBlock
+            Classes="SectionTitle"
+            Margin="11 0 0 0"
+            VerticalAlignment="Center"
+            Text="{Binding TaskGroup.Name, FallbackValue=Group Name}" />
+        </StackPanel>
+
+
+        <StackPanel Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Spacing="5">
+          <Button
+            IsEnabled="{Binding !!Tasks.Count}"
+            Content="Clear Tasks"
+            Classes="LinkButton BtnDanger"
+            Command="{Binding RemoveAllCommand}" />
+          <Button
+            Name="AddTasksBtn"
+            Content="Add Tasks"
+            Classes="RegularButton"
+            behaviors:ButtonPopup.Command="{Binding CreateTaskCommand}"
+            behaviors:ButtonPopup.Popup="{Binding #TaskEditorPopup}" />
+        </StackPanel>
+      </Grid>
+      <Border
+        Margin="0 18 0 0"
+        CornerRadius="4"
+        Background="#0C1343"
+        BorderBrush="#111A53"
+        BorderThickness="1"
+        Height="30"
+        Grid.Row="1">
+        <Grid ColumnDefinitions="200, *">
+          <ComboBox
+            VerticalAlignment="Center"
+            BorderThickness="0"
+            IsEnabled="False"
+            PlaceholderText="Status" />
+
+          <TextBox
+            Grid.Column="1"
+            CornerRadius="0"
+            Watermark="Search"
+            Text="{Binding SearchTerm}"
+            VerticalContentAlignment="Center"
+            BorderThickness="1 0 0 0">
+            <TextBox.InnerLeftContent>
+              <Path
+                Margin="11 0 3 0"
+                VerticalAlignment="Center"
+                Fill="#6B78A5"
+                Data="M10.1086 10.9334C9.10299 11.7563 7.81756 12.25 6.41683 12.25C3.19517 12.25 0.583496 9.63834 0.583496 6.41668C0.583496 3.19502 3.19517 0.583344 6.41683 0.583344C9.63849 0.583344 12.2502 3.19502 12.2502 6.41668C12.2502 7.81742 11.7564 9.10286 10.9335 10.1085L13.2459 12.4209C13.4738 12.6487 13.4738 13.018 13.2459 13.2458C13.0181 13.4736 12.6488 13.4736 12.421 13.2458L10.1086 10.9334ZM11.0835 6.41668C11.0835 8.99401 8.99416 11.0833 6.41683 11.0833C3.8395 11.0833 1.75016 8.99401 1.75016 6.41668C1.75016 3.83935 3.8395 1.75001 6.41683 1.75001C8.99416 1.75001 11.0835 3.83935 11.0835 6.41668Z" />
+            </TextBox.InnerLeftContent>
+          </TextBox>
+        </Grid>
+      </Border>
+
+      <Border
+        Margin="0 9 0 0"
+        CornerRadius="4"
+        Background="#0C1343"
+        BorderBrush="#111A53"
+        BorderThickness="1"
+        Grid.Row="2">
+        <Border.Styles>
+          <Style Selector="TextBlock.RegularTableHeader">
+            <Setter Property="Margin" Value="11 0 0 0" />
+            <Setter Property="Foreground" Value="#6B78A5" />
+          </Style>
+        </Border.Styles>
+        <Grid RowDefinitions="29, *, Auto">
+          <Grid ColumnDefinitions="200, 120, 140, *">
+            <Border
+              BorderBrush="#111A53"
+              BorderThickness="0 0 0 1">
+              <CheckBox
+                Margin="11 0 0 0"
+                Foreground="#6B78A5"
+                IsChecked="{Binding IsSelectedAllTasks, Mode=OneWay}"
+                Command="{Binding ToggleSelectAllTasksCommand}"
+                Content="Profile" />
+            </Border>
+            <Border
+              Grid.Column="1"
+              BorderBrush="#111A53"
+              BorderThickness="1 0 0 1">
+              <TextBlock Text="Site" Classes="RegularTableHeader" />
+            </Border>
+            <Border
+              Grid.Column="2"
+              BorderBrush="#111A53"
+              BorderThickness="1 0 0 1">
+              <TextBlock Text="Proxy List" Classes="RegularTableHeader" />
+            </Border>
+            <Border
+              Grid.Column="3"
+              BorderBrush="#111A53"
+              BorderThickness="1 0 0 1">
+              <TextBlock Text="Status" Classes="RegularTableHeader" />
+            </Border>
+          </Grid>
+          <controls:GridLikeListBox
+            Grid.Row="1"
+            SelectionMode="Multiple"
+            AutoScrollToSelectedItem="False"
+            SelectedItems="{Binding SelectedRows}"
+            Items="{Binding Tasks}">
+            <controls:GridLikeListBox.Styles>
+              <Style Selector="controls|GridLikeListBoxItem:odd">
+                <Setter Property="Background" Value="#01000000" />
+              </Style>
+
+              <!--  PointerOver State  -->
+              <Style Selector="controls|GridLikeListBoxItem:pointerover">
+                <Setter Property="Background" Value="#01000000" />
+              </Style>
+
+              <!--  Pressed State  -->
+              <Style Selector="ListBoxItem:pressed">
+                <Setter Property="Background" Value="#01000000" />
+              </Style>
+
+              <!--  Selected State  -->
+              <Style Selector="controls|GridLikeListBoxItem:selected">
+                <Setter Property="Background" Value="#01000000" />
+              </Style>
+            </controls:GridLikeListBox.Styles>
+            <controls:GridLikeListBox.ItemTemplate>
+              <DataTemplate>
+                <Grid ColumnDefinitions="200, 120, 140, *" Height="36" Background="#01000000">
+                  <Grid.ContextMenu>
+                    <ContextMenu>
+                      <MenuItem
+                        Header="Start"
+                        Command="{Binding $parent[views:TaskGroupView].ViewModel.StartSpecificCommand}"
+                        CommandParameter="{Binding}" />
+
+                      <MenuItem
+                        Header="Stop"
+                        Command="{Binding $parent[views:TaskGroupView].ViewModel.StopSpecificCommand}"
+                        CommandParameter="{Binding}" />
+
+                      <Separator />
+
+                      <MenuItem
+                        Header="Edit"
+                        behaviors:MenuItemPopup.Command="{Binding $parent[views:TaskGroupView].ViewModel.EditCommand}"
+                        behaviors:MenuItemPopup.Popup="{Binding #TaskEditorPopup}" />
+
+                      <MenuItem
+                        Header="Remove"
+                        Command="{Binding $parent[views:TaskGroupView].ViewModel.RemoveCommand}" />
+                      <MenuItem
+                        Header="Duplicate"
+                        Command="{Binding $parent[views:TaskGroupView].ViewModel.DuplicateCommand}" />
+                    </ContextMenu>
+                  </Grid.ContextMenu>
+                  <Border
+                    BorderBrush="#111A53"
+                    BorderThickness="0 0 0 1">
+                    <StackPanel Orientation="Horizontal">
+                      <CheckBox
+                        Margin="11 0 0 0"
+                        Foreground="#6B78A5"
+                        Command="{Binding $parent[views:TaskGroupView].ViewModel.ToggleSelectedTaskCommand}"
+                        CommandParameter="{Binding}"
+                        IsChecked="{Binding $parent[controls:GridLikeListBoxItem].IsSelected, Mode=OneWay}"
+                        Content="{Binding ProfileName}" />
+                    </StackPanel>
+                  </Border>
+                  <Border
+                    Grid.Column="1"
+                    BorderBrush="#111A53"
+                    BorderThickness="1 0 0 1">
+                    <TextBlock Classes="RegularTableHeader">
+                      <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} - {1}">
+                          <Binding Path="Module" />
+                          <Binding Path="Task.ProductSku" />
+                        </MultiBinding>
+                      </TextBlock.Text>
+                    </TextBlock>
+                  </Border>
+                  <Border
+                    Grid.Column="2"
+                    BorderBrush="#111A53"
+                    BorderThickness="1 0 0 1">
+                    <TextBlock Text="{Binding CheckoutProxyName}" Classes="RegularTableHeader" />
+                  </Border>
+                  <Border
+                    Grid.Column="3"
+                    BorderBrush="#111A53"
+                    BorderThickness="1 0 0 1">
+                    <Grid ColumnDefinitions="132, 96, *">
+                      <TextBlock
+                        Foreground="{Binding Progress, Converter={x:Static converters:TaskStatusColorConverter.Instance}}"
+                        Text="{Binding DisplayStatus}"
+                        Classes="RegularTableHeader" />
+
+                      <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="9">
+                        <TextBlock VerticalAlignment="Center" Foreground="#6B78A5" FontSize="11" FontWeight="Bold">
+                          <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                              <Binding Path="Status" Converter="{x:Static converters:TaskProgressConverters.ToStep}" />
+                              <Binding Source="{x:Static converters:TaskProgressToStepConverter.StepsCount}" />
+                            </MultiBinding>
+                          </TextBlock.Text>
+                        </TextBlock>
+                        <ProgressBar
+                          Foreground="{Binding Progress, Converter={x:Static converters:TaskStatusColorConverter.Instance}}"
+                          MinWidth="0"
+                          Value="{Binding Status, Converter={x:Static converters:TaskProgressConverters.ToPercents}, Mode=OneWay}"
+                          Width="60"
+                          Height="4"
+                          CornerRadius="5" />
+                      </StackPanel>
+
+                      <StackPanel
+                        Grid.Column="2"
+                        Spacing="7"
+                        Margin="0 0 13 0"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                        <Button
+                          IsVisible="{Binding !IsRunning}"
+                          Command="{Binding $parent[views:TaskGroupView].ViewModel.StartSpecificCommand}"
+                          CommandParameter="{Binding}"
+                          Padding="0 0 0 1"
+                          Classes="IconBtn">
+                          <Button.Content>
+                            <Path
+                              Fill="#7F95E4"
+                              Data="{StaticResource StartBtnIcon}" />
+                          </Button.Content>
+                        </Button>
+
+                        <Button
+                          IsVisible="{Binding IsRunning}"
+                          Command="{Binding $parent[views:TaskGroupView].ViewModel.StopSpecificCommand}"
+                          CommandParameter="{Binding}"
+                          Classes="IconBtn">
+                          <Button.Content>
+                            <Path
+                              Fill="#7F95E4"
+                              Data="{StaticResource PauseBtnIcon}" />
+                          </Button.Content>
+                        </Button>
+
+                        <!-- <ToggleButton Classes="OptionsButton" /> -->
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </Grid>
+              </DataTemplate>
+            </controls:GridLikeListBox.ItemTemplate>
+          </controls:GridLikeListBox>
+          <Border
+            IsVisible="{Binding !!SelectedRows.Count}"
+            Grid.Row="2"
+            BorderThickness="0 1 0 0"
+            BorderBrush="#111A53">
+            <Grid ColumnDefinitions="*, Auto" Margin="12">
+              <Border
+                HorizontalAlignment="Left"
+                Background="#1A245F"
+                CornerRadius="5"
+                Height="38"
+                Width="38"
+                Padding="6 8"
+                Margin="0 0 23 0">
+
+                <Border
+                  behaviors:BitmapLoader.Source="{Binding SelectedRows[0].Task.ProductPicture}"
+                  CornerRadius="2" />
+              </Border>
+
+              <StackPanel Grid.Column="0" Margin="50 0 0 0">
+                <TextBlock
+                  FontSize="14"
+                  Text="{Binding SelectedRows[0].Task.ProductSku, FallbackValue=ProductSku}" />
+
+                <TextBlock
+                  Foreground="#A9B5E0"
+                  FontSize="11"
+                  Text="{Binding SelectedRows[0].Task.Module, FallbackValue=Module}" />
+              </StackPanel>
+
+              <Border
+                Grid.Column="1"
+                CornerRadius="6"
+                Background="#1F2969"
+                BorderBrush="#283482"
+                BorderThickness="1"
+                VerticalAlignment="Center">
+                <Grid ColumnDefinitions="Auto, Auto">
+                  <Grid Margin="9 6">
+                    <Grid.Styles>
+                      <Style Selector="TextBlock">
+                        <Setter Property="Foreground" Value="#A9B5E0" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                      </Style>
+                    </Grid.Styles>
+                    <TextBlock
+                      IsVisible="{Binding !!IsSelectedAllTasks}"
+                      Text="{Binding SelectedRows.Count, StringFormat={}All Tasks Selected ({0} tasks)}" />
+                    <TextBlock
+                      IsVisible="{Binding !IsSelectedAllTasks}"
+                      Text="{Binding SelectedRows.Count, StringFormat={}{0} Tasks Selected}" />
+                  </Grid>
+
+                  <Border
+                    Grid.Column="1"
+                    Padding="9 6"
+                    BorderThickness="1 0 0 0"
+                    BorderBrush="#283482">
+                    <StackPanel Spacing="10" Orientation="Horizontal">
+                      <Button
+                        Command="{Binding StartCommand}"
+                        Padding="0 0 0 1"
+                        Classes="IconBtn">
+                        <Button.Content>
+                          <Path
+                            Fill="#7F95E4"
+                            Data="{StaticResource StartBtnIcon}" />
+                        </Button.Content>
+                      </Button>
+
+                      <Button
+                        Command="{Binding StopCommand}"
+                        Classes="IconBtn">
+                        <Button.Content>
+                          <Path
+                            Fill="#7F95E4"
+                            Data="{StaticResource PauseBtnIcon}" />
+                        </Button.Content>
+                      </Button>
+                      <ToggleButton Name="GlobalOptionsBtn" Classes="OptionsButton">
+                        <ToggleButton.ContextMenu>
+                          <controls:AttachedMenu IsShown="{Binding #GlobalOptionsBtn.IsChecked, Mode=TwoWay}">
+                            <MenuItem Header="Edit" Command="{Binding EditCommand}" />
+                            <MenuItem Header="Remove" Command="{Binding RemoveCommand}" />
+                            <MenuItem Header="Duplicate" Command="{Binding DuplicateCommand}" />
+                          </controls:AttachedMenu>
+                        </ToggleButton.ContextMenu>
+                      </ToggleButton>
+                    </StackPanel>
+                  </Border>
+                </Grid>
+              </Border>
+            </Grid>
+          </Border>
+        </Grid>
+      </Border>
+
+      <Grid.Styles>
+
+        <Style Selector="Expander.ExpanderRegular">
+          <Setter Property="Background" Value="Transparent" />
+          <Setter Property="BorderThickness" Value="0" />
+          <Setter Property="BorderBrush" Value="#fff" />
+          <Setter Property="CornerRadius" Value="0" />
+          <Setter Property="Padding" Value="0" />
+          <Setter Property="Foreground" Value="#6B78A5" />
+          <Setter Property="HorizontalAlignment" Value="Stretch" />
+          <Setter Property="HorizontalContentAlignment" Value="Left" />
+          <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style Selector="Expander.ExpanderRegular">
+          <Setter Property="Template">
+            <ControlTemplate>
+              <DockPanel>
+                <ToggleButton x:Name="ExpanderHeader"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              Content="{TemplateBinding Header}"
+                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                              IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              IsEnabled="{TemplateBinding IsEnabled}" />
+                <Border x:Name="ExpanderContent"
+                        Padding="0 9 0 0"
+                        Background="Transparent"
+                        BorderBrush="#141E5A"
+                        BorderThickness="0 1 0 0"
+                        IsVisible="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                  <ContentPresenter x:Name="PART_ContentPresenter"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+              </DockPanel>
+            </ControlTemplate>
+          </Setter>
+        </Style>
+
+        <Style
+          Selector="Expander.ExpanderRegular /template/ ToggleButton#ExpanderHeader /template/ Border#ExpandCollapseChevronBorder">
+          <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+
+        <Style Selector="Expander.ExpanderRegular /template/ ToggleButton#ExpanderHeader">
+          <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+
+
+        <Style Selector="Expander.ExpanderRegular:expanded /template/ Border#ExpanderContent">
+          <Setter Property="Background" Value="Transparent" />
+          <Setter Property="CornerRadius" Value="0" />
+          <Setter Property="Padding" Value="0" />
+          <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="Expander.ExpanderRegular:expanded:up /template/ Border#ExpanderContent">
+          <Setter Property="BorderThickness" Value="0 1 0 0" />
+          <Setter Property="Margin" Value="0 9 0 0" />
+        </Style>
+      </Grid.Styles>
+      <Expander Classes="ExpanderRegular" Grid.Row="3" Margin="0 12">
+        <Expander.Header>
+          <Grid RowDefinitions="Auto, Auto">
+            <StackPanel
+              Orientation="Horizontal"
+              Spacing="4"
+              Cursor="Hand"
+              Margin="0 0 0 9"
+              IsVisible="{Binding $parent[Expander].IsExpanded}">
+              <TextBlock
+                FontSize="11"
+                FontWeight="Bold"
+                Text="Collapse"
+                Foreground="#6B78A5" />
+              <Path
+                Height="9"
+                Fill="#6B78A5"
+                Data="M4.5 1C4.5 0.723858 4.27614 0.5 4 0.5C3.72386 0.5 3.5 0.723858 3.5 1L3.5 7.79289L0.853553 5.14645C0.658291 4.95118 0.341709 4.95118 0.146447 5.14645C-0.0488156 5.34171 -0.0488156 5.65829 0.146447 5.85355L3.64645 9.35355C3.84171 9.54882 4.15829 9.54882 4.35355 9.35355L7.85355 5.85355C8.04881 5.65829 8.04881 5.34171 7.85355 5.14645C7.65829 4.95118 7.34171 4.95118 7.14645 5.14645L4.5 7.79289L4.5 1Z" />
+            </StackPanel>
+
+            <controls:TaskGroupBarSummary
+              Grid.Row="1"
+              IsVisible="{Binding !$parent[Expander].IsExpanded}"
+              TaskGroup="{Binding TaskGroup}" />
+          </Grid>
+        </Expander.Header>
+        <Expander.Content>
+          <controls:TaskGroupStatusBreakdown
+            Height="190"
+            TaskGroup="{Binding TaskGroup}" />
+        </Expander.Content>
+      </Expander>
+    </Grid>
+  </Grid>
+</UserControl>

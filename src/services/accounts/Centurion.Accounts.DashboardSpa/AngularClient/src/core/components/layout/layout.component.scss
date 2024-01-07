@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.Layout {
+  &-toolbar {
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+
+  &-sidebar {
+    min-height: 0;
+    overflow: auto;
+    width: 270px;
+  }
+
+  &-sidebarMobile {
+    padding: 0;
+    height: 100%;
+    min-height: 0;
+    overflow: auto;
+  }
+
+  &-content {
+    display: flex;
+    flex-grow: 1;
+    min-height: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    &-sidebar {
+      display: none;
+    }
+  }
+}

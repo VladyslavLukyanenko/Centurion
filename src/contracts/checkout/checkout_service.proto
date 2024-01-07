@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package checkout;
+
+import "checkout/messages.proto";
+import "google/protobuf/empty.proto";
+import "product.proto";
+
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/checkout";
+option csharp_namespace = "Centurion.Contracts.Checkout";
+option java_package = "gg.centurion.checkout";
+
+service Checkout {
+  option (centurion_header_user_id) = "X-Centurion-Header-ID";
+
+  rpc ConnectRpc(stream RpcMessage) returns (stream RpcMessage);
+  rpc ConnectCheckout(stream CheckoutCommand) returns (stream CheckoutStatusChangedBatch);
+  rpc ForceStop(ForceStopCheckoutCommand) returns (google.protobuf.Empty);
+
+  rpc GetSupportedModules(google.protobuf.Empty) returns (SupportedModuleList);
+  rpc GetTasksStats(google.protobuf.Empty) returns (TasksExecutingStats);
+  rpc FetchProduct(FetchProductCommand) returns (ProductData);
+}

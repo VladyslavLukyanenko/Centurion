@@ -1,0 +1,30 @@
+= PROJECT DASHBOARDS PAGES
+
+- Products
+    - Public product page
+    - Edit page
+    - List of created products
+- Plans (maybe there are no need of page, just edit modal window + dropdown)
+- Embeds
+    - Editor
+    - List of created/bound to hook embeds
+- Forms (like google form/typeforms/etc)
+- Landing page (something like mailchimp does)
+- Tickets
+    - Reply page
+    - List of tickets
+- License key delivery email customization editor
+- Webhooks stats
+    - list of sent webhooks with ability to see what exactly was sent and destination/status
+- Staff payments
+    - stats
+- Role salary edit
+- Audit page
+- Public dashboard page
+- Plans
+    - list page (where user can purchase subscription)
+    - edit page
+- Customers page (who bought subscription + info/dashboard owner)
+- Custom stats database
+    - Define stats schema (fields/type) per product
+    - Stats data table

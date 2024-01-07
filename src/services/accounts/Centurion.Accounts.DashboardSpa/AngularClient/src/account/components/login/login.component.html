@@ -1,0 +1,36 @@
+<div class="row h-100 w-100">
+  <div class="col-5 d-flex align-items-center justify-content-end">
+    <div class="Login">
+      <div class="Logo">
+        <div class="Logo-pic">
+          <img src="../../../assets/logo.svg" alt="Logo" class="Logo-img">
+        </div>
+      </div>
+      <header class="Login-header">
+        <h1 class="Login-title">
+          Welcome to
+          <strong class="Login-titleEmphasis">Dashboard Space</strong>
+        </h1>
+      </header>
+      <button
+        (click)="authenticate()"
+        [disabled]="(unableAuthenticate$ | async) || (isLoading$ | async)"
+        class="Login-logInBtn"
+      >
+        <img class="Login-logInIcon" src="../../../assets/icons/discord-logo.svg" alt="">
+        Login with Discord
+      </button>
+    </div>
+  </div>
+  <div class="col-7">
+    <div class="LoginDecoration-wrap">
+      <div class="LoginDecoration">
+        <div class="LoginDecoration-topShapes"></div>
+        <img class="LoginDecoration-bgPic LoginDecoration-pic" src="../../../assets/login-pic.png"
+             alt="Demo screenshots">
+        <div class="LoginDecoration-bottomShapeHelper"></div>
+        <div class="LoginDecoration-bottomShapes"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<header class="Page-header StaffMembersListPage-header">
+  <h1 class="StaffMembersListPage-title Page-title">Staff Members</h1>
+  <button type="button" class="StdButton" (click)="menu.toggle($event)" style="min-width: 120px;">
+    Add New
+    <svg style="width: 12px;height: 8px;">
+      <use href="#angle-down"></use>
+    </svg>
+  </button>
+
+</header>
+<p-menu #menu [popup]="true" [model]="items" class="StdMenu"></p-menu>
+
+<div class="Page-content StaffMembersListPage-content">
+  <div *ngIf="noData$ | async" class="NoDataAlert">No roles found</div>
+  <ul class="StaffMembersListPage-roleList">
+    <li *ngFor="let r of list$ | async" class="StaffMembersListPage-role">
+      <div class="StaffMembersListPage-roleName">{{r.name}}</div>
+      <ul *ngIf="r.members.length" class="StaffMembersListPage-memberList">
+        <li *ngFor="let s of r.members" class="StaffMembersListPage-member">
+          <app-staff-member-card (removeClick)="removeStaffMember(s, r, $event)" [member]="s"></app-staff-member-card>
+        </li>
+      </ul>
+
+      <span *ngIf="!r.members.length" class="NoDataAlert">No members in role</span>
+    </li>
+  </ul>
+</div>
+<p-confirmPopup *ngIf="!isRolesDialogVisible && !isStaffDialogVisible"></p-confirmPopup>
+
+<app-roles-edit-dialog
+  *ngIf="isRolesDialogVisible"
+  (isVisibleChange)="isRolesDialogVisible = $event"
+  (roleCreated)="refreshData()"
+  (roleRemoved)="refreshData()"
+  [isVisible]="isRolesDialogVisible"
+></app-roles-edit-dialog>
+
+<ng-container *ngIf="roles$ | async as roles">
+  <app-staff-edit-dialog
+    *ngIf="isStaffDialogVisible"
+    (isVisibleChange)="isStaffDialogVisible = $event"
+    (rolesAssigned)="refreshData()"
+    [roles]="roles"
+    [isVisible]="isStaffDialogVisible"
+  ></app-staff-edit-dialog>
+</ng-container>

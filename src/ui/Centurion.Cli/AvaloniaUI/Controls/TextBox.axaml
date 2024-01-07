@@ -1,0 +1,93 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <StackPanel Spacing="10">
+        <TextBox Watermark="Test" />
+        <TextBox IsReadOnly="True" Watermark="Read Only Field" />
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="TextBox">
+    <Setter Property="Foreground" Value="#6B78A5" />
+    <Setter Property="Background" Value="#0C1343" />
+    <Setter Property="CaretBrush" Value="#bdd889" />
+    <Setter Property="BorderBrush" Value="#111A53" />
+    <Setter Property="SelectionBrush" Value="#E4C983" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="MinHeight" Value="{DynamicResource TextControlThemeMinHeight}" />
+    <Setter Property="MinWidth" Value="{DynamicResource TextControlThemeMinWidth}" />
+    <Setter Property="Padding" Value="9 4" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <BrushTransition Property="Background" Duration="0:0:.15" />
+        <BrushTransition Property="Foreground" Duration="0:0:.15" />
+        <BrushTransition Property="BorderBrush" Duration="0:0:.15" />
+        <DoubleTransition Property="Opacity" Duration="0:0:.15" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="TextBox /template/ Border#PART_BorderElement">
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <BrushTransition Property="Background" Duration="0:0:.15" />
+        <BrushTransition Property="BorderBrush" Duration="0:0:.15" />
+        <DoubleTransition Property="Opacity" Duration="0:0:.15" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+
+  <Style Selector="TextBox /template/ TextBlock#PART_Watermark, TextBox /template/ TextBlock#PART_FloatingWatermark">
+    <Setter Property="Foreground" Value="#6B78A5" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <BrushTransition Property="Foreground" Duration="0:0:.15" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+
+  <!-- PointerOver State-->
+  <Style Selector="TextBox:disabled">
+    <Setter Property="Foreground" Value="{DynamicResource TextControlForegroundPointerOver}" />
+  </Style>
+
+  <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+    <Setter Property="BorderBrush" Value="#111A53" />
+    <Setter Property="Background" Value="#0C1353" />
+  </Style>
+
+  <Style
+    Selector="TextBox:pointerover /template/ TextBlock#PART_Watermark, TextBox:pointerover /template/ TextBlock#PART_FloatingWatermark">
+    <Setter Property="Foreground" Value="{DynamicResource TextControlPlaceholderForegroundPointerOver}" />
+  </Style>
+
+  <!-- Focused State -->
+  <Style Selector="TextBox:focus">
+    <Setter Property="Foreground" Value="{DynamicResource TextControlForegroundFocused}" />
+  </Style>
+
+  <Style
+    Selector="TextBox:focus /template/ TextBlock#PART_Watermark, TextBox:focus /template/ TextBlock#PART_FloatingWatermark">
+    <Setter Property="Foreground" Value="{DynamicResource TextControlPlaceholderForegroundFocused}" />
+  </Style>
+
+  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+    <Setter Property="Background" Value="#0C0323" />
+    <Setter Property="BorderBrush" Value="#111A63" />
+    <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThicknessFocused}" />
+  </Style>
+
+  <Style Selector="TextBox:error /template/ Border#PART_BorderElement">
+    <Setter Property="BorderBrush" Value="{DynamicResource SystemControlErrorTextForegroundBrush}" />
+  </Style>
+</Styles>

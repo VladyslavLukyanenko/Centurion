@@ -1,0 +1,20 @@
+﻿@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+
+:Resume lost conn nodes for users (Switch to `Active`);
+:Get all idle nodes;
+if (Available idle nodes available) then
+  :Bind each node to user and switch to `Active`;
+endif
+
+:Stop containers for pending users;
+:Remove NodeSnapshots for pending users;
+if (Are there not enough nodes to assign to user AND nodes NOT exists in DB yet) then (Schedule spawn)
+  :Create NodeSnapshots for each missing node and save in DB;
+endif;
+
+stop
+
+@enduml

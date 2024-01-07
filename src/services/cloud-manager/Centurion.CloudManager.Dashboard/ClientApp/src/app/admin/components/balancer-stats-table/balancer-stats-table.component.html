@@ -1,0 +1,28 @@
+<nz-table
+  #tbl
+  *ngFor="let s of stats"
+  [nzTitle]="s.componentName"
+  [nzData]="parseBalancerEntries(s.stats)"
+  [nzPageSize]="5"
+  [nzFrontPagination]="true"
+  style="overflow: auto"
+>
+  <thead>
+  <tr>
+    <th>Monitor</th>
+    <th>Webhook Url</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of tbl.data">
+    <td class="ComponentStatsTable-titleCell">
+      {{row.slug}}
+    </td>
+    <td>
+      <a [href]="row.webhookUrl" target="_blank">
+        {{row.webhookUrl}}
+      </a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

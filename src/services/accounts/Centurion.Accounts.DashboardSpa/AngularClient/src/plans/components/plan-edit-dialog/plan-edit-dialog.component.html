@@ -1,0 +1,112 @@
+<form (ngSubmit)="create()" [formGroup]="form" class="AppForm">
+  <p-dialog
+    (visibleChange)="isVisibleChange.emit($event)"
+    [visible]="isVisible"
+    [modal]="true"
+    [dismissableMask]="true"
+    styleClass="AppDialog PlanEditDialog"
+    class="dialogHeaderIconless"
+  >
+    <ng-template pTemplate="header">
+      <h2 class="AppDialog-title">Create plan</h2>
+    </ng-template>
+    <div class="AppDialog-content AppForm-wrap">
+      <div class="row AppForm-row no-gutters">
+        <div class="col-12 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Description</label>
+            <input formControlName="description" class="AppForm-control" placeholder="Description">
+            <app-field-error-required [control]="form.descriptionCtrl"></app-field-error-required>
+          </div>
+        </div>
+      </div>
+      <div class="row AppForm-row no-gutters">
+        <div class="col-sm-3 col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Amount</label>
+            <input formControlName="amount" class="AppForm-control" placeholder="Amount">
+            <app-field-error-required [control]="form.amountCtrl"></app-field-error-required>
+          </div>
+        </div>
+        <div class="col-sm-3 col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Currency</label>
+            <p-dropdown
+              formControlName="currency"
+              class="AppForm-control"
+              [options]="supportedCurrencies"
+              optionValue="value"
+              optionLabel="key"
+              appendTo="body"
+              placeholder="Currency"
+            ></p-dropdown>
+
+            <app-field-error-required [control]="form.currencyCtrl"></app-field-error-required>
+          </div>
+        </div>
+        <div class="col-sm-6 col-12 AppForm-col mt-4 mt-sm-0">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Subscription Plan</label>
+            <input formControlName="subscriptionPlan" class="AppForm-control" placeholder="Subscription Plan">
+          </div>
+        </div>
+      </div>
+      <div class="row AppForm-row no-gutters">
+        <div class="col-sm-6 col-12 AppForm-col mb-4 mb-sm-0">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">License life (days)</label>
+            <input formControlName="licenseLifeDays" class="AppForm-control" placeholder="License life (days)">
+
+            <app-field-error-required [control]="form.licenseLifeDaysCtrl"></app-field-error-required>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-12 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Unbindable delay (days)</label>
+            <input formControlName="unbindableDelayDays" class="AppForm-control" placeholder="Unbindable delay (days)">
+
+            <app-field-error-required [control]="form.unbindableDelayDaysCtrl"></app-field-error-required>
+          </div>
+        </div>
+      </div>
+      <div class="row AppForm-row no-gutters">
+        <div class="col-sm-6 col-12 AppForm-col mb-4 mb-sm-0">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Trial period (days)</label>
+            <input formControlName="trialPeriodDays" class="AppForm-control" placeholder="Trial period (days)">
+
+            <app-field-error-required [control]="form.trialPeriodDaysCtrl"></app-field-error-required>
+          </div>
+        </div>
+        <div class="col-sm-6 col-12 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Discord Role Id</label>
+            <input formControlName="discordRoleId" class="AppForm-control" placeholder="Discord Role Id">
+
+            <app-field-error-required [control]="form.discordRoleIdCtrl"></app-field-error-required>
+          </div>
+        </div>
+      </div>
+      <div class="row AppForm-row no-gutters">
+
+        <div class="col-12 AppForm-col justify-content-between d-flex align-items-center">
+          <label class="AppForm-label is-inline">Is trial</label>
+
+          <p-inputSwitch formControlName="isTrial"></p-inputSwitch>
+        </div>
+        <div class="col-12 AppForm-col justify-content-between d-flex align-items-center">
+          <label class="AppForm-label">Protect Purchases With Captcha</label>
+          <p-inputSwitch formControlName="protectPurchasesWithCaptcha"></p-inputSwitch>
+        </div>
+      </div>
+      <p-progressSpinner *ngIf="isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+    </div>
+
+    <p-footer>
+      <button [disabled]="asyncTracker.isLoading$ | async" class="AppDialog-btn is-primary">
+        Save plan
+      </button>
+    </p-footer>
+  </p-dialog>
+</form>

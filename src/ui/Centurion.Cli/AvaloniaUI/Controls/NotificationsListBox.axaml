@@ -1,0 +1,134 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:Centurion.Cli.AvaloniaUI.Converters">
+  <Design.PreviewWith>
+    <Border Padding="20" Width="300" Height="300">
+      <controls:NotificationsListBox>
+        <controls:NotificationsListBox.Items>
+          <controls:NotificationData
+            Title="Test"
+            Type="Error"
+            Description="Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message" />
+          <controls:NotificationData
+            Title="Test"
+            Type="Success"
+            Description="Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message" />
+          <controls:NotificationData
+            Title="Test"
+            Type="Info"
+            Description="Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message" />
+          <controls:NotificationData
+            Title="Test"
+            Type="Warn"
+            Description="Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message Very long message" />
+        </controls:NotificationsListBox.Items>
+      </controls:NotificationsListBox>
+    </Border>
+  </Design.PreviewWith>
+
+  
+  <Style Selector="controls|NotificationsListBox">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <Grid RowDefinitions="Auto, *">
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 15">
+              <StackPanel.Styles>
+                <Style Selector="Button.LinkButton">
+                  <Setter Property="Foreground" Value="#E483B2" />
+                  <Setter Property="Padding" Value="0" />
+                  <Setter Property="FontSize" Value="11" />
+                  <Setter Property="Background" Value="Transparent" />
+                  <Setter Property="FontWeight" Value="Light" />
+                </Style>
+                <Style Selector="Button.LinkButton:pointerover">
+                  <Setter Property="Foreground" Value="#fff" />
+                </Style>
+                <Style Selector="Button.LinkButton:pointerover Path">
+                  <Setter Property="Fill" Value="#fff" />
+                </Style>
+                <Style Selector="Button.LinkButton:pointerover ContentPresenter Border">
+                  <Setter Property="Background" Value="#fff" />
+                </Style>
+                <Style Selector="Button.LinkButton:disabled">
+                  <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+                </Style>
+
+              </StackPanel.Styles>
+              
+              <TextBlock Margin="0 0 10 0" Text="Notifications" VerticalAlignment="Center" />
+              <Button
+                Padding="0"
+                Classes="LinkButton"
+                Command="{TemplateBinding ClearCommand}"
+                CommandParameter="{TemplateBinding CommandParameter}"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding Path=!!ItemCount, RelativeSource={RelativeSource TemplatedParent}}">
+                Clear
+              </Button>
+            </StackPanel>
+
+            <ScrollViewer
+              Grid.Row="1"
+              Name="PART_ScrollViewer"
+              HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+              VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+              AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}">
+
+              <ItemsPresenter
+                Name="PART_ItemsPresenter"
+                Items="{TemplateBinding Items}"
+                ItemsPanel="{TemplateBinding ItemsPanel}"
+                ItemTemplate="{TemplateBinding ItemTemplate}"
+                Margin="{TemplateBinding Padding}"
+                VirtualizationMode="Simple" />
+            </ScrollViewer>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Setter Property="ItemTemplate">
+      <DataTemplate DataType="controls:NotificationData">
+        <Border
+          BorderThickness="3 0 0 0"
+          CornerRadius="2"
+          Margin="0 0 0 10"
+          BorderBrush="{Binding Type, Converter={x:Static converters:ToastColorConverter.Instance}}"
+          Padding="10 0">
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock
+              FontSize="11"
+              Foreground="#A9B5E0"
+              TextWrapping="Wrap"
+              Margin="0 0 0 5"
+              Text="{Binding Description}" />
+
+            <DockPanel>
+
+              <TextBlock
+                DockPanel.Dock="Left"
+                FontSize="9"
+                Text="{Binding Title}"
+                TextWrapping="Wrap"
+                Foreground="{Binding Type, Converter={x:Static converters:ToastColorConverter.Instance}}" />
+
+              <TextBlock
+                DockPanel.Dock="Right"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Foreground="#6B78A5"
+                FontSize="9"
+                Text="{Binding Timestamp, Converter={x:Static converters:InstantHumanizerConverter.Instance}}" />
+            </DockPanel>
+
+          </StackPanel>
+        </Border>
+      </DataTemplate>
+    </Setter>
+  </Style>
+</Styles>

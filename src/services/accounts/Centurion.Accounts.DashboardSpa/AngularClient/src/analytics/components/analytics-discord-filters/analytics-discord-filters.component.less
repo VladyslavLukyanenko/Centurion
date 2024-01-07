@@ -1,0 +1,35 @@
+.AnalyticsFilters {
+  &-item {
+    width: 120px;
+  }
+
+  &-dateRangeLabel {
+    display: inline-block;
+    padding: 9px;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height */
+    text-align: center;
+    text-transform: lowercase;
+
+    color: #000000;
+  }
+
+  @media screen and (max-width: 768px) {
+    text-align: left;
+
+    &-item {
+      width: 100%;
+      margin-bottom: 10px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    &-dateRangeLabel {
+      padding: 5px 0;
+    }
+  }
+}

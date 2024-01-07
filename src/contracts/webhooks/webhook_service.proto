@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package webhooks;
+option csharp_namespace = "Centurion.Contracts.Webhooks";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/webhooks";
+option java_package = "gg.centurion.webhooks";
+
+import "google/protobuf/empty.proto";
+
+import "webhook_settings.proto";
+
+message SaveSettingsCommand {
+  string success_url = 1;
+  optional string failure_url = 2;
+}
+
+service Webhooks {
+  rpc GetSettings(google.protobuf.Empty) returns (WebhookSettings);
+  rpc SaveSettings(SaveSettingsCommand) returns (google.protobuf.Empty);
+}

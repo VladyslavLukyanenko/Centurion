@@ -1,0 +1,24 @@
+@page "/admin"
+@model MonitoringFakeShop.Pages.ProductsAdmin
+
+@{
+  Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Product Admin</title>
+</head>
+<body>
+<form method="post" action="/admin">
+  <label>
+    Is published
+    <input type="checkbox" checked="@Model.IsPublished" name="isPublished" value="true">
+  </label>
+
+  <button>Save</button>
+</form>
+</body>
+</html>

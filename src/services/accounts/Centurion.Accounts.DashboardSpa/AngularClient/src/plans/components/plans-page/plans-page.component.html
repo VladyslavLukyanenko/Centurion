@@ -1,0 +1,90 @@
+<header class="Page-header Plans-header" style="flex-direction: row;">
+  <h1 class="Page-title">Plans</h1>
+
+  <div class="Plans-filters">
+    <div class="Plans-filterControls">
+      <button
+        (click)="isCreateDialogVisible = true;"
+        type="button"
+        class="CreateBtn"
+      ></button>
+    </div>
+  </div>
+</header>
+
+<div class="Plans-content Page-content">
+  <div class="AppTable-wrap">
+    <cdk-virtual-scroll-viewport itemSize="44" style="height: 100%;">
+      <table class="AppTable PlansGrid">
+        <thead>
+        <tr class="AppTable-headerRow">
+          <th class="AppTable-headerCell">Description</th>
+          <th class="AppTable-headerCell PlansGrid-priceCell">Price</th>
+          <th class="AppTable-headerCell PlansGrid-trialCell">Trial</th>
+          <th class="AppTable-headerCell PlansGrid-licenseCell">License</th>
+          <th class="AppTable-headerCell PlansGrid-securityCell">Security</th>
+          <th *appPermission="appPermissions.PlansDelete" class="AppTable-headerCell PlansGrid-actionsCell"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *cdkVirtualFor="let l of plans$ | async; trackBy: trackById" class="PlansGrid-dataRow">
+          <ng-container *ngIf="l">
+            <td class="AppTable-dataCell">{{ l.description }}</td>
+            <td class="AppTable-dataCell">{{ l.amount }} {{ l.currency }}</td>
+            <td class="AppTable-dataCell">
+              {{ l.isTrial  ? 'Trial' : 'Non trial' }}
+              <ng-container *ngIf="l.isTrial">
+                ({{l.trialPeriodDays}} days)
+              </ng-container>
+            </td>
+            <td class="AppTable-dataCell">{{ l.licenseLifeDays }} days</td>
+            <td class="AppTable-dataCell">
+              <div *ngIf="l.protectPurchasesWithCaptcha">
+                Checkout Protected by Captcha
+              </div>
+              <div *ngIf="l.unbindableDelayDays">
+                Unbindable After {{l.unbindableDelayDays }} days
+              </div>
+            </td>
+            <td *appPermission="appPermissions.PlansDelete" class="AppTable-dataCell">
+              <button (click)="remove(l, $event)" class="ActionButton is-danger" type="button">
+                Delete
+              </button>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!l">
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+          </ng-container>
+        </tr>
+        </tbody>
+      </table>
+      <div *ngIf="noData$ | async" class="AppTable-noData">No plans found</div>
+    </cdk-virtual-scroll-viewport>
+    <p-progressSpinner *ngIf="asyncTracker.isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+  </div>
+</div>
+<p-confirmPopup></p-confirmPopup>
+
+
+<app-plan-edit-dialog
+  *ngIf="isCreateDialogVisible"
+  (saved)="refresh()"
+  [(isVisible)]="isCreateDialogVisible"
+></app-plan-edit-dialog>

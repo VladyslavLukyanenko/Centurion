@@ -1,0 +1,35 @@
+:host {
+  background: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px -1px rgba(50, 50, 71, 0.05);
+  filter: drop-shadow(0px 0px 1px rgba(12, 26, 75, 0.24));
+  padding: 19px 26px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.Card {
+  &-title {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    text-transform: capitalize;
+    position: relative;
+    color: #16192C;
+  }
+
+  &-content {
+    padding: 10px 0;
+    flex: 1 1 100%;
+  }
+
+  &-footer {
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: 0.1px;
+    color: #B6B6B6;
+    width: 100%;
+  }
+}

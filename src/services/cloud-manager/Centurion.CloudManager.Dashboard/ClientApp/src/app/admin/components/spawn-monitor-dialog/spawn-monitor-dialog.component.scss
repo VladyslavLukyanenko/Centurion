@@ -1,0 +1,27 @@
+.SpawnMonitorDialog {
+
+  &-option {
+    font-size: 0;
+    height: 35px;
+
+    &.is-idle {
+      color: #3a5;
+    }
+
+    &.is-busy {
+      opacity: .5;
+    }
+  }
+
+  &-nodeId {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  &-nodeStatus {
+    font-size: 10px;
+    line-height: 1;
+  }
+
+
+}

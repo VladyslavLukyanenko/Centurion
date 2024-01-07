@@ -1,0 +1,232 @@
+:host {
+  display: flex;
+  height: 70px;
+  width: 100%;
+  border-bottom: 1px solid #EDF2F7;
+}
+
+.Toolbar {
+  &-logo {
+    width: 270px;
+    flex-shrink: 0;
+  }
+
+  &-sidebarToggle {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+  }
+
+  &-globalSearch {
+    flex-grow: 1;
+    height: 100%;
+    flex-basis: 100%;
+  }
+
+  &-buttons {
+    flex-grow: 1;
+  }
+
+  @media screen and (min-width: 769px) {
+    &-sidebarToggle {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    &-logo {
+      display: none;
+    }
+  }
+}
+
+
+.GlobalSearch {
+  height: 100%;
+  position: relative;
+  padding: 0 10px 0 46px;
+
+  &-submitSearch {
+    border: none;
+    position: absolute;
+    content: "";
+    height: 25px;
+    width: 46px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    background: url(../../../assets/icons/search.svg) no-repeat center;
+    cursor: pointer;
+  }
+
+  &-input {
+    border: none;
+    background: transparent;
+    width: 100%;
+    height: 100%;
+
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height */
+    color: #4B4B4B;
+
+    &::placeholder {
+      font-weight: 600;
+      font-size: 13px;
+      font-style: normal;
+      line-height: 16px;
+      color: #CFCFCF;
+    }
+  }
+}
+
+.GlobalSearchResults {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &-wrap {
+    padding: 20px;
+    display: block;
+    background: #FFFFFF;
+    box-shadow: 0 0 1px rgba(12, 26, 75, 0.24), 0px 3px 8px -1px rgba(50, 50, 71, 0.05);
+    border-radius: 10px;
+    min-width: 250px;
+    max-width: 600px;
+    width: 100vw;
+    position: relative;
+  }
+
+  &-item {
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  &-groupTitle {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 15px;
+    color: #1C48FE;
+    margin: 0;
+  }
+
+  &-result {
+    padding: 6px 8px;
+    border-radius: 3px;
+    transition: .3s background-color;
+    cursor: pointer;
+    height: 45px;
+
+    &:hover {
+      background: #2650FF;
+
+      & .GlobalSearchResults-resultTitle {
+        color: #fff;
+      }
+
+      & .GlobalSearchResults-resultDesc {
+        color: rgba(255, 255, 255, 0.52);
+      }
+    }
+  }
+
+  &-resultTitle,
+  &-resultDesc {
+    transition: .3s color;
+  }
+
+  &-resultTitle {
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 16px;
+    color: #262626;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  &-resultDesc {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+    color: rgba(72, 72, 72, 0.52);
+  }
+
+  &-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+}
+
+.ToolboxButtons {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0 50px 0 0;
+
+  &-item {
+    margin-left: 1em;
+    font-size: 14px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &-button {
+    border: none;
+    cursor: pointer;
+    background: transparent;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+
+    &.has-text {
+      width: auto;
+      height: auto;
+      white-space: nowrap;
+      padding: 5px 10px;
+      transition: .3s box-shadow, .3s background-color;
+      border-radius: 5px;
+      color: #339;
+      font-weight: 600;
+
+      &.is-active,
+      &:active,
+      &:focus,
+      &:hover {
+        box-shadow: inset 0 0 4px #eee;
+        background: #f4f4f4;
+      }
+    }
+
+    &.has-badge:before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform: translate(50%, -50%);
+      background: #FF6628;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+  }
+
+  &-icon {
+    max-width: 20px;
+    max-height: 20px;
+  }
+
+  @media screen and (max-width: 768px) {
+    margin: 0 15px 0 0;
+  }
+}

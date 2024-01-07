@@ -1,0 +1,123 @@
+:host {
+  display: inline-block;
+  width: 100%;
+
+  .material-icons {
+    font-size: 35px;
+  }
+
+  .mat-mini-fab {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+
+    ::ng-deep .mat-button-wrapper {
+      padding: 0!important;
+    }
+  }
+
+  .delete-btn-wrapper {
+    .material-icons {
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+.PhotoUploader {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  .url-input {
+    display: none;
+    font-size: 16px;
+    line-height: 16px;
+    z-index: 100;
+    border-bottom: 1px solid #c1c0c0;
+    width: 80%;
+    margin-top: 10px;
+    text-align: left;
+    padding: 0px 5px;
+  }
+
+  &-title {
+    display: block;
+    margin-bottom: 10px;
+    color: rgba(0, 0, 0, .54);
+    text-align: left;
+  }
+
+  &-file {
+    display: none;
+  }
+
+  &-wrapper {
+    font-size: 0;
+    display: flex;
+
+    &:hover {
+      cursor: pointer;
+      .buttons-wrapper {
+        display: flex!important;
+        transition: all linear .2s;
+      }
+    }
+
+    .delete-btn-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all linear .2s;
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      z-index: 10;
+      color: #292626;
+      background-color: rgba(255, 255, 255, 0.62);
+
+      &:hover {
+        background-color: rgba(0,0,0, .4);
+        cursor: pointer;
+
+        .mat-icon {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &-photo {
+    min-width: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 100%;
+  }
+
+  &-button {
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .buttons-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.59);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}

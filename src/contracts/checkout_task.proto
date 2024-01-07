@@ -1,0 +1,35 @@
+syntax = "proto3";
+option csharp_namespace = "Centurion.Contracts";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts";
+option java_package = "gg.centurion.contract";
+
+import "google/protobuf/timestamp.proto";
+
+import "module.proto";
+
+//
+//message CheckoutTaskGroupData {
+//  string id = 1;
+//  Module module = 2;
+//  string name = 3;
+//}
+
+message CheckoutTaskGroupData {
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp updated_at = 3;
+  string name = 4;
+  repeated CheckoutTaskData tasks = 5;
+}
+
+message CheckoutTaskData {
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp updated_at = 3;
+  Module module = 4;
+  repeated string profile_ids = 5;
+  optional string monitor_proxy_pool_id = 6;
+  optional string checkout_proxy_pool_id = 7;
+  string product_sku = 8;
+  bytes config = 9;
+}

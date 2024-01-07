@@ -1,0 +1,31 @@
+﻿@startuml
+'https://plantuml.com/state-diagram
+
+Active: ensures containers are runnning
+state Active {
+}
+
+state LostConnection {
+}
+
+PendingTermination: ensures containers are terminated
+state PendingTermination {
+}
+
+
+state Terminating {
+}
+
+[*] -> Active
+
+Active --> LostConnection
+
+LostConnection -> Active
+LostConnection -> PendingTermination : 5min delay
+
+PendingTermination -> Active
+PendingTermination --> Terminating : 5min delay
+
+Terminating --> [*] : 30sec delay
+
+@enduml

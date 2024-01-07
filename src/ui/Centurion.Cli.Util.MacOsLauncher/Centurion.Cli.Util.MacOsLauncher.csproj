@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Centurion-CliLauncher</AssemblyName>
+    <TargetFramework>net6.0</TargetFramework>
+    <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
+    <UseAppHost>true</UseAppHost>
+    <ImplicitUsings>Enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Centurion.Cli\Core\PlatformInteropUtils.cs">
+      <Link>PlatformInteropUtils.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+</Project>

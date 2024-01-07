@@ -1,0 +1,234 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Centurion.Cli.Core.ViewModels.Tasks"
+             xmlns:reactiveUi="http://reactiveui.net"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.Tasks.TaskEditorView">
+
+  <Design.DataContext>
+    <vm:TaskEditorViewModel />
+  </Design.DataContext>
+
+  <UserControl.Styles>
+    <Style Selector="GridSplitter.EditorSplitter">
+      <Setter Property="Width" Value="1" />
+      <Setter Property="Transitions">
+        <Setter.Value>
+          <Transitions>
+            <DoubleTransition Property="Width" Duration="0:0:.15" />
+          </Transitions>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style Selector="GridSplitter.EditorSplitter:pointerover">
+      <Setter Property="Width" Value="5" />
+    </Style>
+  </UserControl.Styles>
+  <Grid
+    MaxWidth="762"
+    HorizontalAlignment="Stretch"
+    RowDefinitions="*, 52">
+    <Grid ColumnDefinitions="*,1, *" IsEnabled="{Binding !IsBusy}">
+      <Grid Margin="13 12" RowDefinitions="36, *">
+        <TextBlock Text="Add/Update Tasks" Foreground="#A9B5E0" />
+        <ScrollViewer Grid.Row="1">
+          <StackPanel Spacing="6">
+            <StackPanel.Styles>
+              <Style Selector="Label">
+                <Setter Property="Margin" Value="0 2 0 -7" />
+              </Style>
+            </StackPanel.Styles>
+
+            <Label Content="SKU" Target="SKU" />
+            <TextBox
+              Watermark="Enter Product SKU"
+              Name="SKU"
+              Text="{Binding EditingTask.ProductSku}" />
+
+
+            <CheckBox
+              Name="UseRandomProfile"
+              Margin="0 5 0 -3"
+              IsChecked="{Binding UseRandomProfile}">
+              <Grid>
+                <TextBlock Text="Specific Profile" IsVisible="{Binding !#UseRandomProfile.IsChecked}" />
+                <TextBlock Text="Random from Profile Group" IsVisible="{Binding #UseRandomProfile.IsChecked}" />
+              </Grid>
+            </CheckBox>
+
+            <ComboBox
+              Name="Profiles"
+              IsTextSearchEnabled="True"
+              IsVisible="{Binding !#UseRandomProfile.IsChecked}"
+              PlaceholderText="Select Profile"
+              Items="{Binding Profiles}"
+              SelectedItem="{Binding Profile}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <ComboBox
+              Name="ProfileGroups"
+              IsTextSearchEnabled="True"
+              IsVisible="{Binding #UseRandomProfile.IsChecked}"
+              PlaceholderText="Select Profile Group"
+              Items="{Binding ProfileGroups}"
+              SelectedItem="{Binding ProfileGroup}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label Content="Checkout Proxy Group" Target="CheckoutProxy" />
+            <Grid ColumnDefinitions="*, Auto">
+              <ComboBox
+                Name="CheckoutProxy"
+                IsTextSearchEnabled="True"
+                VerticalAlignment="Center"
+                PlaceholderText="Select Checkout Proxy Pool"
+                SelectedItem="{Binding CheckoutProxyPool}"
+                Items="{Binding Proxies}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+
+              <Button
+                VerticalAlignment="Center"
+                Command="{Binding ClearCheckoutProxy}"
+                Grid.Column="1"
+                Classes="LinkButton BtnDanger"
+                Content="Clear" />
+            </Grid>
+
+            <Label Content="Monitor Proxy Group" Target="MonitorProxy" />
+            <Grid ColumnDefinitions="*, Auto">
+              <ComboBox
+                Name="MonitorProxy"
+                IsTextSearchEnabled="True"
+                VerticalAlignment="Center"
+                PlaceholderText="Select Monitor Proxy Pool"
+                SelectedItem="{Binding MonitorProxyPool}"
+                Items="{Binding Proxies}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+
+              <Button
+                VerticalAlignment="Center"
+                Command="{Binding ClearMonitorProxy}"
+                Grid.Column="1"
+                Classes="LinkButton BtnDanger"
+                Content="Clear" />
+            </Grid>
+
+            <Label Content="Store" Target="Store" />
+            <ComboBox
+              Name="Store"
+              PlaceholderText="Select store"
+              SelectedItem="{Binding SelectedModuleMetadata}"
+              Items="{Binding SupportedModules}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding DisplayName}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label Content="Mode" Target="Mode" />
+            <ComboBox
+              Name="Mode"
+              PlaceholderText="Select mode"
+              SelectedItem="{Binding SelectedModeMetadata}"
+              Items="{Binding SupportedModes}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <!-- -->
+            <!-- <Label IsVisible="{Binding SupportsMonitors}" Content="Monitor Method" Target="MonitorMethod" /> -->
+            <!-- <ComboBox -->
+            <!--   IsVisible="{Binding SupportsMonitors}" -->
+            <!--   Name="MonitorMethod" -->
+            <!--   PlaceholderText="Select monitor method" -->
+            <!--   SelectedItem="{Binding SelectedMonitorMethod}" -->
+            <!--   Items="{Binding MonitorMethods}" /> -->
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+      <GridSplitter Classes="EditorSplitter" MinWidth="1" Background="#111A55" Grid.Column="1" />
+      <Grid Grid.Column="2" Margin="13 12" RowDefinitions="36, *">
+        <TextBlock Text="Mode configuration" Foreground="#A9B5E0" HorizontalAlignment="Right" />
+
+        <ScrollViewer Grid.Row="1">
+          <StackPanel Spacing="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Name="ModeConfig" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+            <StackPanel Name="MonitorConfig" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+            <StackPanel Name="ModuleConfig" HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+    </Grid>
+
+    <Border Padding="10" Grid.Row="1" BorderThickness="0 1 0 0" BorderBrush="#111A55">
+      <StackPanel
+        Grid.Row="1"
+        Orientation="Horizontal"
+        Spacing="5"
+        HorizontalAlignment="Right"
+        IsEnabled="{Binding !IsBusy}">
+        <Label
+          Content="Saving tasks, this may take a second..."
+          VerticalAlignment="Center"
+          IsVisible="{Binding IsBusy}"
+          Margin="0" />
+        <ProgressBar
+          Height="15"
+          IsEnabled="True"
+          IsVisible="{Binding IsBusy}"
+          Value="{Binding SaveProgress}" />
+
+        <TextBox
+          IsVisible="{Binding IsNew}"
+          Text="{Binding TaskCountToCreate}"
+          Watermark="Task Quantity"
+          Width="55"
+          Name="TaskCount"
+          VerticalAlignment="Center" />
+
+        <Label
+          IsVisible="{Binding IsNew}"
+          Margin="0 0 10 0"
+          Target="TaskCount"
+          Content="Quantity"
+          VerticalAlignment="Center"
+          Height="NaN" />
+        <Button
+          Content="Save"
+          Classes="RegularButton"
+          Width="150"
+          Command="{Binding SaveChangesCommand}" />
+        <!-- -->
+        <!-- <Button -->
+        <!--   Content="Cancel" -->
+        <!--   Classes="RegularButton Secondary" -->
+        <!--   Padding="9 6" -->
+        <!--   Command="{Binding CancelCommand}" /> -->
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

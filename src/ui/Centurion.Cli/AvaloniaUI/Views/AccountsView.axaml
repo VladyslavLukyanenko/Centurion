@@ -1,0 +1,182 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:Centurion.Cli.Core.ViewModels.Accounts"
+             xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+             xmlns:views="clr-namespace:Centurion.Cli.AvaloniaUI.Views"
+             xmlns:behaviors="clr-namespace:Centurion.Cli.AvaloniaUI.Behaviors"
+             behaviors:BlurEffect.Popup="{Binding #AccountEditorPopup}"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.AccountsView">
+  <Design.DataContext>
+    <vm:AccountsViewModel />
+  </Design.DataContext>
+  <Grid Margin="{StaticResource PageContainerPadding}">
+    <Popup
+      Name="AccountEditorPopup"
+      IsLightDismissEnabled="True"
+      PlacementGravity="BottomLeft"
+      PlacementMode="Bottom"
+      IsOpen="{Binding #NewListBtn.IsChecked, Mode=TwoWay}"
+      PlacementTarget="NewListBtn"
+      VerticalOffset="5"
+      Topmost="False">
+      <Border
+        Background="{StaticResource PrimaryBackgroundColor}"
+        CornerRadius="8"
+        Width="430"
+        Height="330"
+        BorderThickness="1"
+        BorderBrush="#111A55">
+        <Grid RowDefinitions="*,  52">
+          <Grid Margin="13 12" RowDefinitions="36, *">
+            <TextBlock Text="New Accounts List" Foreground="#A9B5E0" />
+            <DockPanel Grid.Row="1">
+              <Label Content="Accounts" DockPanel.Dock="Top" Target="RawAccounts" />
+              <TextBox
+                IsEnabled="{Binding !CreateCommand.IsExecuting^}"
+                Text="{Binding RawAccounts}"
+                AcceptsReturn="True"
+                Name="RawAccounts"
+                Watermark="Enter accounts here in format &lt;email&gt;:&lt;password&gt;"
+                DockPanel.Dock="Top" />
+            </DockPanel>
+          </Grid>
+
+          <Border
+            Grid.Column="0"
+            Grid.Row="1"
+            Padding="12"
+            BorderThickness="0 1 0 0"
+            BorderBrush="#111A55">
+            <Grid ColumnDefinitions="*, *">
+
+              <Button
+                Margin="7 0 0 0"
+                Grid.Column="1"
+                Name="CreateBtn"
+                Classes="RegularButton"
+                HorizontalAlignment="Stretch"
+                Command="{Binding CreateCommand}"
+                Content="Create" />
+            </Grid>
+          </Border>
+        </Grid>
+      </Border>
+    </Popup>
+    <Grid MaxWidth="762" HorizontalAlignment="Stretch" ColumnDefinitions="166, 32, *">
+      <Grid Grid.ColumnSpan="3" RowDefinitions="Auto, *">
+        <!--Page Title -->
+        <Grid ColumnDefinitions="Auto, *, Auto">
+          <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="7">
+            <TextBlock
+              Classes="SectionTitle"
+              Margin="11 0 0 0"
+              VerticalAlignment="Center"
+              Text="Accounts" />
+            <ToggleButton
+              Name="OptionsBtn"
+              VerticalAlignment="Center"
+              Classes="OptionsButton">
+              <!-- <ToggleButton.ContextMenu> -->
+              <!--   <controls:AttachedMenu IsShown="{Binding #OptionsBtn.IsChecked, Mode=TwoWay}"> -->
+              <!--     ~1~ <MenuItem Header="Edit" Command="{Binding }" /> @1@ -->
+              <!--     <MenuItem Header="Remove" Command="{Binding RemoveGroupCommand}" /> -->
+              <!--     <MenuItem Header="Import" Command="{Binding Header.ImportGroupsCommand}" /> -->
+              <!--     <Separator /> -->
+              <!--     <MenuItem Header="Export"> -->
+              <!--       <Separator /> -->
+              <!--       <MenuItem Header="JSON" Command="{Binding Header.ExportGroupsToJsonCommand}" /> -->
+              <!--       <MenuItem Header="CSV" Command="{Binding Header.ExportGroupsToCsvCommand}" /> -->
+              <!--     </MenuItem> -->
+              <!--   </controls:AttachedMenu> -->
+              <!-- </ToggleButton.ContextMenu> -->
+            </ToggleButton>
+          </StackPanel>
+
+          <StackPanel Orientation="Horizontal" Grid.Column="2" Spacing="4">
+            <ToggleButton
+              Name="NewListBtn"
+              Classes="OutlinedButton"
+              Content="Add List" />
+
+            <Button
+              Classes="RegularButton"
+              Content="Generate" />
+            <!-- -->
+            <!-- <Button -->
+            <!--   Classes="RegularButton" -->
+            <!--   Content="Edit List" /> -->
+          </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0 17 0 0" RowDefinitions="30, *">
+          <!-- Table Header -->
+          <Grid>
+            <Grid ColumnDefinitions="*, 200">
+              <Grid Classes="RegularTableHeaderCell">
+                <TextBlock
+                  Classes="RegularTableHeader"
+                  Text="Username"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left" />
+
+                <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+              </Grid>
+              <Grid Classes="RegularTableHeaderCell" Grid.Column="1">
+                <TextBlock
+                  Classes="RegularTableHeader"
+                  Text="Password"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left" />
+              </Grid>
+              <Rectangle
+                Grid.ColumnSpan="2"
+                Grid.Column="0"
+                Fill="#141E5A"
+                HorizontalAlignment="Stretch"
+                Height="1"
+                VerticalAlignment="Bottom" />
+            </Grid>
+          </Grid>
+
+          <!--Table-->
+          <controls:GridLikeListBox
+            Grid.Row="1"
+            Items="{Binding Accounts}"
+            SelectedItem="{Binding SelectedAccount}">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Grid ColumnDefinitions="*, 200" Background="#01000000">
+                  <Grid.ContextMenu>
+                    <ContextMenu>
+                      <!-- <MenuItem Header="Edit" Command="{Binding $parent[vm:ProxiesViewModel].EditCommand}" /> -->
+                      <MenuItem Header="Toggle password" Command="{Binding TogglePasswordCommand}" />
+                      <MenuItem Header="Remove" Command="{Binding $parent[views:AccountsView].ViewModel.RemoveAccountCommand}" />
+                    </ContextMenu>
+                  </Grid.ContextMenu>
+                  <Grid Classes="RegularTableHeaderCell">
+                    <TextBlock
+                      Text="{Binding Account.Email}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left" />
+
+                    <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+                  </Grid>
+                  <Grid Classes="RegularTableHeaderCell" Grid.Column="1">
+                    <TextBlock
+                      Text="{Binding Password}"
+                      Foreground="#fff"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left" />
+                  </Grid>
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </controls:GridLikeListBox>
+        </Grid>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

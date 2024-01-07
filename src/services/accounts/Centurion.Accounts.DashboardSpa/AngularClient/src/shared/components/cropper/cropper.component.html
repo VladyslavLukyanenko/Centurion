@@ -1,0 +1,6 @@
+<!-- CROPPER WRAPPER -->
+<div class="cropper-wrapper">
+  <div class="cropper">
+    <img #image alt="image" [src]="imageUrl" (load)="imageLoaded($event)" (error)="imageLoadError($event)"/>
+  </div>
+</div>

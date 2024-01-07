@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package monitor;
+
+option csharp_namespace = "Centurion.Contracts.Monitor";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/monitor";
+option java_package = "gg.centurion.monitor";
+
+import "module.proto";
+import "monitor/integration/events.proto";
+import "product.proto";
+import "proxy.proto";
+
+message WatchCommand {
+  ProductData product = 1;
+  string user_id = 2;
+  ProxyPoolData proxy_pool = 3;
+  Module module = 4;
+  string task_id = 5;
+  map<string, string> extra = 6;
+  bytes module_config = 7;
+}
+
+message WatchResult {
+  bool already_in_stock = 1;
+  map<string, string> extra_data = 2;
+}
+
+service Monitor {
+  rpc WatchStreamed(WatchCommand) returns (stream monitor.integration.MonitoringStatusChanged);
+}

@@ -1,0 +1,275 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Centurion.Cli.Core.ViewModels.Profiles"
+             xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+             xmlns:views="clr-namespace:Centurion.Cli.AvaloniaUI.Views"
+             xmlns:behaviors="clr-namespace:Centurion.Cli.AvaloniaUI.Behaviors"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             behaviors:BlurEffect.Popup="{Binding #ProfileGroupEditorPopup}"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.ProfilesView">
+
+  <Design.DataContext>
+    <vm:ProfilesViewModel />
+  </Design.DataContext>
+  <Grid Margin="{StaticResource PageContainerPadding}" behaviors:BlurEffect.Popup="{Binding #EditorPopup}">
+    <!-- <Popup -->
+    <!--   Topmost="True" -->
+    <!--   IsLightDismissEnabled="True" -->
+    <!--   PlacementTarget="OptionsBtn" -->
+    <!--   IsOpen="{Binding #OptionsBtn.IsChecked, Mode=TwoWay}"> -->
+    <!--   <ListBox> -->
+    <!--     <ListBox.Items> -->
+    <!--       <ListBoxItem>Rename</ListBoxItem> -->
+    <!--       <ListBoxItem>Edit</ListBoxItem> -->
+    <!--       <ListBoxItem>Remove</ListBoxItem> -->
+    <!--     </ListBox.Items> -->
+    <!--   </ListBox> -->
+    <!-- </Popup> -->
+    
+    <Popup
+      Name="ProfileGroupEditorPopup"
+      IsLightDismissEnabled="True"
+      IsOpen="{Binding #NewListBtn.IsChecked, Mode=TwoWay}"
+      PlacementTarget="NewListBtn"
+      VerticalOffset="5"
+      PlacementGravity="BottomLeft"
+      PlacementMode="Bottom"
+      Topmost="False">
+      <Border
+        Background="{StaticResource PrimaryBackgroundColor}"
+        CornerRadius="8"
+        Width="250"
+        Height="170"
+        BorderThickness="1"
+        BorderBrush="#111A55">
+        <Grid RowDefinitions="*,  52">
+            <Grid Margin="13 12" RowDefinitions="36, *">
+              <TextBlock Text="New Profiles List" Foreground="#A9B5E0" />
+              <StackPanel Grid.Row="1" Spacing="5">
+                <Label Content="Group Name" Target="NewGroupName" Margin="0" />
+                <TextBox
+                  IsEnabled="{Binding !CreateProfileGroupCommand.IsExecuting^}"
+                  Text="{Binding NewGroupName}"
+                  Name="NewGroupName"
+                  Watermark="Enter group name" />
+
+              </StackPanel>
+            </Grid>
+
+          <Border
+            Grid.Column="0"
+            Grid.Row="1"
+            Padding="12"
+            BorderThickness="0 1 0 0"
+            BorderBrush="#111A55">
+            <Button
+              Margin="7 0 0 0"
+              Name="CreateBtn"
+              Classes="RegularButton"
+              HorizontalAlignment="Stretch"
+              Command="{Binding CreateProfileGroupCommand}"
+              Content="Create" />
+          </Border>
+        </Grid>
+      </Border>
+    </Popup>
+    
+    
+    <Popup Name="EditorPopup" PlacementTarget="CreateProfileBtn" VerticalOffset="10" IsLightDismissEnabled="True">
+      <Border
+        CornerRadius="8"
+        BorderBrush="#111A55"
+        BorderThickness="1"
+        Padding="10"
+        Width="400"
+        Height="500"
+        Background="{StaticResource PrimaryBackgroundColor}">
+        <ContentControl Content="{Binding Editor}" />
+      </Border>
+    </Popup>
+    
+    <Grid MaxWidth="762" HorizontalAlignment="Stretch" ColumnDefinitions="166, 32, *">
+      <Grid RowDefinitions="Auto, *">
+        <ToggleButton Name="NewListBtn" Classes="OutlinedButton" Content="New List" />
+
+        <ListBox
+          Grid.Row="1"
+          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+          Margin="0 32 0 0"
+          Classes="MenuListBox"
+          SelectionMode="AlwaysSelected"
+          Items="{Binding ProfileGroups}"
+          SelectedItem="{Binding SelectedGroup}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock LineHeight="NaN">
+                <TextBlock.Text>
+                  <MultiBinding StringFormat="{}{0} ({1})">
+                    <Binding Path="Name" />
+                    <Binding Path="Profiles.Count" />
+                  </MultiBinding>
+                </TextBlock.Text>
+              </TextBlock>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+
+      <Grid Grid.Column="2" RowDefinitions="Auto, *">
+        <!--Page Title -->
+        <Grid ColumnDefinitions="Auto, *, Auto">
+          <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="7">
+            <TextBlock
+              Classes="SectionTitle"
+              Margin="11 0 0 0"
+              VerticalAlignment="Center"
+              Text="Profiles" />
+            <ToggleButton
+              Name="OptionsBtn"
+              VerticalAlignment="Center"
+              Classes="OptionsButton">
+
+              <ToggleButton.ContextMenu>
+                <controls:AttachedMenu IsShown="{Binding #OptionsBtn.IsChecked, Mode=TwoWay}">
+                  <!-- <MenuItem Header="Edit" Command="{Binding }" /> -->
+                  <MenuItem Header="Remove Group" Command="{Binding RemoveSelectedGroupCommand}" />
+                  <Separator />
+                  <MenuItem Header="Import All Groups" Command="{Binding Header.ImportGroupsCommand}" />
+                  <MenuItem Header="Import Into Group" Command="{Binding ImportIntoGroupCommand}" />
+                  <Separator />
+                  <MenuItem Header="Export">
+                    <MenuItem Header="JSON" Command="{Binding Header.ExportGroupsToJsonCommand}" />
+                    <MenuItem Header="CSV" Command="{Binding Header.ExportGroupsToCsvCommand}" />
+                  </MenuItem>
+                </controls:AttachedMenu>
+              </ToggleButton.ContextMenu>
+            </ToggleButton>
+          </StackPanel>
+
+          <Button
+            Name="CreateProfileBtn"
+            Classes="RegularButton"
+            behaviors:ButtonPopup.Popup="{Binding #EditorPopup}"
+            behaviors:ButtonPopup.Command="{Binding CreateProfileCommand}"
+            Content="Add Profile"
+            Grid.Column="2" />
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0 17 0 0" RowDefinitions="30, *">
+          <!-- Table Header -->
+          <Grid>
+            <Grid ColumnDefinitions="*, *, *, 100">
+              <Grid Classes="RegularTableHeaderCell">
+                <TextBlock
+                  Classes="RegularTableHeader"
+                  Text="Profile"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left" />
+
+                <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+              </Grid>
+              <Grid Classes="RegularTableHeaderCell" Grid.Column="1">
+                <TextBlock
+                  Classes="RegularTableHeader"
+                  Text="Name"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left" />
+
+                <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+              </Grid>
+              <Grid Classes="RegularTableHeaderCell" Grid.Column="2">
+                <TextBlock
+                  Classes="RegularTableHeader"
+                  Text="Shipping"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left" />
+
+                <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+              </Grid>
+              <Grid Classes="RegularTableHeaderCell" Grid.Column="3">
+                <TextBlock
+                  Classes="RegularTableHeader"
+                  Text="Card ending in"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left" />
+              </Grid>
+              <Rectangle
+                Grid.ColumnSpan="4"
+                Grid.Column="0"
+                Fill="#141E5A"
+                HorizontalAlignment="Stretch"
+                Height="1"
+                VerticalAlignment="Bottom" />
+            </Grid>
+          </Grid>
+
+          <!--Table-->
+          <controls:GridLikeListBox Grid.Row="1" Items="{Binding Profiles}">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Grid ColumnDefinitions="*, *, *, 100" Background="#01000000">
+                  <Grid.ContextMenu>
+                    <ContextMenu>
+                      <MenuItem
+                        Header="Edit"
+                        behaviors:MenuItemPopup.CommandParameter="{Binding Profile}"
+                        behaviors:MenuItemPopup.Popup="{Binding #EditorPopup}"
+                        behaviors:MenuItemPopup.Command="{Binding $parent[views:ProfilesView].ViewModel.EditCommand}"  />
+
+                      <MenuItem
+                        CommandParameter="{Binding Profile}"
+                        Header="Remove"
+                        Command="{Binding $parent[views:ProfilesView].ViewModel.RemoveCommand}" />
+                    </ContextMenu>
+                  </Grid.ContextMenu>
+                  <Grid Classes="RegularTableHeaderCell" Height="42">
+                    <TextBlock
+                      Text="{Binding ProfileName}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left" />
+
+                    <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+                  </Grid>
+                  <Grid Classes="RegularTableHeaderCell" Grid.Column="1" Height="42">
+                    <TextBlock
+                      Text="{Binding FullName}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left" />
+
+                    <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+                  </Grid>
+                  <Grid Classes="RegularTableHeaderCell" Grid.Column="2" Height="42">
+                    <StackPanel VerticalAlignment="Center">
+                      <TextBlock
+                        Text="{Binding Profile.ShippingAddress.Line1, FallbackValue=-}"
+                        VerticalAlignment="Center"
+                        LineHeight="NaN"
+                        HorizontalAlignment="Left" />
+
+                      <TextBlock
+                        LineHeight="NaN"
+                        Text="{Binding ShipAddressLine2}"
+                        Foreground="#6575B0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left" />
+                    </StackPanel>
+                    <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+                  </Grid>
+                  <Grid Classes="RegularTableHeaderCell" Grid.Column="3" Height="42">
+                    <TextBlock
+                      Text="{Binding Last4Digits}"
+                      Foreground="#fff"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left" />
+                  </Grid>
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </controls:GridLikeListBox>
+        </Grid>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

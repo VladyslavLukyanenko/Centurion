@@ -1,0 +1,54 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <controls:TaskGroupBarSummary Width="700" />
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="Ellipse.LegendItemDelim">
+    <Setter Property="Fill" Value="#6B78A5" />
+    <Setter Property="Height" Value="4" />
+    <Setter Property="Width" Value="4" />
+  </Style>
+
+  <Style Selector="TextBlock.LegendItem">
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="Bold" />
+  </Style>
+
+  <Style Selector="Border.TaskStatusBarItem">
+    <Setter Property="CornerRadius" Value="5" />
+    <Setter Property="Margin" Value="0 0 4 0" />
+  </Style>
+  <Style Selector="Border.TaskStatusBarItem.LastChild">
+    <Setter Property="Margin" Value="0" />
+  </Style>
+
+  <Style Selector="controls|TaskGroupBarSummary">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <StackPanel>
+          <Grid Name="PART_ChartContainer" Height="6" Margin="0 0 0 9" />
+          <DockPanel Name="PART_LegendContainer">
+            <StackPanel Name="PART_SummaryContainer" Spacing="6" Orientation="Horizontal" DockPanel.Dock="Right">
+              <TextBlock
+                Classes="LegendItem"
+                Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TotalActiveCount, StringFormat={}{0} Active, FallbackValue=0}" />
+
+              <Ellipse Classes="LegendItemDelim" />
+
+              <TextBlock
+                Classes="LegendItem"
+                Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TaskGroup.Tasks.Count, StringFormat={}{0} Total, FallbackValue=0}"
+                Foreground="#6B78A5" />
+            </StackPanel>
+
+            <StackPanel Name="PART_RunningLegendContainer" Orientation="Horizontal" Spacing="8" DockPanel.Dock="Left" />
+          </DockPanel>
+        </StackPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

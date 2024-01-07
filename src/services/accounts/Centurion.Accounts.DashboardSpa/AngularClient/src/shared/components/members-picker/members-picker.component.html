@@ -1,0 +1,29 @@
+<div class="MemberList-searchBarWrap">
+  <input [formControl]="searchCtrl" type="text" class="MemberList-searchBar" placeholder="Search member">
+</div>
+<span *ngIf="dataSource.noData$ | async" class="NoDataAlert MemberList-noData">No members found</span>
+
+<div class="MemberList-list">
+  <p-progressSpinner [class.is-visible]="dataSource.isLoading$ | async" class="MemberList-spinner"></p-progressSpinner>
+  <cdk-virtual-scroll-viewport itemSize="69" [style.height.px]="listHeight">
+    <ul class="MemberList" [style.height.px]="listHeight" [class.is-loading]="asyncTracker.isLoading$ | async">
+      <li
+        *cdkVirtualFor="let member of dataSource; trackBy: trackById"
+        (click)="memberClick.emit(member)"
+        class="MemberList-item Member"
+        [class.is-selected]="isSelected(member)"
+      >
+        <div class="Member-avatarWrap">
+          <img [src]="member.avatar" [alt]="member.name" class="Member-pic">
+        </div>
+        <div class="Member-name">
+          <span class="Member-fname">{{member.name}}</span>
+          <span class="Member-discordName">@{{member.name}}#{{member.discriminator}}</span>
+        </div>
+        <div *ngIf="actionsTmpl" class="Member-actionsWrap">
+          <ng-container *ngTemplateOutlet="actionsTmpl; context: {$implicit: member}"></ng-container>
+        </div>
+      </li>
+    </ul>
+  </cdk-virtual-scroll-viewport>
+</div>

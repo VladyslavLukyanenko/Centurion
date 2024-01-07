@@ -1,0 +1,6 @@
+<ul class="ChartLegend">
+  <li *ngFor="let item of items" class="ChartLegend-item">
+    <span class="ChartLegend-marker" [ngStyle]="{background: item[itemColorKey]}"></span>
+    <span class="ChartLegend-label">{{item[itemLabelKey]}}</span>
+  </li>
+</ul>

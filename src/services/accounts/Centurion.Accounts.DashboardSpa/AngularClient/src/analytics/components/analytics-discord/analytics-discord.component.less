@@ -1,0 +1,43 @@
+.AnalyticsDiscord {
+  position: relative;
+
+  &-subtitle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateY(-100%);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+
+    text-align: right;
+
+    color: #4B4B4B;
+    @media screen and (max-width: 768px) {
+      font-size: 13px;
+    }
+  }
+}
+
+.StatsCard {
+  margin-bottom: 30px;
+
+  @media screen and (max-width: 768px) {
+    margin-bottom: 10px;
+  }
+}
+
+.Analytics {
+  &-content {
+    padding: 16px 0 0;
+  }
+}
+
+.LightweightTabs {
+  &-link {
+    &.router-link-active {
+      color: #4B4B4B;
+    }
+  }
+}

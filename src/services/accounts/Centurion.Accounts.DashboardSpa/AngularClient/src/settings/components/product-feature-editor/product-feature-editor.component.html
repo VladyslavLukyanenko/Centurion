@@ -1,0 +1,31 @@
+<p-card [formGroup]="form" styleClass="p-card-shadow">
+  <div class="ProductFeatureEditor-logoUploadBtn">
+    <app-interactive-picture-uploader
+      [source]="form.iconCtrl.value"
+      formGroupName="uploadedIcon"
+      label="Icon"
+    ></app-interactive-picture-uploader>
+  </div>
+  <ng-template pTemplate="title">
+    <div class="AppForm-field p-field LabeledItem ProductFeatureEditor-titleField">
+      <label class="LabeledItem-title">Title</label>
+      <input formControlName="title" class="AppForm-control" placeholder="Title">
+      <app-field-error-required [control]="form.titleCtrl"></app-field-error-required>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div class="AppForm-field p-field LabeledItem">
+      <label class="LabeledItem-title">Description</label>
+      <quill-editor
+        formControlName="desc"
+        class="AppForm-control AppQuillEditor-editorCmp"
+        classes="AppQuillEditor-editor"
+      ></quill-editor>
+      <app-field-error-required [control]="form.descCtrl"></app-field-error-required>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <a (click)="$event.preventDefault();removeClick.emit()" href="#">Remove</a>
+  </ng-template>
+</p-card>

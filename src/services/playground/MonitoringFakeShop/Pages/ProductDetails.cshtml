@@ -1,0 +1,15 @@
+@page "{id:guid}"
+@model MonitoringFakeShop.Pages.ProductDetails
+
+@{
+  Layout = "_ShopLayout";
+}
+
+
+<div class="card">
+  <img src="@Model.Product.ProductPic" class="card-img-top" alt="@Model.Product.Name">
+  <div class="card-body">
+    <h1 class="card-title">@Model.Product.Name</h1>
+    <p class="card-text">Price: <strong>$@Model.Product.Price</strong></p>
+  </div>
+</div>

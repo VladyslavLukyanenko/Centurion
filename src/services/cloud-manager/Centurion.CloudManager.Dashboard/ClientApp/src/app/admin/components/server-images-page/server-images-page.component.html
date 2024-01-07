@@ -1,0 +1,69 @@
+<r-content-container>
+  <!--<r-header>
+    Header
+  </r-header>-->
+  <r-content style="padding: 30px;">
+    <nz-table
+      style="background: #fff;"
+      #imagesTbl
+      [nzTitle]="imagesTableTitleTmpl"
+      nzSize="small"
+      [nzLoading]="imagesAsyncIndicator.isLoading$ | async"
+      [nzData]="images$ | async"
+      [nzShowPagination]="false"
+    >
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Slug</th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Spawn parameters</th>
+        <th style="width: 150px">Options</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let img of imagesTbl.data">
+        <td>{{img.id}}</td>
+        <td>{{img.slug}}</td>
+        <td>{{img.imageType}}</td>
+        <td>{{img.name}}</td>
+        <td>{{stringifyParams(img.requiredSpawnParameters)}}</td>
+        <td>
+          <button
+            nz-popconfirm
+            nzPopconfirmTitle="Are you sure to remove this image?"
+            (nzOnConfirm)="removeImage(img)"
+            nz-button
+            [nz-tooltip]="'Remove this image'|translate"
+            nzType="link"
+          >
+            <i nz-icon nzType="delete" nzTheme="outline"></i>
+          </button>
+
+          <button
+            (click)="showSpawnImageWindow(img)"
+            nz-button
+            [nz-tooltip]="'Spawn this image'|translate"
+            nzType="link"
+          >
+            <i nz-icon nzType="cloud-upload" nzTheme="outline"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+
+
+    <ng-template #imagesTableTitleTmpl>
+      <h2>
+        Monitor images
+        <button (click)="addNewMonitor()" nz-button nzType="link">
+          <i nz-icon nzType="plus"></i>
+        </button>
+      </h2>
+
+    </ng-template>
+  </r-content>
+  <!--<r-footer>Footer</r-footer>-->
+</r-content-container>

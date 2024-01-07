@@ -1,0 +1,26 @@
+<p-dialog
+  *ngIf="isVisible"
+  (visibleChange)="isVisibleChange.emit($event)"
+  [visible]="isVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog ImageCropDialog dialogHeaderIconless"
+  appendTo="body"
+>
+  <ng-template pTemplate="header">
+    <h2 class="AppDialog-title">Select area to use as background</h2>
+  </ng-template>
+  <div class="AppDialog-content ImageCropDialog-content">
+    <angular-cropper
+      (cropped)="cropResult = $event"
+      [imageUrl]="cropImageUrl"
+      [cropperOptions]="croppedBgOptions"
+    ></angular-cropper>
+  </div>
+
+  <p-footer class="ImageCropDialog-footer">
+    <button (click)="saveChanges()" class="AppDialog-btn ImageCropDialog-btn is-primary">
+      Apply
+    </button>
+  </p-footer>
+</p-dialog>

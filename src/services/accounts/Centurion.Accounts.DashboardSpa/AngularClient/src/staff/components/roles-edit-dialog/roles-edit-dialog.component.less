@@ -1,0 +1,118 @@
+.RolesEditor {
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+  min-height: 270px;
+
+  &-removeLink {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FF2929;
+    text-decoration: none;
+    transition: opacity .3s;
+
+
+    &:hover {
+      opacity: .75;
+    }
+
+    &:active,
+    &:focus {
+      opacity: .9;
+    }
+
+    &[disabled] {
+      opacity: .5;
+    }
+  }
+
+  &-item {
+    padding: 13px 20px 13px 30px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      margin-top: 1px;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 0;
+      height: 14px;
+      width: 16px;
+      background: url(../../../assets/icons/menu-hamburger.svg) center no-repeat;
+    }
+
+    &.has-noMarker {
+      padding-left: 0;
+      padding-right: 0;
+
+
+      &:before {
+        content: initial;
+      }
+    }
+  }
+
+  &-label {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 18px;
+    color: #0F0F0F;
+  }
+
+
+  &-editBtn,
+  &-ctrl {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+
+  &-editBtn {
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    right: 20px;
+    color: #1C48FE;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity .3s;
+
+
+    &:hover {
+      opacity: .75;
+    }
+
+    &:active,
+    &:focus {
+      opacity: .9;
+    }
+
+    &[disabled] {
+      opacity: .5;
+    }
+  }
+
+  &-nameInput {
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 15px;
+    line-height: 18px;
+    color: #0F0F0F;
+    font-weight: 600;
+
+    &::-webkit-input-placeholder {
+      color: rgba(15, 15, 15, 0.12);
+    }
+  }
+}

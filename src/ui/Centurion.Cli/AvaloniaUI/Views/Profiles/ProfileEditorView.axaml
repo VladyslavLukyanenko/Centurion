@@ -1,0 +1,220 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+             xmlns:vm="using:Centurion.Cli.Core.ViewModels.Profiles"
+             xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+             xmlns:autoGrid="clr-namespace:Centurion.Cli.AvaloniaUI.Controls.AutoGrid"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.Profiles.ProfileEditorView">
+  <Design.DataContext>
+    <vm:ProfileEditorViewModel />
+  </Design.DataContext>
+  <Grid
+    MaxWidth="762" HorizontalAlignment="Stretch"
+    RowDefinitions="*, 42">
+
+    <ScrollViewer>
+      <StackPanel Spacing="5">
+        <TextBlock Classes="SectionTitle" Text="Profile" />
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.Styles>
+            <Style Selector="Label.RegularLabelRight">
+              <Setter Property="Margin" Value="6,0,0,0" />
+            </Style>
+            <Style Selector="TextBox.TextBoxRight">
+              <Setter Property="Margin" Value="6,0,0,10" />
+            </Style>
+            <Style Selector="TextBox.TextBoxLeft">
+              <Setter Property="Margin" Value="0,0,6,10" />
+            </Style>
+
+            <Style Selector="TextBox">
+              <Setter Property="Margin" Value="0,0,0,10" />
+            </Style>
+            <Style Selector="ComboBox">
+              <Setter Property="Margin" Value="0,0,6,10" />
+            </Style>
+          </Grid.Styles>
+
+          <Label
+            Content="Profile Name"
+            Target="ProfileName" />
+          <TextBox
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Name="ProfileName"
+            Watermark="Enter profile name"
+            Text="{Binding Profile.Name}" />
+
+          <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="Email" Target="Email" />
+          <TextBox
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Name="Email"
+            Watermark="Enter email"
+            Text="{Binding Profile.Email}" />
+
+
+          <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            Target="FName"
+            Content="First Name" />
+          <TextBox
+            Grid.Row="5"
+            Grid.Column="0"
+            Name="FName"
+            Classes="TextBoxLeft"
+            Watermark="Enter first name"
+            Text="{Binding Profile.FirstName}" />
+
+          <Label
+            Grid.Row="4"
+            Grid.Column="1"
+            Target="LName"
+            Classes="RegularLabelRight"
+            Content="Last Name" />
+          <TextBox
+            Grid.Row="5"
+            Grid.Column="1"
+            Name="LName"
+            Classes="TextBoxRight"
+            Watermark="Enter last name"
+            Text="{Binding Profile.LastName}" />
+
+
+          <Label
+            Grid.Row="6"
+            Grid.Column="0"
+            Target="PhoneNumber"
+            Content="Phone Number" />
+          <TextBox
+            Grid.Row="7"
+            Grid.Column="0"
+            Name="PhoneNumber"
+            Classes="TextBoxLeft"
+            Watermark="Enter phone number"
+            Text="{Binding Profile.PhoneNumber}" />
+
+          <CheckBox
+            Grid.Column="0"
+            Grid.Row="8"
+            IsChecked="{Binding !!Profile.BillingAsShipping}"
+            VerticalAlignment="Center"
+            Content="Shipping as billing" />
+
+          <CheckBox
+            Grid.Column="0"
+            Grid.Row="9"
+            Command="{Binding ToggleBillingCommand}"
+            IsChecked="{Binding IsCreditCardCreated}"
+            VerticalAlignment="Center"
+            Content="Billing details" />
+
+          <Grid
+            IsVisible="{Binding IsCreditCardCreated}"
+            Margin="0 10 0 0"
+            Grid.Row="10"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            RowDefinitions="Auto, Auto, Auto">
+            <Grid.Styles>
+              <Style Selector="Label">
+                <Setter Property="Margin" Value="0 0 0 4" />
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+              </Style>
+            </Grid.Styles>
+
+            <StackPanel Orientation="Horizontal" Spacing="5">
+              <Label Width="70" Content="Credit Card:" />
+              <TextBox
+                Width="200"
+                Text="{Binding Profile.Billing.CardNumber}"
+                Watermark="Enter credit card number" />
+            </StackPanel>
+            
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5">
+              <Label Width="70" Content="Holder Name:" />
+              <TextBox
+                Width="200"
+                Text="{Binding Profile.Billing.HolderName}"
+                Watermark="Enter credit card number" />
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Spacing="5">
+              <Label Width="40" Content="Exp Y:" VerticalAlignment="Center" />
+              <TextBox
+                Width="60"
+                MinWidth="0"
+                VerticalAlignment="Center"
+                Text="{Binding Profile.Billing.ExpirationYear}"
+                Watermark="Year" />
+
+              <Label Width="20" Content="M:" VerticalAlignment="Center" />
+              <TextBox
+                MinWidth="0"
+                VerticalAlignment="Center"
+                Width="40"
+                Text="{Binding Profile.Billing.ExpirationMonth}"
+                Watermark="Month" />
+
+              <Label Width="30" Content="CVV:" VerticalAlignment="Center" />
+              <TextBox
+                MinWidth="0"
+                VerticalAlignment="Center"
+                Width="60"
+                Text="{Binding Profile.Billing.Cvv}"
+                Watermark="CVV" />
+            </StackPanel>
+          </Grid>
+        </Grid>
+
+        <TextBlock
+          Classes="SectionTitle"
+          Text="Billing Address"
+          Margin="0 20 0 0" />
+        <ContentControl Content="{Binding BillingAddress}" />
+
+        <TextBlock
+          IsVisible="{Binding !Profile.BillingAsShipping}"
+          Classes="SectionTitle"
+          Margin="0 20 0 0"
+          Text="Shipping Address" />
+        <ContentControl
+          IsVisible="{Binding !Profile.BillingAsShipping}"
+          Content="{Binding ShippingAddress}" />
+      </StackPanel>
+    </ScrollViewer>
+
+    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
+      <Button
+        Content="Save"
+        Classes="RegularButton"
+        Width="150"
+        Command="{Binding SaveChangesCommand}" />
+    </StackPanel>
+  </Grid>
+</UserControl>

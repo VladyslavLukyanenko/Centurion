@@ -1,0 +1,17 @@
+<r-content-container>
+  <r-content>
+    <nz-collapse>
+      <nz-collapse-panel *ngFor="let g of stats$ | async; let ix = index" [nzHeader]="g.type" [nzActive]="ix === 0">
+        <ng-container [ngSwitch]="g.type">
+          <ng-container *ngSwitchCase="'monitor'">
+            <r-monitor-stats-table [stats]="g.data"></r-monitor-stats-table>
+          </ng-container>
+          <ng-container *ngSwitchCase="'balancer'">
+            <r-balancer-stats-table [stats]="g.data"></r-balancer-stats-table>
+          </ng-container>
+        </ng-container>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </r-content>
+</r-content-container>
+

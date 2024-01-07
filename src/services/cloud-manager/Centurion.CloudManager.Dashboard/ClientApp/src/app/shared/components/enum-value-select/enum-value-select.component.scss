@@ -1,0 +1,10 @@
+:host {
+  display: inline-block;
+  width: 100%;
+}
+
+.EnumSelect {
+  &-select {
+    width: 100%;
+  }
+}

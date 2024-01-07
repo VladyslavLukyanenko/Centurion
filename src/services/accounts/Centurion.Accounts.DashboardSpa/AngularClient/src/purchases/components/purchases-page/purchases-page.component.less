@@ -1,0 +1,97 @@
+.PurchasesGrid {
+  min-width: 1280px;
+
+  &-wrap {
+    //margin-top: 25px;
+  }
+
+  &-idCell {
+    width: 85px;
+  }
+
+  &-keyCell {
+  }
+
+  &-userCell,
+  &-releaseCell {
+    width: 180px;
+  }
+
+  &-member {
+    text-decoration: none;
+    color: #6C6C6C;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &-typeCell,
+  &-expiryCell {
+    width: 150px;
+  }
+
+  &-actionsCell {
+    width: 200px;
+  }
+
+  &-actionsDataCell {
+    & > * + * {
+      margin-left: 5px;
+    }
+  }
+
+  &-dataRow {
+    &.is-deactivated {
+      opacity: .5;
+    }
+  }
+}
+
+.Purchases {
+  &-header {
+    flex-wrap: nowrap;
+  }
+
+  &-content {
+    //padding: 25px 0 0;
+    display: flex;
+    min-height: 0;
+    flex: 1 1 100%;
+  }
+
+  &-filters {
+    display: flex;
+    width: 100%;
+    margin-left: 20px;
+    align-items: center;
+  }
+
+  &-filterControls {
+    flex: 1 0 auto;
+    display: flex;
+    justify-content: flex-end;
+
+    & > * + * {
+      margin-left: 10px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    &-filters {
+      position: absolute;
+      flex-direction: column-reverse;
+      align-items: flex-end;
+      margin: 0;
+      padding: 0 15px 0;
+      width: 100%;
+      left: 0;
+      right: 0;
+    }
+
+
+    &-content {
+      margin-top: 25px;
+    }
+  }
+}

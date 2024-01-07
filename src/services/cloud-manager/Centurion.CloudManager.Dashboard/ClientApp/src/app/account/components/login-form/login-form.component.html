@@ -1,0 +1,33 @@
+<form
+  (ngSubmit)="authenticate()"
+  nz-form
+  nzLayout="vertical"
+  [formGroup]="form"
+  [style.width.px]="300"
+>
+  <nz-form-item>
+    <nz-form-label>{{"account.loginForm.username" | translate}}</nz-form-label>
+    <nz-form-control>
+      <input
+        name="username"
+        nz-input
+        formControlName="username"
+        [placeholder]="'account.loginForm.username' | translate">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>{{"account.loginForm.password" | translate}}</nz-form-label>
+    <nz-form-control>
+      <input
+        name="password"
+        nz-input
+        formControlName="password"
+        type="password"
+        [placeholder]="'account.loginForm.password' | translate">
+    </nz-form-control>
+  </nz-form-item>
+
+  <button nzType="primary" nz-button [disabled]="isLoading$ | async" [nzLoading]="isLoading$ | async">
+    {{"account.loginForm.submitBtn" | translate}}
+  </button>
+</form>

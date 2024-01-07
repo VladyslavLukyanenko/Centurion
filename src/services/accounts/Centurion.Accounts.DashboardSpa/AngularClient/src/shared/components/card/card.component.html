@@ -1,0 +1,10 @@
+<div class="Card-title">
+  {{ title }}
+  <ng-content select="[card-title]"></ng-content>
+</div>
+<ng-content></ng-content>
+<ng-content select=".Card-footer"></ng-content>
+<div class="Card-footer">
+  {{ footer }}
+  <ng-content select="[card-footer]"></ng-content>
+</div>

@@ -1,0 +1,8 @@
+assembly-versioning-scheme: MajorMinorPatch
+next-version: 1.0.0
+mode: ContinuousDeployment
+branches:
+  master:
+    regex: (^master$|^origin\/master$)
+  develop:
+    regex: (^dev(elop)?(ment)?$|^origin\/dev(elop)?(ment)?$|^staging$|^origin\/staging$)

@@ -1,0 +1,8 @@
+{{ value }}
+<span
+  class="StatsEntry-percents"
+  [class.is-growing]="percents > 0"
+  [class.is-noChanges]="percents === 0"
+>
+  {{ percents && (percents > 0 ? "+" : "") + percents.toString() }}%
+</span>

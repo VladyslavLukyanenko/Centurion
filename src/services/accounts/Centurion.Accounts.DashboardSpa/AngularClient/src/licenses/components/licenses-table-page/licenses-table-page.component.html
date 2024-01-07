@@ -1,0 +1,210 @@
+<header class="Page-header Licenses-header">
+  <h1 class="Page-title">
+    Licenses
+  </h1>
+
+  <div class="Licenses-filters">
+    <ul class="ActiveFilters">
+      <li *ngFor="let f of activeFilters$ | async" class="ActiveFilters-item">
+        <div class="ActiveFilters-label">{{f.displayName}}</div>
+        <a (click)="$event.preventDefault();pushFilterToRoute(f.kind)" href="#" class="ActiveFilters-removeBtn"></a>
+      </li>
+    </ul>
+    <div class="Licenses-filterControls">
+      <button
+        (click)="isCreateDialogVisible = true;"
+        type="button"
+        class="CreateBtn"
+      ></button>
+      <button type="button" class="StdButton" (click)="menu.toggle($event)" style="min-width: 120px;">
+        Filters
+        <svg style="width: 12px;height: 8px;">
+          <use href="#angle-down"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<p-menu #menu [popup]="true" [model]="supportedFilters" class="StdMenu"></p-menu>
+
+
+<div class="Licenses-content Page-content">
+  <nav class="LightweightTabs">
+    <ul class="LightweightTabs-list">
+      <li *ngFor="let r of typeRoutes" class="LightweightTabs-tab">
+        <a
+          routerLink="./"
+          [queryParams]="{type: r.key}"
+          [class.is-active]="r.key == (selectedType$ | async)"
+          class="LightweightTabs-link"
+        >
+          {{ r.value }}
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <div class="AppTable-wrap LicensesGrid-wrap">
+    <cdk-virtual-scroll-viewport itemSize="44" style="height: 100%;">
+      <table class="AppTable LicensesGrid">
+        <thead>
+        <tr class="AppTable-headerRow">
+          <th class="AppTable-headerCell LicensesGrid-idCell">ID</th>
+          <th class="AppTable-headerCell LicensesGrid-keyCell">Key</th>
+          <th class="AppTable-headerCell LicensesGrid-userCell">User</th>
+          <th class="AppTable-headerCell LicensesGrid-releaseCell">Release</th>
+          <th class="AppTable-headerCell LicensesGrid-typeCell">Type</th>
+          <th class="AppTable-headerCell LicensesGrid-expiryCell">Expiry</th>
+          <th class="AppTable-headerCell LicensesGrid-actionsCell">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *cdkVirtualFor="let l of licensesDataSource; trackBy: trackById" class="LicensesGrid-dataRow">
+          <ng-container *ngIf="l">
+            <td class="AppTable-dataCell">#{{ l.id }}</td>
+            <td class="AppTable-dataCell LicensesGrid-keyCell">{{ l.value }}</td>
+            <td class="AppTable-dataCell">
+              <ng-container *ngIf="l.user">
+                <a
+                  (click)="$event.preventDefault();userDetailsOp.show($event);showMemberDetails(l)"
+                  href="#"
+                  class="LicensesGrid-member"
+                >
+                  {{ l.user.fullName }}
+                </a>
+              </ng-container>
+              <small style="font-size: .8em;" *ngIf="!l.user">&lt;Not bound yet&gt;</small>
+            </td>
+            <td class="AppTable-dataCell">
+              {{ l.releaseTitle }}
+              <small style="font-size: .8em;" *ngIf="!l.releaseTitle">&lt;Generated&gt;</small>
+            </td>
+            <td class="AppTable-dataCell">{{ l.planDesc }}</td>
+            <td class="AppTable-dataCell">
+              {{ formatDate(l.expiry) }}
+              <small style="font-size: .8em;" *ngIf="!l.expiry">&lt;Lifetime&gt;</small>
+            </td>
+            <td class="AppTable-dataCell">
+              <a [routerLink]="[l.id]" class="ActionButton is-primary" type="button">
+                View
+              </a>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!l">
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+          </ng-container>
+        </tr>
+        </tbody>
+      </table>
+      <div *ngIf="licensesDataSource.noData$ | async" class="AppTable-noData">No licenses found</div>
+    </cdk-virtual-scroll-viewport>
+    <p-progressSpinner *ngIf="asyncTracker.isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+
+  </div>
+</div>
+
+
+<app-licenses-create-dialog
+  *ngIf="isCreateDialogVisible"
+  (saved)="refresh()"
+  [(isVisible)]="isCreateDialogVisible"
+></app-licenses-create-dialog>
+
+
+<p-overlayPanel
+  #userDetailsOp
+  (onShow)="globalShadowService.show()"
+  (onHide)="globalShadowService.hide();memberDetails$.next(null)"
+  appendTo="body"
+  [style]="{'border-radius': '10px', padding: 0}"
+  [dismissable]="true"
+  [showCloseIcon]="false"
+>
+  <ng-template pTemplate>
+    <ng-container *ngIf="memberDetails$ | async as details;else userDetailsSpinner">
+      <app-member-summary
+        style="padding: 9px 3px 16px; max-width: 247px;"
+        [summary]="details"
+      ></app-member-summary>
+    </ng-container>
+  </ng-template>
+</p-overlayPanel>
+<ng-template #userDetailsSpinner>
+  <div class="LicensesGrid-spinner">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+</ng-template>
+
+<p-dialog
+  *ngIf="isPlanPickerVisible"
+  [(visible)]="isPlanPickerVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog has-overflowAllowed"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <h2 class="AppDialog-title">Licenses with plan</h2>
+  </ng-template>
+  <div class="AppDialog-content" style="min-height: 0;">
+    <div class="AppForm-field p-field">
+      <p-dropdown
+        (ngModelChange)="isPlanPickerVisible = false;pushFilterToRoute(licensesSortKinds.planId, $event)"
+        ngModel
+        class="AppForm-control"
+        [options]="plans$ | async"
+        optionValue="id"
+        appendTo="body"
+        optionLabel="description"
+        placeholder="Plan"
+      ></p-dropdown>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog
+  *ngIf="isReleasePickerVisible"
+  [(visible)]="isReleasePickerVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <h2 class="AppDialog-title">Licenses with release</h2>
+  </ng-template>
+  <div class="AppDialog-content" style="min-height: 0; overflow: visible;">
+    <div class="AppForm-field p-field">
+      <p-dropdown
+        (ngModelChange)="isReleasePickerVisible = false;pushFilterToRoute(licensesSortKinds.releaseId, $event)"
+        ngModel
+        appendTo="body"
+        class="AppForm-control"
+        [options]="releases$ | async"
+        optionValue="id"
+        optionLabel="title"
+        placeholder="Release"
+      ></p-dropdown>
+    </div>
+  </div>
+</p-dialog>

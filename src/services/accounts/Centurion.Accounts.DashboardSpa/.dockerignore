@@ -1,0 +1,13 @@
+.git/
+.idea/
+.vscode/
+logs/
+tmp/
+env/
+resources/
+!resources/deps/
+bin/
+obj/
+AngularClient/node_modules/
+AngularClient/dist/
+Properties/

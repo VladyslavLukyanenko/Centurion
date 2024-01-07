@@ -1,0 +1,204 @@
+@using Centurion.Accounts.App.Services
+@inject IPathsService PathsService
+
+@{
+  string? logoUrl = PathsService.ToAbsoluteUrl("emails/logo-64x64.jpg");
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="viewport" content="width=device-width; user-scalable=no; initial-scale=1.0; maximum-scale=1.0;">
+  <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE"/>
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="Content-Type" content="text/html charset=UTF-8"/>
+  <title>@Model.Subject</title>
+  <style type="text/css">
+        @@import url(http://fonts.googleapis.com/css?family=Roboto:300);
+
+        /*Calling our web font*/
+
+        /* Some resets and issue fixes */
+
+        #outlook a { padding: 0; }
+
+        body {
+            width: 100% !important;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .ReadMsgBody { width: 100%; }
+
+        .ExternalClass { width: 100%; }
+
+        .backgroundTable {
+            margin: 0 auto;
+            padding: 0;
+            width: 100% !important;
+        }
+
+        table td { border-collapse: collapse; }
+
+        .ExternalClass * { line-height: 115%; }
+
+        /* End reset */
+
+        /* Display block allows us to stack elements */
+
+        *[class="mobile-column"] { display: block; }
+
+        /* Some more stacking elements */
+
+        *[class="mob-column"] {
+            float: none !important;
+            width: 100% !important;
+        }
+
+        /* Hide stuff */
+
+        *[class="hide"] { display: none !important; }
+
+        /* This sets elements to 100% width and fixes the height issues too, a god send */
+
+        *[class="100p"] {
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        /* For the 2x2 stack */
+
+        *[class="condensed"] {
+            padding-bottom: 40px !important;
+            display: block;
+        }
+
+        /* Centers content on mobile */
+
+        *[class="center"] {
+            text-align: center !important;
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        /* 100percent width section with 20px padding */
+
+        *[class="100pad"] {
+            width: 100% !important;
+            padding: 20px;
+        }
+
+        /* 100percent width section with 20px padding left & right */
+
+        *[class="100padleftright"] {
+            width: 100% !important;
+            padding: 0 20px 0 20px;
+        }
+
+        /* 100percent width section with 20px padding top & bottom */
+
+        *[class="100padtopbottom"] {
+            width: 100% !important;
+            padding: 20px 0px 20px 0px;
+        }
+    </style>
+
+  <!--[if (gte mso 9)|(IE)]>
+    <style type="text/css">
+            table, tr, td {
+                border-collapse: collapse;
+                border-spacing: 0;
+                mso-line-height-rule: exactly;
+                mso-margin-bottom-alt: 0;
+                mso-margin-top-alt: 0;
+                mso-table-lspace: 0pt;
+                mso-table-rspace: 0pt;
+            }
+
+            tr {
+                font-size: 0px;
+                line-height: 0px;
+                border-collapse: collapse;
+            }
+        </style>
+  <![endif]-->
+</head>
+<body style="padding: 0; margin: 0 !important;">
+<table border="0" cellpadding="0" cellspacing="0" style="margin: 0; padding: 0" width="100%">
+  <tr>
+    <td align="center" valign="top">
+      <table width="640" cellspacing="0" cellpadding="0" bgcolor="#" class="100p">
+        <tr>
+          <td bgcolor="#000" width="640" valign="top" align="center" class="100p">
+            <!-- [if gte mso 9]>
+            <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:640px;">
+            <v:fill type="tile" color="#3b464e"/>
+            <v:textbox style="mso-fit-shape-to-text:true" inset="0,0,0,0">
+            <![endif] -->
+            <div>
+              <table width="640" border="0" cellspacing="0" cellpadding="20" class="100p">
+                <tr>
+                  <td valign="top" align="center">
+                    <table border="0" cellspacing="15" cellpadding="0" width="600" class="100p"
+                           style="height: 80px !important;">
+                      <tr>
+                        <td align="center" width="100%" class="100p">
+                          <div align="center" style="font-size: 0; line-height: 0;">
+                            <img src="@logoUrl" alt="Logo" border="0" width="200"
+                                 style="display: block; max-width: 200px; font-size: 0;"/>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <!--[if gte mso 9]>
+              </v:textbox>
+              </v:rect>
+            <![endif]-->
+          </td>
+        </tr>
+      </table>
+      <table width="640" border="0" cellspacing="0" cellpadding="20" bgcolor="#ffffff" class="100p">
+        <tr>
+          <td style="font-size: 0; line-height: 0;" height="15">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="center" style="font-size: 16px; color: #848484;">
+            <font face="'Roboto', Arial, sans-serif">
+              <span style="color: #2a8e9d; font-size: 24px;">@Model.Subject</span><br/>
+              <br/>
+              <span style="font-size: 18px; color: #000;">@Html.Raw(Model.Content)</span>
+            </font>
+          </td>
+        </tr>
+        <tr>
+          <td style="font-size: 0; line-height: 0; border-bottom: 0.5px solid #d2d2d2;" height="30">&nbsp;</td>
+        </tr>
+      </table>
+      <table width="640" border="0" cellspacing="0" cellpadding="20" bgcolor="#fff" class="100p" valign="middle" style="width: 95% !important;">
+        <tr>
+          <td align="center" style="font-size: 16px; color: #727f80;" width="640">
+            <font face="'Roboto', Arial, sans-serif">
+              <span style="font-size: 12px;">
+                Your ultimate profiles encryption solution
+              </span><br/>
+              <a
+                href="@PathsService.ToAbsoluteUrl("/")"
+                style="text-decoration: none;color: #727f80; font-size: 14px; padding: 5px 0 5px 0;">
+                &copy; Profiles, @DateTimeOffset.Now.Year.
+              </a>
+            </font>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

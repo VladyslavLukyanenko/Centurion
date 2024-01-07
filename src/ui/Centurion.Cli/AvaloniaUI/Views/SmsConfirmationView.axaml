@@ -1,0 +1,50 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="160"
+        xmlns:vm="using:Centurion.Cli.Core.ViewModels"
+        xmlns:controls="using:Centurion.Cli.AvaloniaUI.Controls"
+        Width="450"
+        Height="160"
+        CanResize="False"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        WindowStartupLocation="CenterScreen"
+        Background="Transparent"
+        x:Class="Centurion.Cli.AvaloniaUI.Views.SmsConfirmationView"
+        Title="SmsConfirmationView">
+
+  <Design.DataContext>
+    <vm:SmsConfirmationViewModel />
+  </Design.DataContext>
+
+  <controls:ApplicationWindow Padding="30 0" ShowTitleBarDecorations="True">
+    <controls:ApplicationWindow.TitleBarAppIcon>
+      <TextBlock Text="{Binding DisplayTaskId, StringFormat={}#{0}}" />
+    </controls:ApplicationWindow.TitleBarAppIcon>
+    <controls:ApplicationWindow.TitleBarContent>
+      <TextBlock Text="{Binding PhoneNumber}" />
+    </controls:ApplicationWindow.TitleBarContent>
+
+    <controls:ApplicationWindow.Content>
+      <StackPanel Spacing="5">
+        <Label Target="SmsCode" Content="Please enter code from SMS:" />
+        <TextBox
+          Name="SmsCode"
+          Watermark="Enter SMS code here"
+          Text="{Binding Code}" />
+
+        <StackPanel
+          Orientation="Horizontal"
+          HorizontalAlignment="Right"
+          Spacing="5"
+          Margin="0 10 0 0">
+          <Button Classes="LinkButton BtnDanger" Content="Cancel" Command="{Binding CancelCommand}" />
+          <Button Classes="RegularButton" Content="Confirm" Command="{Binding ConfirmCommand}" />
+        </StackPanel>
+      </StackPanel>
+    </controls:ApplicationWindow.Content>
+  </controls:ApplicationWindow>
+</Window>

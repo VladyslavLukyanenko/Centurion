@@ -1,0 +1,7 @@
+<div
+  *ngFor="let item of items"
+  class="HorizontalBar-item item-left"
+  [ngStyle]="{width: item[itemWidthKey], background: item[itemColorKey]}"
+>
+  <div class="HorizontalBar-label">{{ item[itemLabelKey] }}</div>
+</div>

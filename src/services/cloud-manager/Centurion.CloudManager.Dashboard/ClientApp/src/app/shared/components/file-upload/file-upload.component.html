@@ -1,0 +1,23 @@
+<div (click)="fileInput.click()" class="FileUploader">
+  <label class="FileUploader-btn">
+    <span class="FileUploader-btnText">
+      {{uploadBtnText | translate}}
+    </span>
+    <i nz-icon nzType="upload" class="FileUploader-btnIcon"></i>
+  </label>
+  <input
+    #fileInput
+    (change)="handleFileSelected($event)"
+    [accept]="supportedFileTypes"
+    class="FileUploader-file"
+    type="file">
+  <small class="FileUploader-fileName">
+    <ng-container *ngIf="displayFileName; else noFileSelectedMessageTmpl">
+      {{displayFileName}}
+    </ng-container>
+  </small>
+</div>
+
+<ng-template #noFileSelectedMessageTmpl>
+  {{"fileUploader.nothingSelected" | translate}}
+</ng-template>

@@ -1,0 +1,41 @@
+﻿syntax = "proto3";
+
+package checkout;
+
+import "google/protobuf/duration.proto";
+import "module.proto";
+
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/checkout/fakeshop";
+option csharp_namespace = "Centurion.Contracts.Checkout.FakeShop";
+option java_package = "gg.centurion.checkout.fakeshop";
+
+message FakeShopConfig {
+  option (centurion_module) = FAKE_SHOP;
+  option (centurion_module_display_name) = "Fake Shop";
+  option (centurion_version) = "20211227";
+
+  optional bool should_always_succeed = 1;
+  optional bool should_loop_forever = 2;
+  optional bool requires_sms_confirmation = 4;
+  optional google.protobuf.Duration delay = 5;
+
+  oneof mode {
+    option (centurion_module_modes) = true;
+
+    FakeShopFastConfig fast = 6;
+  }
+}
+
+message FakeShopFastConfig {
+  option (centurion_checkout_mode) = "Fast";
+  string additional_flags = 1;
+}
+
+enum FakeShopSize {
+  option (centurion_allowed_values_definition) = true;
+
+  FAKE_SHOP_SIZE_RANDOM = 0 [(centurion_allowed_value) = {discard_others: true, id: "RANDOM", display_name: "RANDOM"}];
+  FAKE_SHOP_SIZE_4 = 1 [(centurion_allowed_value) = {id: "4", display_name: "530"}];
+  FAKE_SHOP_SIZE_4_5 = 2 [(centurion_allowed_value) = {id: "4.5", display_name: "535"}];
+}
+

@@ -1,0 +1,88 @@
+<app-logo class="Toolbar-logo"></app-logo>
+<div class="Toolbar-sidebarToggle">
+  <button
+    (click)="sidebarOpenedChange.emit(!sidebarOpened)"
+    class="ButtonIcon"
+  >
+    <i class="pi pi-bars"></i>
+  </button>
+</div>
+<form
+  *appPermission="{all: [appPermissions.LicenseKeysManage, appPermissions.ReleaseManage]}"
+  class="GlobalSearch Toolbar-globalSearch"
+>
+  <button class="GlobalSearch-submitSearch"></button>
+  <input
+    #searchInput
+    (input)="setSearchTerm($event, searchInput.value, autosuggestionPanel)"
+    [ngModel]="globalSearchDataSource.searchTerm$ | async"
+    [ngModelOptions]="{standalone: true}"
+    type="text"
+    placeholder="Search for users, licenses, tickets, and more..."
+    class="GlobalSearch-input">
+</form>
+<ul class="ToolboxButtons Toolbar-buttons">
+  <li class="ToolboxButtons-item">
+    <button [routerLink]="productPageRoute" routerLinkActive="is-active" class="ToolboxButtons-button has-text">
+<!--      <i class="pi pi-home" style="color: #1C48FE"></i>-->
+      Product
+    </button>
+  </li>
+  <li class="ToolboxButtons-item">
+    <button class="ToolboxButtons-button has-badge">
+      <img src="../../../assets/icons/notifications.svg" alt="Notifications button" class="ToolboxButtons-icon">
+    </button>
+  </li>
+  <li class="ToolboxButtons-item">
+    <button (click)="logOut()" class="ToolboxButtons-button">
+      <i class="pi pi-sign-out" style="color: #1C48FE"></i>
+    </button>
+  </li>
+</ul>
+
+<div style="position: absolute;">
+  <p-overlayPanel
+    #autosuggestionPanel
+    appendTo="body"
+    [dismissable]="true"
+    class="GlobalSearchResults-panel"
+    styleClass="GlobalSearchResults-panel"
+  >
+    <div class="GlobalSearchResults-wrap" style="position: fixed;top: 0;left: 0; background: #fff; z-index: 2;">
+      <div *ngIf="globalSearchDataSource.isLoading$ | async" class="GlobalSearchResults-spinner">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+      <cdk-virtual-scroll-viewport
+        [minBufferPx]="500"
+        [maxBufferPx]="1000"
+        itemSize="55"
+        style="height: 300px; width: 100%;"
+      >
+        <ul class="GlobalSearchResults">
+          <ng-container *cdkVirtualFor="let r of globalSearchDataSource;let idx = index">
+            <li *ngIf="globalSearchDataSource.isFirstChildAt(idx)" class="GlobalSearchResults-item">
+              <h4 class="GlobalSearchResults-groupTitle">{{getGroupLabelFor(r)}}</h4>
+            </li>
+            <li (click)="autosuggestionPanel.hide();navigateToItemPage(r)" class="GlobalSearchResults-item">
+              <div class="GlobalSearchResults-result">
+            <span class="GlobalSearchResults-resultTitle">
+              <ng-container *ngIf="r;else loadingSkeleton">{{r.title}}</ng-container>
+            </span>
+                <span class="GlobalSearchResults-resultDesc">
+            <ng-container *ngIf="r;else loadingSkeleton">{{getFormattedDetails(r)}}</ng-container>
+          </span>
+              </div>
+            </li>
+          </ng-container>
+
+          <li *ngIf="globalSearchDataSource.noData$ | async" class="GlobalSearchResults-item">
+            <div class="NoDataAlert">Nothing found</div>
+          </li>
+        </ul>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  </p-overlayPanel>
+</div>
+<ng-template #loadingSkeleton>
+  <p-skeleton width="100%"></p-skeleton>
+</ng-template>

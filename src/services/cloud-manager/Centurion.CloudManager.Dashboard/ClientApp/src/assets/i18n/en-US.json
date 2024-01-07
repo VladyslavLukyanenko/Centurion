@@ -1,0 +1,43 @@
+{
+  "account": {
+    "loginForm": {
+      "username": "User name",
+      "password": "Password",
+      "submitBtn": "Login"
+    }
+  },
+  "admin": {
+    "title": "Admin panel",
+    "dashboard": {
+      "title": "Dashboard"
+    },
+    "component-stats": {
+      "title": "Component Stats"
+    },
+    "serverImages": {
+      "title": "Images"
+    }
+  },
+  "core": {
+    "layout": {
+      "logOut": "Log out"
+    }
+  },
+  "fileUploader": {
+    "nothingSelected": "Nothing selected",
+    "btnText": "Select file"
+  },
+  "commonMessages": {
+    "created": "Created successfully",
+    "removed": "Removed successfully",
+    "updated": "Updated successfully",
+    "done": "Operation completed successfully",
+    "failed": "An error occurred. Please try again later and contact support if this repeats."
+  },
+  "primitives": {
+    "boolean": {
+      "true": "Yes",
+      "false": "No"
+    }
+  }
+}

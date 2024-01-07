@@ -1,0 +1,224 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+        xmlns:converters="clr-namespace:Centurion.Cli.AvaloniaUI.Converters">
+
+
+  <Design.PreviewWith>
+    <Border Padding="20" Background="#050A2A" Height="790">
+      <Border.Resources>
+        <StreamGeometry x:Key="CheckedOutCountIcon">M1.85724 6.5236C1.82397 6.58889 1.82397 6.67436 1.82397 6.84529V9.53112C1.82397 10.5567 1.82397 11.0695 2.02357 11.4612C2.19914 11.8058 2.47928 12.086 2.82385 12.2615C3.21558 12.4611 3.72838 12.4611 4.75397 12.4611H8.05022C8.22116 12.4611 8.30662 12.4611 8.37191 12.4279C8.42934 12.3986 8.47603 12.3519 8.50529 12.2945C8.53856 12.2292 8.53856 12.1437 8.53856 11.9728V11.8507C8.53856 9.82796 10.1783 8.18821 12.2011 8.18821H13.544C13.7149 8.18821 13.8004 8.18821 13.8657 8.15494C13.9231 8.12568 13.9698 8.07899 13.999 8.02156C14.0323 7.95627 14.0323 7.87081 14.0323 7.69987V6.84529C14.0323 6.67436 14.0323 6.58889 13.999 6.5236C13.9698 6.46618 13.9231 6.41948 13.8657 6.39022C13.8004 6.35696 13.7149 6.35696 13.544 6.35696H2.31231C2.14138 6.35696 2.05591 6.35696 1.99062 6.39022C1.93319 6.41948 1.8865 6.46618 1.85724 6.5236ZM4.26564 9.40904C4.26564 9.07192 4.53893 8.79862 4.87606 8.79862H7.31773C7.65485 8.79862 7.92814 9.07192 7.92814 9.40904C7.92814 9.74616 7.65485 10.0195 7.31773 10.0195H4.87606C4.53893 10.0195 4.26564 9.74616 4.26564 9.40904ZM1.9908 5.10105C2.0575 5.13612 2.14392 5.13612 2.31675 5.13612H13.5395C13.7124 5.13612 13.7988 5.13612 13.8655 5.10105C13.9228 5.07091 13.9718 5.01976 13.9994 4.96122C14.0316 4.89307 14.028 4.81018 14.0209 4.6444C14.0026 4.22142 13.9554 3.93503 13.8327 3.69434C13.6571 3.34977 13.377 3.06962 13.0324 2.89405C12.6407 2.69446 12.1279 2.69446 11.1023 2.69446H4.75397C3.72838 2.69446 3.21558 2.69446 2.82385 2.89405C2.47928 3.06962 2.19914 3.34977 2.02357 3.69434C1.90093 3.93503 1.85365 4.22142 1.83542 4.6444C1.82827 4.81018 1.8247 4.89307 1.85687 4.96122C1.88451 5.01976 1.9335 5.07091 1.9908 5.10105ZM14.4638 10.1982C14.7022 10.4366 14.7022 10.8231 14.4638 11.0615L12.0222 13.5032C11.7838 13.7415 11.3973 13.7415 11.1589 13.5032L9.93806 12.2823C9.69968 12.044 9.69968 11.6575 9.93806 11.4191C10.1764 11.1807 10.5629 11.1807 10.8013 11.4191L11.5905 12.2083L13.6006 10.1982C13.8389 9.95986 14.2254 9.95986 14.4638 10.1982Z</StreamGeometry>
+        <StreamGeometry x:Key="DeclineCountIcon">M10.8707 10.1982C11.1091 9.95986 11.4956 9.95986 11.7339 10.1982L12.5231 10.9874L13.3123 10.1982C13.5507 9.95986 13.9372 9.95986 14.1756 10.1982C14.414 10.4366 14.414 10.8231 14.1756 11.0615L13.3864 11.8507L14.1756 12.6399C14.414 12.8783 14.414 13.2648 14.1756 13.5032C13.9372 13.7416 13.5507 13.7416 13.3123 13.5032L12.5231 12.714L11.7339 13.5032C11.4956 13.7416 11.1091 13.7416 10.8707 13.5032C10.6323 13.2648 10.6323 12.8783 10.8707 12.6399L11.6599 11.8507L10.8707 11.0615C10.6323 10.8231 10.6323 10.4366 10.8707 10.1982ZM2.31282 5.10105C2.37953 5.13612 2.46594 5.13612 2.63877 5.13612H13.8616C14.0344 5.13612 14.1208 5.13612 14.1875 5.10105C14.2448 5.07091 14.2938 5.01976 14.3214 4.96122C14.3536 4.89307 14.35 4.81018 14.3429 4.6444C14.3247 4.22142 14.2774 3.93503 14.1547 3.69434C13.9792 3.34977 13.699 3.06962 13.3545 2.89405C12.9627 2.69446 12.4499 2.69446 11.4243 2.69446H5.076C4.0504 2.69446 3.5376 2.69446 3.14588 2.89405C2.8013 3.06962 2.52116 3.34977 2.34559 3.69434C2.22295 3.93503 2.17567 4.22142 2.15744 4.6444C2.15029 4.81018 2.14672 4.89307 2.17889 4.96122C2.20653 5.01976 2.25552 5.07091 2.31282 5.10105ZM2.17926 6.5236C2.146 6.58889 2.146 6.67436 2.146 6.84529V9.53113C2.146 10.5567 2.146 11.0695 2.34559 11.4612C2.52116 11.8058 2.8013 12.086 3.14588 12.2615C3.5376 12.4611 4.0504 12.4611 5.076 12.4611H8.37225C8.54318 12.4611 8.62865 12.4611 8.69393 12.4279C8.75136 12.3986 8.79805 12.3519 8.82731 12.2945C8.86058 12.2292 8.86058 12.1437 8.86058 11.9728V11.8507C8.86058 9.82797 10.5003 8.18821 12.5231 8.18821H13.866C14.0369 8.18821 14.1224 8.18821 14.1877 8.15494C14.2451 8.12568 14.2918 8.07899 14.3211 8.02156C14.3543 7.95627 14.3543 7.87081 14.3543 7.69987V6.84529C14.3543 6.67436 14.3543 6.58889 14.3211 6.5236C14.2918 6.46618 14.2451 6.41949 14.1877 6.39022C14.1224 6.35696 14.0369 6.35696 13.866 6.35696H2.63433C2.4634 6.35696 2.37793 6.35696 2.31264 6.39022C2.25521 6.41949 2.20852 6.46618 2.17926 6.5236ZM4.58766 9.40904C4.58766 9.07192 4.86096 8.79862 5.19808 8.79862H7.63975C7.97687 8.79862 8.25016 9.07192 8.25016 9.40904C8.25016 9.74617 7.97687 10.0195 7.63975 10.0195H5.19808C4.86096 10.0195 4.58766 9.74617 4.58766 9.40904Z</StreamGeometry>
+        <StreamGeometry x:Key="CartedCountIcon">M7.63649 11.6646C7.63649 12.3388 7.08991 12.8854 6.41566 12.8854C5.74141 12.8854 5.19482 12.3388 5.19482 11.6646C5.19482 10.9903 5.74141 10.4438 6.41566 10.4438C7.08991 10.4438 7.63649 10.9903 7.63649 11.6646ZM12.5198 11.6646C12.5198 12.3388 11.9732 12.8854 11.299 12.8854C10.6247 12.8854 10.0782 12.3388 10.0782 11.6646C10.0782 10.9903 10.6247 10.4438 11.299 10.4438C11.9732 10.4438 12.5198 10.9903 12.5198 11.6646ZM3.36359 1.89792C3.02647 1.89792 2.75317 2.17121 2.75317 2.50834C2.75317 2.84546 3.02647 3.11875 3.36359 3.11875H3.58358C3.87455 3.11875 4.12508 3.32413 4.18214 3.60946L5.10855 8.24151C5.22268 8.81216 5.72373 9.22292 6.30568 9.22292H11.7297C12.2976 9.22292 12.7905 8.83134 12.9189 8.27815L13.7143 4.85184C13.8476 4.27779 13.4117 3.72917 12.8224 3.72917H5.4511L5.37927 3.37003C5.20807 2.51406 4.4565 1.89792 3.58358 1.89792H3.36359Z</StreamGeometry>
+      </Border.Resources>
+      <Border.Styles>
+        <Style Selector="Path.GroupStatusIcon">
+          <Setter Property="VerticalAlignment" Value="Top" />
+          <Setter Property="Height" Value="9" />
+          <Setter Property="Margin" Value="0 3 0 0" />
+          <Setter Property="Fill" Value="#6B78A5" />
+        </Style>
+        <Style Selector="TextBlock.GroupStatusLabel">
+          <Setter Property="Foreground" Value="#6B78A5" />
+          <Setter Property="FontSize" Value="11" />
+          <Setter Property="Margin" Value="4 0 12 0" />
+          <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+      </Border.Styles>
+      <controls:TileListBox Background="Transparent" Width="350">
+        <ListBox.Items>
+          <controls:TileListBoxItem>
+            <Border Padding="24 " VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+              <Grid RowDefinitions="*, 20, 22">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                  <Border
+                    Background="#1A245F"
+                    CornerRadius="5"
+                    Height="38"
+                    Width="38"
+                    Padding="6 8"
+                    Margin="0 0 23 0">
+                    
+                    <Border
+                      Background="#28E4C983"
+                      CornerRadius="2" />
+                  </Border>
+
+                  <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="#6B78A5"
+                    FontSize="11"
+                    Text="500 Tasks" />
+                </StackPanel>
+
+                <TextBlock
+                  Grid.Row="1"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  FontSize="13"
+                  Foreground="#fff"
+                  Text="Amazon" />
+
+                <Ellipse
+                  Fill="#465CE3"
+                  IsVisible="{Binding $parent[ListBoxItem].IsSelected}"
+                  Grid.Row="1"
+                  Margin="-12 0 0 0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Width="4"
+                  Height="4" />
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                  <!-- #E4C983 -->
+                  <Path Classes="GroupStatusIcon" Data="{StaticResource CheckedOutCountIcon}"
+                        Fill="{DynamicResource GoldGradientBrush}" />
+                  <TextBlock Text="56" Foreground="{DynamicResource GoldGradientBrush}" Classes="GroupStatusLabel" />
+                  <Path Classes="GroupStatusIcon" Data="{StaticResource DeclineCountIcon}" />
+                  <TextBlock Text="2" Classes="GroupStatusLabel" />
+                  <Path Classes="GroupStatusIcon" Data="{StaticResource CartedCountIcon}" />
+                  <TextBlock Text="2" Classes="GroupStatusLabel" />
+                </StackPanel>
+              </Grid>
+            </Border>
+          </controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item2</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item3</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item4</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item5</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item6</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item7</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item8</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item9</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item10</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item11</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item12</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item13</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item14</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item15</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item16</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item17</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item18</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item19</controls:TileListBoxItem>
+          <controls:TileListBoxItem>Item20</controls:TileListBoxItem>
+        </ListBox.Items>
+      </controls:TileListBox>
+    </Border>
+  </Design.PreviewWith>
+  <Style Selector="controls|TileListBox ListBoxItem">
+  </Style>
+  <Style Selector="ListBox.GroupList ListBoxItem:pointerover">
+  </Style>
+  <Style Selector="ListBox.GroupList ListBoxItem:selected">
+  </Style>
+
+
+  <Style Selector="controls|TileListBox">
+    <Setter Property="TextBlock.Foreground" Value="#A9B5E0" />
+    <Setter Property="Background" Value="#01000000" />
+    <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource ListBoxBorderThemeThickness}" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+    <Setter Property="FontSize" Value="11" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="ItemsPanel">
+      <Setter.Value>
+        <ItemsPanelTemplate>
+          <WrapPanel Width="{Binding $parent[ListBox].Bounds.Width}" />
+        </ItemsPanelTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <ScrollViewer Name="PART_ScrollViewer"
+                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                        AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}">
+            <!-- <controls:ScrollPropagatingStackPanel> -->
+            <ItemsPresenter
+              Name="PART_ItemsPresenter"
+              Items="{TemplateBinding Items}"
+              ItemsPanel="{TemplateBinding ItemsPanel}"
+              ItemTemplate="{TemplateBinding ItemTemplate}"
+              Margin="{TemplateBinding Padding}"
+              VirtualizationMode="{TemplateBinding VirtualizationMode}" />
+            <!-- <TextBlock Foreground="#6B78A5" Margin="0, 22, 0, 0" Grid.Row="1" HorizontalAlignment="Center"> -->
+            <!-- You’ve reached the end of the list -->
+            <!-- </TextBlock> -->
+            <!-- </controls:ScrollPropagatingStackPanel> -->
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|TileListBoxItem">
+    <Setter Property="Width"
+            Value="{Binding $parent[ListBox].Bounds.Width, Converter={x:Static converters:HalfOfValueConverter.Instance} }" />
+    <Setter Property="Height" Value="{Binding $self.Width}" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Background" Value="#01000000" />
+    <Setter Property="BorderBrush" Value="#141E5A" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <BrushTransition Property="Background" Duration="0:0:.15" />
+        <BrushTransition Property="Foreground" Duration="0:0:.15" />
+      </Transitions>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter
+          Name="PART_ContentPresenter"
+          Background="{TemplateBinding Background}"
+          BorderBrush="{TemplateBinding BorderBrush}"
+          BorderThickness="{TemplateBinding BorderThickness}"
+          CornerRadius="{TemplateBinding CornerRadius}"
+          ContentTemplate="{TemplateBinding ContentTemplate}"
+          Content="{TemplateBinding Content}"
+          Padding="{TemplateBinding Padding}"
+          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="controls|TileListBoxItem">
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="BorderThickness" Value="0 0 0 1" />
+    <!-- <Setter Property="Classes.IsOdd" Value="{Binding Index, " /> -->
+  </Style>
+  <Style Selector="controls|TileListBoxItem:odd">
+    <Setter Property="BorderThickness" Value="0 0 1 1" />
+    <!-- <Setter Property="Background" Value="#107777FF" /> -->
+    <!-- <Setter Property="Classes.IsOdd" Value="{Binding Index, " /> -->
+  </Style>
+
+  <!--  Disabled State  -->
+  <Style Selector="controls|TileListBoxItem:disabled">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+  </Style>
+
+  <!--  PointerOver State  -->
+  <Style Selector="controls|TileListBoxItem:pointerover">
+    <Setter Property="Background" Value="#440C1343" />
+  </Style>
+
+  <!--  Pressed State  -->
+  <Style Selector="ListBoxItem:pressed">
+    <Setter Property="Background" Value="#880C1343" />
+  </Style>
+
+  <!--  Selected State  -->
+  <Style Selector="controls|TileListBoxItem:selected">
+    <Setter Property="Background" Value="#0C1343" />
+  </Style>
+
+</Styles>

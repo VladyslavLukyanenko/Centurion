@@ -1,0 +1,113 @@
+<header class="Page-header Purchases-header">
+  <h1 class="Page-title">
+    Purchased Keys
+  </h1>
+  <div class="Purchases-filterControls">
+    <button
+      (click)="isBindDialogVisible$.next(true)"
+      type="button"
+      class="CreateBtn"
+    ></button>
+    <button (click)="openBillingPortal()" [disabled]="!billingPortalUrl$.value" class="ActionButton">
+      Open Billing Portal
+    </button>
+  </div>
+</header>
+
+
+<div class="Purchases-content Page-content">
+  <div class="AppTable-wrap PurchasesGrid-wrap">
+    <cdk-virtual-scroll-viewport itemSize="44" style="height: 100%;">
+      <table class="AppTable PurchasesGrid">
+        <thead>
+        <tr class="AppTable-headerRow">
+          <th class="AppTable-headerCell PurchasesGrid-idCell">ID</th>
+          <th class="AppTable-headerCell PurchasesGrid-keyCell">Key</th>
+          <th class="AppTable-headerCell PurchasesGrid-typeCell">Type</th>
+          <th class="AppTable-headerCell PurchasesGrid-expiryCell">Last used</th>
+          <th class="AppTable-headerCell PurchasesGrid-expiryCell">Expiry</th>
+          <th class="AppTable-headerCell PurchasesGrid-actionsCell">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *cdkVirtualFor="let l of licenseKeys$ | async; trackBy: trackById"
+          class="PurchasesGrid-dataRow"
+          [class.is-deactivated]="isDeactivated(l)"
+        >
+          <ng-container *ngIf="l">
+            <td class="AppTable-dataCell">#{{ l.id }}</td>
+            <td class="AppTable-dataCell PurchasesGrid-keyCell">
+              {{ l.value }}
+
+              <span *ngIf="isDeactivated(l)" class="Badge is-inline">
+                <ng-container *ngIf="l.isExpired">Expired</ng-container>
+                <ng-container *ngIf="l.isSubscriptionCancelled">Cancelled</ng-container>
+              </span>
+            </td>
+            <td class="AppTable-dataCell">{{ l.planDesc }}</td>
+            <td class="AppTable-dataCell">
+              <ng-container *ngIf="l.lastAuthRequest">
+                {{ formatDate(l.lastAuthRequest) }}
+              </ng-container>
+              <small style="font-size: .8em;" *ngIf="!l.lastAuthRequest">
+                &lt;Not used yet&gt;
+              </small>
+
+            </td>
+            <td class="AppTable-dataCell">
+              {{ formatDate(l.expiry) }}
+              <small style="font-size: .8em;" *ngIf="!l.expiry">&lt;Lifetime&gt;</small>
+            </td>
+            <td class="AppTable-dataCell PurchasesGrid-actionsDataCell">
+              <ng-container *ngIf="!isDeactivated(l)">
+                <button (click)="resetSession(l.value)" [disabled]="!l.hasActiveSession" class="ActionButton is-primary"
+                        type="button">
+                  Reset
+                </button>
+                <button (click)="unbindLicenseKey$.next(l.value)" [disabled]="!l.isUnbindable"
+                        class="ActionButton is-danger" type="button">
+                  Unbind
+                </button>
+              </ng-container>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!l">
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+          </ng-container>
+        </tr>
+        </tbody>
+      </table>
+      <div *ngIf="noData$ | async" class="AppTable-noData">No licenses found</div>
+    </cdk-virtual-scroll-viewport>
+    <p-progressSpinner *ngIf="asyncTracker.isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+
+  </div>
+</div>
+
+<app-bind-license-key-dialog
+  (isVisibleChange)="isBindDialogVisible$.next($event)"
+  (bound)="refreshData()"
+  [isVisible]="isBindDialogVisible$ | async"
+></app-bind-license-key-dialog>
+
+<app-unbind-license-key-dialog
+  (isVisibleChange)="!$event && unbindLicenseKey$.next(null)"
+  (unbound)="refreshData()"
+  [licenseKey]="unbindLicenseKey$ | async"
+  [isVisible]="!!(unbindLicenseKey$ | async)"
+></app-unbind-license-key-dialog>

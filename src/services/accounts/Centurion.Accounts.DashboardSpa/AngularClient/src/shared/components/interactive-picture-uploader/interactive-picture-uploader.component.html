@@ -1,0 +1,26 @@
+<div class="InteractivePictureUploader-uploadBtn" [class.has-no-pic]="!hasImage">
+  <img
+    *ngIf="((changedPic$ | async) || source) as pic"
+    [src]="pic"
+    class="InteractivePictureUploader-pic">
+  <span class="InteractivePictureUploader-label">{{label}}</span>
+  <a
+    (click)="$event.preventDefault()"
+    (fileSelected)="cropDialogData$.next($event.content)"
+    appFileUpload
+    href="javascript:void 0"
+    class="InteractivePictureUploader-editBtn"
+  >
+    {{editText}}
+  </a>
+</div>
+
+
+<app-image-crop-dialog
+  *ngIf="cropDialogData$ | async as data"
+  (isVisibleChange)="cropDialogData$.next(null)"
+  (cropped)="saveCropChanges($event)"
+  [isVisible]="!!data"
+  [aspectRatio]="aspectRatio"
+  [cropImageUrl]="data"
+></app-image-crop-dialog>

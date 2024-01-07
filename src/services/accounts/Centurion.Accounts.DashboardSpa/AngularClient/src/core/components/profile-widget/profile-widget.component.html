@@ -1,0 +1,15 @@
+<ng-container *ngIf="user | async as user">
+  <div class="ProfileWidget-logoContainer">
+    <div class="ProfileWidget-pic">
+      <img [src]="user.avatar || 'assets/no-user-picture.svg'" [alt]="user.name" class="ProfileWidget-img">
+    </div>
+  </div>
+  <div class="ProfileWidget-username">
+    {{ user.name }}#{{ user.discriminator }}
+  </div>
+  <div class="ProfileWidget-roles">
+      <span class="ProfileWidget-role" *ngFor="let role of user.roleNames">
+        {{ role }}
+      </span>
+  </div>
+</ng-container>

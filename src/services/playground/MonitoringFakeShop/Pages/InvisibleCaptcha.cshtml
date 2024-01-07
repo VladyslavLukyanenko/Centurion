@@ -1,0 +1,33 @@
+﻿@page
+@model MonitoringFakeShop.Pages.InvisibleCaptcha
+
+<h1>Token: <span id="token"></span></h1>
+
+<script>
+  var onSubmit = function(token) {
+    document.getElementById("token").innerHTML = token;
+  };
+
+  var onloadCallback = function() {
+    grecaptcha.render('submit', {
+      'sitekey' : '6LfRyHoeAAAAAE67-ebbI711AbWQoDxguNi7snsL',
+      'callback' : onSubmit
+    });
+  };
+</script>
+<form action="?" method="POST">
+  <input id='submit' type="submit" value="Submit">
+</form>
+<script
+  src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+  async
+  defer></script>
+
+@* <script src="https://www.google.com/recaptcha/enterprise.js?render=6LfRyHoeAAAAAE67-ebbI711AbWQoDxguNi7snsL"></script> *@
+@* <script> *@
+@*   grecaptcha.enterprise.ready(function() {{ *@
+@*     grecaptcha.enterprise.execute('{sitekey}', {action: 'test'}).then(function(token) {{ *@
+@*         console.log(token); *@
+@*     }}); *@
+@*   }}); *@
+@* </script> *@

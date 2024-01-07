@@ -1,0 +1,64 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+        xmlns:converters="clr-namespace:Centurion.Cli.AvaloniaUI.Converters">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <controls:TaskGroupStatusBreakdown Width="700" />
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="controls|TaskGroupStatusBreakdown">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <ItemsControl
+            Items="{TemplateBinding Breakdowns}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <controls:UniformGridEx
+                  Spacing="17"
+                  Columns="{Binding $parent[controls:TaskGroupStatusBreakdown].Breakdowns.Count}" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="controls:TaskStageBreakdown">
+                <StackPanel Spacing="7">
+                  <TextBlock
+                    Foreground="#A9B5E0"
+                    FontSize="11"
+                    FontWeight="Bold"
+                    Text="{Binding Title}" />
+
+                  <ItemsControl
+                    Items="{Binding Lines}">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <StackPanel Spacing="2" />
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="controls:TaskStatusSummaryLine">
+                        <Border CornerRadius="4" Background="#0C1343" Padding="8 5">
+                          <DockPanel>
+                            <TextBlock Foreground="#6B78A5" FontSize="11" Text="{Binding Count}" DockPanel.Dock="Right" />
+                            <TextBlock
+                              FontWeight="Bold"
+                              FontSize="11"
+                              Foreground="{Binding Progress, Converter={x:Static converters:TaskStatusColorConverter.Instance}}"
+                              Text="{Binding Title}"
+                              DockPanel.Dock="Left" />
+                          </DockPanel>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

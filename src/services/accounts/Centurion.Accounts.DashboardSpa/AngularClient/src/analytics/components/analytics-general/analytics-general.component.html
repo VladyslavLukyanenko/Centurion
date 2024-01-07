@@ -1,0 +1,155 @@
+<header class="Page-header">
+  <h1 class="Page-title">Analytics</h1>
+
+  <p-accordion [style]="{width: '100%', 'margin-top': '10px'}" class="d-block d-md-none">
+    <p-accordionTab header="Filters">
+      <ng-container *ngTemplateOutlet="filters"></ng-container>
+    </p-accordionTab>
+  </p-accordion>
+  <ng-container *ngTemplateOutlet="filters; context: {$implicit: 'd-none d-md-block'}"></ng-container>
+</header>
+
+
+<div class="Page-content">
+  <nav class="LightweightTabs">
+    <ul class="LightweightTabs-list">
+      <ng-container *ngFor="let tab of tabs">
+        <li *appPermission="tab.permission" class="LightweightTabs-tab">
+          <a [routerLink]="tab.route" routerLinkActive="is-active" class="LightweightTabs-link">{{ tab.title }}</a>
+        </li>
+      </ng-container>
+    </ul>
+  </nav>
+
+  <div class="Analytics-content">
+    <div class="row">
+      <div class="col-xl-3 col-lg-6 col-12 d-flex align-items-stretch">
+        <app-card
+          *ngIf="totalRevenue$ | async as totalRevenue"
+          class="StatsCard"
+          title="Total revenue"
+          [footer]="getFooterCardLabel('$' + totalRevenue.previous)"
+        >
+          <app-stats-entry
+            [value]="'$' + totalRevenue.current"
+            [percents]="totalRevenue.changePercents"
+          ></app-stats-entry>
+        </app-card>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-12 d-flex align-items-stretch">
+        <app-card
+          *ngIf="totalUsers$ | async as totalUsers"
+          class="StatsCard"
+          title="Total users"
+          [footer]="getFooterCardLabel(totalUsers.previous + ' total users')"
+        >
+          <app-stats-entry
+            [value]="totalUsers.current"
+            [percents]="totalUsers.changePercents"
+          ></app-stats-entry>
+        </app-card>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-12 d-flex align-items-stretch">
+        <app-card
+          *ngIf="keysSold$ | async as keysSold"
+          class="StatsCard"
+          title="Keys Sold"
+          [footer]="getFooterCardLabel(keysSold.previous.toString())"
+        >
+          <app-stats-entry
+            [value]="keysSold.current"
+            [percents]="keysSold.changePercents"
+          ></app-stats-entry>
+        </app-card>
+      </div>
+      <div class="col-xl-3 col-lg-6 col-12 d-flex align-items-stretch">
+        <app-card
+          *ngIf="retentionRate$ | async as retentionRate"
+          class="StatsCard"
+          title="Retention rate"
+          [footer]="getFooterCardLabel(retentionRate.previous.toString())"
+        >
+          <app-stats-entry
+            [value]="retentionRate.current"
+            [percents]="retentionRate.changePercents"
+          ></app-stats-entry>
+        </app-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-9 col-lg-6">
+        <app-card class="StatsCard" title="Monthly income" style="margin-bottom: 0;">
+          <app-chart-legend
+            card-title
+            [items]="incomesLegend"
+            itemColorKey="color"
+            itemLabelKey="label"
+          ></app-chart-legend>
+          <echarts
+            [autoResize]="true"
+            [options]="incomeOptions$ | async"
+            style="width: 100%;height: 330px"
+          ></echarts>
+        </app-card>
+      </div>
+      <div class="col-xl-3 col-lg-6">
+        <div class="row">
+          <div class="col-12">
+            <app-card
+              *ngIf="liveViewsCount$ | async as avgLiveViews"
+              class="StatsCard"
+              title="Average Live View"
+              [footer]="getFooterCardLabel(avgLiveViews.previous.toString())"
+            >
+              <app-stats-entry
+                [value]="avgLiveViews.current"
+                [percents]="avgLiveViews.changePercents"
+              ></app-stats-entry>
+              <app-horizontal-bar
+                card-footer
+                [items]="avgLiveViews$ | async"
+                itemLabelKey="label"
+                itemColorKey="color"
+                itemWidthKey="width"
+              ></app-horizontal-bar>
+            </app-card>
+          </div>
+          <div class="col-12">
+            <app-card
+              *ngIf="visitorsCount$ | async as vcount"
+              class="StatsCard"
+              title="Visitors"
+              style="margin-bottom: 0;"
+            >
+              <app-stats-entry
+                [value]="vcount.current"
+                [percents]="vcount.changePercents"
+              ></app-stats-entry>
+              <span style="color: #B6B6B6; font-size: 13px;">
+              {{getFooterCardLabel(vcount.previous.toString())}}
+            </span>
+
+              <echarts
+                [autoResize]="true"
+                [options]="visitorsOptions$ | async"
+                style="width: 100%;height: 70px"
+              ></echarts>
+            </app-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<ng-template #filters let-cls>
+  <app-analytics-filters
+    (startAtChange)="pushStartAt($event)"
+    (periodChange)="pushPeriod($event)"
+    [startAt]="startAt$ | async"
+    [period]="period$ | async"
+    [class]="cls"
+  ></app-analytics-filters>
+</ng-template>

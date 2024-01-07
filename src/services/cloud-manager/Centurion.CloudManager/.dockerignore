@@ -1,0 +1,12 @@
+.git/
+.idea/
+.vscode/
+logs/
+tmp/
+env/
+resources/
+!resources/deps/
+bin/
+obj/
+Properties/
+wwwroot/

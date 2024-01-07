@@ -1,0 +1,146 @@
+<ng-container *ngIf="data$ | async as data">
+
+  <header class="Page-header ReleaseManage-header">
+    <h1 class="Page-title">{{data.title}}</h1>
+  </header>
+
+  <div class="ReleaseManage-content Page-content">
+    <form [formGroup]="form" class="row Page-scrollAreaWrap">
+      <div class="col-xl-9 col-md-8 mb-3 mb-sm-0 Page-scrollAreaWrap">
+        <div class="row Page-scrollAreaWrap">
+          <div class="col-12 ReleaseManage-section ReleaseManage-scrollArea Page-scrollArea">
+            <div class="ContentSection mb-4">
+              <header class="ContentSection-header ReleaseManage-sectionTitle">
+                <h2 class="ContentSection-title">Release Information</h2>
+              </header>
+              <div class="ContentSection-content ReleaseManage-sectionContent">
+                <div class="row AppForm-row no-gutters">
+                  <div class="col-6 AppForm-col">
+                    <div class="AppForm-field p-field LabeledItem">
+                      <label class="LabeledItem-title">Stock</label>
+                      <input formControlName="initialStock" class="AppForm-control" placeholder="Stock">
+                      <app-field-error-required [control]="form.initialStockCtrl"></app-field-error-required>
+                    </div>
+                  </div>
+                  <div class="col-6 AppForm-col">
+                    <div class="AppForm-field p-field LabeledItem">
+                      <label class="LabeledItem-title">Password</label>
+                      <input formControlName="password" class="AppForm-control" placeholder="Password">
+                      <app-field-error-required [control]="form.passwordCtrl"></app-field-error-required>
+                    </div>
+                  </div>
+                </div>
+                <div class="row AppForm-row no-gutters">
+                  <div class="col-sm-6 col-12 mb-4 mb-sm-0 AppForm-col">
+                    <div class="LabeledItem AppForm-field p-field">
+                      <div class="LabeledItem-title">Release type</div>
+                      <p-dropdown
+                        class="AppForm-control"
+                        [options]="releaseTypes"
+                        placeholder="Release Type"
+                        optionLabel="key"
+                        optionValue="value"
+                        formControlName="type"
+                        appendTo="body"
+                      ></p-dropdown>
+
+                      <app-field-error-required [control]="form.typeCtrl"></app-field-error-required>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-12 AppForm-col">
+                    <div class="LabeledItem AppForm-field p-field">
+                      <div class="LabeledItem-title">Release plan</div>
+                      <p-dropdown
+                        class="AppForm-control"
+                        [options]="plans$ | async"
+                        optionValue="id"
+                        optionLabel="description"
+                        placeholder="Release Plan"
+                        formControlName="planId"
+                        appendTo="body"
+                      ></p-dropdown>
+                      <app-field-error-required [control]="form.planIdCtrl"></app-field-error-required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *appPermission="appPermissions.LicenseKeysManage" class="ContentSection">
+              <header class="ContentSection-header ReleaseManage-sectionTitle">
+                <h2 class="ContentSection-title">
+                  Licenses Created ({{releaseKeysDataSource.totalElements$ | async}})
+                </h2>
+              </header>
+
+              <div class="ContentSection-content ReleaseManage-sectionContent">
+                <cdk-virtual-scroll-viewport itemSize="62" style="height: 240px;">
+                  <ul class="ReleaseKeys">
+                    <li *cdkVirtualFor="let l of releaseKeysDataSource" class="ReleaseKeys-item">
+                      <div class="ReleaseKey">
+                        <div class="ReleaseKey-user">
+                          <div class="ReleaseKey-pic">
+                            <img [src]="l.user?.picture" [alt]="l.user?.fullName" class="ReleaseKey-img">
+                          </div>
+                        </div>
+                        <div class="ReleaseKey-desc">
+                          <div class="ReleaseKey-title">
+                            <div class="ReleaseKey-num">License #{{l.id}}</div>
+                            <div class="ReleaseKey-owner">
+                              <ng-container *ngIf="l.user">
+                                binded to {{l.user.fullName}}
+                              </ng-container>
+                              <ng-container *ngIf="!l.user">
+                                &lt;not bound yet&gt;
+                              </ng-container>
+                            </div>
+                          </div>
+                          <div class="ReleaseKey-value">{{l.value}}</div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </cdk-virtual-scroll-viewport>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-4 ReleaseManage-section">
+        <div class="ContentSection">
+          <header class="ContentSection-header">
+            <h2 class="ContentSection-title">Actions</h2>
+          </header>
+
+          <div class="ContentSection-content ReleaseManage-sectionContent">
+            <button (click)="toggleActive()" *ngIf="!data.isActive" class="Button is-block is-primary is-outlined">
+              Enable release
+            </button>
+            <button (click)="toggleActive()" *ngIf="data.isActive" class="Button is-block is-danger is-outlined">
+              Disable release
+            </button>
+            <button
+              *appPermission="appPermissions.ReleaseDelete"
+              (click)="isDeleteConfirmVisible = true"
+              class="Button is-block is-danger"
+            >
+              Delete release
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <app-confirm-dialog
+    (confirmed)="delete()"
+    (isVisibleChange)="isDeleteConfirmVisible = $event"
+    [isVisible]="isDeleteConfirmVisible"
+    type="danger"
+    title="Are you sure?"
+    message="If deleted, you will not be able to recover the release again."
+    confirmText="Delete Release"
+  ></app-confirm-dialog>
+</ng-container>
+<p-toast position="bottom-right" key="notifications"></p-toast>
+<p-confirmPopup></p-confirmPopup>

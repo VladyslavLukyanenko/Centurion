@@ -1,0 +1,38 @@
+<form (ngSubmit)="create()" nz-form nzLayout="vertical" [formGroup]="form">
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="imageName">Image name</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="imageName" placeholder="Enter image name" name="imageName">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="slug">Slug</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="slug" placeholder="Enter image slug" name="slug">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="imageType">Image type</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="imageType" nzPlaceHolder="Image type">
+        <nz-option
+          *ngFor="let t of imageTypes"
+          [nzValue]="t"
+          [nzLabel]="t"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="slug">Required spawn parameters</nz-form-label>
+    <nz-form-control>
+      <textarea
+        nz-input
+        rows="6"
+        formControlName="requiredSpawnParameters"
+        placeholder="Enter required spawn parameters each from new line"
+        name="requiredSpawnParameters"
+      ></textarea>
+    </nz-form-control>
+  </nz-form-item>
+</form>

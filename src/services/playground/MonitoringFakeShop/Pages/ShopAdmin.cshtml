@@ -1,0 +1,80 @@
+@page "/shop-admin"
+@model MonitoringFakeShop.Pages.ShopAdmin
+
+@{
+  Layout = "_ShopLayout";
+}
+
+
+<div class="page-header">
+  <h1>ADMIN PANEL | Unbelievable shop</h1>
+</div>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Price</th>
+    <th scope="col">Is available</th>
+    <th scope="col">Options</th>
+  </tr>
+  </thead>
+  <tbody>
+  @foreach (var p in Model.ProductsToDisplay)
+  {
+    <tr class="@(p.IsAvailable ? "table-success" : "table-warning")">
+      <th scope="row">@p.Index</th>
+      <td>@p.Name</td>
+      <td>$@p.Price</td>
+      <td>
+        <form asp-page-handler="ToggleActive">
+          <input type="hidden" value="@p.Id" name="id">
+          <input
+            type="checkbox"
+            @(p.IsAvailable ? "checked" : "")
+            name="active" 
+            value="@(p.IsAvailable ? "false" : "true")" 
+            onchange="this.parentElement.submit()">
+        </form>
+      </td>
+      <td>
+        <a asp-page="./ProductEdit" asp-route-id="@p.Id">Edit</a>
+        | <a asp-page="./ShopAdmin" asp-page-handler="Move" asp-route-id="@p.Id" asp-route-up="@true">Move up</a>
+        | <a asp-page="./ShopAdmin" asp-page-handler="Move" asp-route-id="@p.Id" asp-route-up="@false">Move down</a>
+      </td>
+    </tr>
+  }
+  </tbody>
+</table>
+<nav>
+  <ul class="pagination">
+    <li class="page-item @(Model.PageIdx == 0 ? "disabled": "")">
+      <a asp-page="./ShopAdmin"
+         asp-route-pageIdx="@(Model.PageIdx - 1)"
+         class="page-link">
+        Previous
+      </a>
+    </li>
+
+    @for (var i = 0; i < Model.PagesCount; i++)
+    {
+      <li class="page-item @(i == Model.PageIdx ? "active" : "")">
+        <a
+          asp-page="./ShopAdmin"
+          asp-route-pageIdx="@i"
+          class="page-link">
+          @(i + 1)
+        </a>
+      </li>
+    }
+
+    <li class="page-item @(Model.PageIdx == Model.PagesCount - 1 ? "disabled" : "")">
+      <a
+        asp-page="./ShopAdmin"
+        asp-route-pageIdx="@(Model.PageIdx + 1)"
+        class="page-link">
+        Next
+      </a>
+    </li>
+  </ul>
+</nav>

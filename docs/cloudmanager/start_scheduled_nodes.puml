@@ -1,0 +1,14 @@
+﻿@startuml
+'https://plantuml.com/activity-diagram-beta
+start
+
+
+if (Get NodeSnapshots without NodeId)
+  :start new nodes on aws for each non-assigned;
+  :assign to snapshot a NodeId;
+endif;
+
+
+stop
+
+@enduml

@@ -1,0 +1,64 @@
+<ng-container *ngIf="product$ | async as product">
+  <header class="Page-header ProductLanding-header">
+    <h1 class="Page-title">
+      <img class="Page-headerIcon" [src]="product.logoSrc" [alt]="product.name">
+      {{product.name}}
+      <span class="Page-headerSub">{{product.version}}</span>
+    </h1>
+  </header>
+  <div class="ProductLanding-content Page-content">
+
+    <div class="ContentSection ProductLanding-info">
+      <div class="ProductLanding-overview row">
+        <div class="ProductLanding-pic col-12 col-xl-6 order-xl-1 mb-5 mb-xl-0">
+          <img [src]="product.imageSrc" [alt]="product.name" class="ProductLanding-img">
+        </div>
+        <div class="ProductLanding-actions col-12 col-xl-6  order-xl-0">
+          <div class="ProductLanding-desc" [innerHTML]="product.description"></div>
+          <div *ngIf="release$ | async as release; else soldOutBtnTmpl" class="ProductLanding-purchaseBtnWrap">
+            <button (click)="buyTrialOrCreateSession()" class="Button is-primary ProductLanding-purchaseBtn">
+              Purchase
+              <small *ngIf="!release.isTrial" class="ProductLanding-details">
+                {{release.price}} {{release.currency}}
+                ({{release.isLifetime ? 'LIFETIME' : 'RENEWAL'}})
+              </small>
+            </button>
+            <small class="ProductLanding-licenseDesc">{{release.licenseDesc}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ProductLanding-features">
+      <h2 class="ProductLanding-featuresTitle">Features</h2>
+
+      <div class="row">
+        <div *ngFor="let feature of product.features" class="col-xl-4 col-lg-6 col-12 mb-4 ProductLanding-featureWrap">
+          <app-card class="ProductFeature">
+            <header card-title class="ProductFeature-header">
+              <div class="ProductFeature-pic">
+                <img [src]="feature.icon" [alt]="feature.title" class="ProductFeature-img">
+              </div>
+
+              <h4 class="ProductFeature-title">{{feature.title}}</h4>
+            </header>
+            <div class="ProductFeature-desc" [innerHTML]="feature.desc"></div>
+          </app-card>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #soldOutBtnTmpl>
+  <button disabled class="Button ProductLanding-purchaseBtn">Sold Out</button>
+</ng-template>
+<app-alert
+  (isVisibleChange)="isTrialBoughtAlertVisible$.next($event)"
+  [isVisible]="isTrialBoughtAlertVisible$ | async"
+  title="Trial key was bought"
+>
+  <div style="text-align: center; color: inherit;">
+    Key was added to your profile. You can find it in dashboard
+  </div>
+</app-alert>

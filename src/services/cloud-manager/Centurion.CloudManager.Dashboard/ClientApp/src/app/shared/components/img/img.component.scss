@@ -1,0 +1,14 @@
+:host {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0;
+  line-height: 1;
+
+  img {
+    width: inherit;
+    height: inherit;
+    vertical-align: inherit;
+    max-width: 100%;
+    max-height: 100%;
+  }
+}

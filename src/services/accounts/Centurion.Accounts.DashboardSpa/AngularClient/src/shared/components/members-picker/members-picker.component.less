@@ -1,0 +1,130 @@
+.MemberList {
+  margin-top: 25px;
+  padding: 0;
+
+  &-searchBarWrap {
+    position: relative;
+
+    &:after {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      right: 17px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: url(../../../assets/icons/search-regular.svg) center no-repeat;
+    }
+  }
+
+  &-searchBar {
+    background: #EDEDED;
+    border-radius: 10px;
+    width: 100%;
+    border: none;
+    padding: 11px 46px 11px 17px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+
+    &::-webkit-input-placeholder {
+      color: #888888;
+    }
+  }
+
+  &-content {
+  }
+
+  &-noData {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &-spinner {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    z-index: -1;
+    transition: .3s opacity;
+
+    &.is-visible {
+      opacity: 1;
+      z-index: initial;
+    }
+  }
+
+  &-list {
+    margin-top: 15px;
+    overflow: auto;
+    position: relative;
+  }
+
+  &-member {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.Member {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &:hover,
+  &.is-selected {
+    .Member {
+      &-fname {
+        color: #1C48FE;
+      }
+
+      &-discordName {
+        color: rgba(28, 72, 254, 0.31);
+      }
+    }
+  }
+
+  &-avatarWrap {
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  &-pic {
+    width: 100%;
+    height: 100%;
+  }
+
+  &-name {
+    margin-left: 10px;
+  }
+
+  &-fname {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 14px;
+    color: #000000;
+    transition: .3s color;
+  }
+
+  &-discordName {
+    transition: .3s color;
+    display: block;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    color: #B1B1B1;
+    margin-top: 6px;
+  }
+
+  &-actionsWrap {
+    position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

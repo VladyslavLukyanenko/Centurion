@@ -1,0 +1,23 @@
+:host {
+  height: 100%;
+  display: block;
+}
+
+.app-progress {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  opacity: 0;
+  transition: .5s opacity;
+
+  &.is-visible {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  /* On small screens, the changeTab menu spans the full width of the screen. Leave a space for it. */
+  .body-content {
+    padding-top: 50px;
+  }
+}

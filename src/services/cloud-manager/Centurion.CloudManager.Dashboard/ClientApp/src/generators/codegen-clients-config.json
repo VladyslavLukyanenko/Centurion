@@ -1,0 +1,8 @@
+{
+   "npmName": "monitors-panel-api-client",
+   "ngVersion":"10",
+   "providedInRoot": true,
+   "fileNaming": "kebab-case",
+   "useSingleRequestParameter": false,
+   "modelFileSuffix": ".model"
+}

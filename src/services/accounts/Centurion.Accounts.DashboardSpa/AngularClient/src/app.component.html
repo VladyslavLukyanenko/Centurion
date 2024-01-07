@@ -1,0 +1,7 @@
+<p-progressBar
+  class="app-progress"
+  [class.is-visible]="isProgressVisible$ | async"
+  mode="indeterminate"
+></p-progressBar>
+<router-outlet></router-outlet>
+<p-toast position="bottom-right" key="notifications"></p-toast>

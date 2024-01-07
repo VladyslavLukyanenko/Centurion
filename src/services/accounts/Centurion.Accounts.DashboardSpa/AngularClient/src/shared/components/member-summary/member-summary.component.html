@@ -1,0 +1,25 @@
+<div class="MemberSummary-logoContainer">
+  <div class="MemberSummary-pic">
+    <img [src]="summary.avatar" [alt]="summary.name" class="MemberSummary-img">
+  </div>
+</div>
+<div class="MemberSummary-username">
+  {{ summary.name }}#{{ summary.discriminator }}
+</div>
+
+<h4 class="MemberSummary-sectionTitle">Roles</h4>
+<ul class="MemberSummary-roles">
+  <li
+    *ngFor="let role of summary.discordRoles; trackBy: trackById"
+    class="MemberSummary-role"
+    [style.backgroundColor]="getBgColor(role)"
+    [style.color]="role.colorHex || defaultColor"
+  >
+    <span class="MemberSummary-roleMarker" [style.backgroundColor]="role.colorHex || defaultColor"></span>
+    {{ role.name }}
+  </li>
+</ul>
+<h4 class="MemberSummary-sectionTitle">Joined</h4>
+<div class="MemberSummary-joinedTime">
+  {{formattedJoinedDate}}
+</div>

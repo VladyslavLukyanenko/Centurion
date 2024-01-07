@@ -1,0 +1,8 @@
+{
+   "npmName": "dashboards-api.spa",
+   "ngVersion":"11",
+   "providedInRoot": true,
+   "fileNaming": "kebab-case",
+   "useSingleRequestParameter": false,
+   "modelFileSuffix": ".model"
+}

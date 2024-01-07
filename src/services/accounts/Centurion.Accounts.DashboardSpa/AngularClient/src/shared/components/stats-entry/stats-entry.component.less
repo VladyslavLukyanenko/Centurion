@@ -1,0 +1,46 @@
+:host {
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 44px;
+  color: #16192C;
+}
+
+.StatsEntry {
+  &-percents {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: 0.1px;
+    position: relative;
+    color: #FF6628;
+    bottom: 5px;
+    display: inline-block;
+
+    &:after {
+      content: "";
+      width: 9px;
+      height: 12px;
+      position: absolute;
+      right: -5px;
+      bottom: 0;
+      transform: translateX(100%) rotate(180deg);
+      background: url(../../../assets/icons/arrow-up.svg) no-repeat center;
+    }
+
+    &.is-growing {
+      color: #3DD598;
+
+      &:after {
+        transform: translateX(100%);
+      }
+    }
+
+    &.is-noChanges {
+      color: #ccc;
+
+      &:after {
+        background: none;
+      }
+    }
+  }
+}

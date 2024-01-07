@@ -1,0 +1,47 @@
+.ChartLegend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: flex-start;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  &-item {
+    margin-left: 35px;
+    font-size: 0;
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &-marker {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 7px;
+    font-size: 0;
+    vertical-align: middle;
+  }
+
+  &-label {
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+
+    color: #474747;
+    vertical-align: middle;
+  }
+
+  @media screen and (max-width: 768px) {
+    position: relative;
+    flex-direction: column;
+
+    &-item {
+      margin-left: 0;
+    }
+  }
+}

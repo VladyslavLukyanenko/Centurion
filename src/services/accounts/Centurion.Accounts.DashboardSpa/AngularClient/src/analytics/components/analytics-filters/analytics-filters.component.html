@@ -1,0 +1,35 @@
+<div class="AnalyticsFilters">
+  <p-dropdown
+    (ngModelChange)="dispatchPeriodChange($event)"
+    class="AnalyticsFilters-item"
+    [ngModel]="period"
+    [options]="periods"
+    optionLabel="key"
+    optionValue="value"
+  ></p-dropdown>
+  <span class="AnalyticsFilters-dateRangeLabel">
+      <ng-container *ngIf="isMonthlySelected">
+        Month
+      </ng-container>
+      <ng-container *ngIf="!isMonthlySelected">
+        Year
+      </ng-container>
+    </span>
+  <p-calendar
+    *ngIf="isMonthlySelected"
+    (ngModelChange)="dispatchStartAtChange($event)"
+    [ngModel]="startAt"
+    dateFormat="yy-mm"
+    view="month"
+    class="AnalyticsFilters-item"
+  ></p-calendar>
+  <p-dropdown
+    *ngIf="!isMonthlySelected"
+    (ngModelChange)="dispatchStartAtChange($event)"
+    class="AnalyticsFilters-item"
+    [options]="years"
+    optionLabel="key"
+    optionValue="value"
+    [ngModel]="startAt"
+  ></p-dropdown>
+</div>

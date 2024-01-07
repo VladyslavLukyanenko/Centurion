@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>Enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="**/*.xaml" />
+    <AvaloniaResource Include="Assets\*" />  
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.10" />
+  </ItemGroup>
+</Project>

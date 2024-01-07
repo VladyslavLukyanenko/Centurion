@@ -1,0 +1,13 @@
+.git/
+.idea/
+.vscode/
+logs/
+tmp/
+env/
+resources/
+!resources/deps/
+bin/
+obj/
+ClientApp/node_modules/
+ClientApp/dist/
+Properties/

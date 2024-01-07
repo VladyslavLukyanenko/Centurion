@@ -1,0 +1,21 @@
+﻿syntax = "proto3";
+
+package taskmanager;
+
+import "module.proto";
+import "product.proto";
+
+option csharp_namespace = "Centurion.Contracts.TaskManager";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/taskmanager";
+option java_package = "gg.centurion.taskmanager";
+
+message BySkuRequest {
+  string sku = 1;
+  Module module= 2;
+}
+
+service Products {
+  rpc GetBySku(BySkuRequest) returns (ProductData);
+//  rpc Save(ProductData) returns (ProductData);
+  rpc FetchProductIfMissing(FetchProductCommand) returns (ProductData);
+}

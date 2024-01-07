@@ -1,0 +1,144 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avaloniaUi="clr-namespace:Centurion.Cli.AvaloniaUI"
+             xmlns:nobleman="clr-namespace:Centurion.UI.Themes.Nobleman;assembly=Centurion.UI.Themes.Nobleman"
+             Name="Centurion AIO"
+             x:Class="Centurion.Cli.AvaloniaUI.App">
+  <Application.Resources>
+    <ResourceDictionary>
+      <FontFamily x:Key="AccentThemeFontFamily">
+        avares://Centurion-AIO/Assets/Design/Fonts/Cinzel#Cinzel
+      </FontFamily>
+      <RadialGradientBrush
+        x:Key="GoldGradientBrush"
+        GradientOrigin="0.00119,-0.1591"
+        Center="0.00119,-0.1591"
+        Radius="1.06">
+        <GradientStops>
+          <GradientStop Color="#E2DEBE6C" Offset="0" />
+          <GradientStop Color="#FFC3A455" Offset="0.4911" />
+          <GradientStop Color="#FFDCC99A" Offset="0.7444" />
+          <GradientStop Color="#FFDBCA9D" Offset="1" />
+        </GradientStops>
+      </RadialGradientBrush>
+      <RadialGradientBrush
+        x:Key="GoldGradientBrushDisabled"
+        GradientOrigin="0.00119,-0.1591"
+        Center="0.00119,-0.1591"
+        Radius="1.06">
+        <GradientStops>
+          <GradientStop Color="#E2BEBEBE" Offset="0" />
+          <GradientStop Color="#FFA4A4A4" Offset="0.4911" />
+          <GradientStop Color="#FFC9C9C9" Offset="0.7444" />
+          <GradientStop Color="#FFCACACA" Offset="1" />
+        </GradientStops>
+      </RadialGradientBrush>
+      
+      <SolidColorBrush x:Key="CheckOutBrush" Color="#E4C983" />
+      <SolidColorBrush x:Key="DeclineBrush" Color="#E483B2" />
+      <SolidColorBrush x:Key="CartBrush" Color="#4C64FB" />
+      <SolidColorBrush x:Key="ErrorBrush" Color="#E2A74E" />
+      <SolidColorBrush x:Key="RunningBrush" Color="#A9B5E0" />
+      <SolidColorBrush x:Key="IdleBrush" Color="#253778" />
+
+      <FontFamily x:Key="ContentControlThemeFontFamily">
+        avares://Centurion-AIO/Assets/Design/Fonts/Helvetica#Helvetica Now Display
+      </FontFamily>
+      <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="#050A2A" />
+
+      <Thickness x:Key="PageContainerPadding">0, 28, 0, 0</Thickness>
+      <LinearGradientBrush x:Key="GoldLinearGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+        <GradientStops>
+          <GradientStop Color="#E2E4C983" Offset="0.2037" />
+          <GradientStop Color="#FFF5EFDE" Offset="0.3159" />
+          <GradientStop Color="#FFD7C69B" Offset="0.4196" />
+          <GradientStop Color="#FFEEE5CE" Offset="0.5317" />
+          <GradientStop Color="#FFE4D8B9" Offset="0.6214" />
+          <GradientStop Color="#FFF5EFDE" Offset="0.742" />
+        </GradientStops>
+      </LinearGradientBrush>
+    </ResourceDictionary>
+  </Application.Resources>
+  <Application.DataTemplates>
+    <avaloniaUi:ViewLocator />
+  </Application.DataTemplates>
+
+  <Application.Styles>
+    <nobleman:NoblemanTheme Mode="Dark" />
+
+
+    <Style Selector="Button.LinkButton">
+      <Setter Property="Foreground" Value="#57619B" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+    <Style Selector="Button.LinkButton:pointerover">
+      <Setter Property="Foreground" Value="#fff" />
+    </Style>
+    <Style Selector="Button.LinkButton:pointerover Path">
+      <Setter Property="Fill" Value="#fff" />
+    </Style>
+    <Style Selector="Button.LinkButton:pointerover ContentPresenter Border">
+      <Setter Property="Background" Value="#fff" />
+    </Style>
+    <Style Selector="Button.LinkButton:disabled">
+      <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+    </Style>
+
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/ApplicationWindow.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/NotificationToast.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/Label.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/TextBox.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/Button.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/MainNavigationItem.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/UserAvatarButton.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/MenuListBox.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/OptionsButton.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/GridLikeListBox.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/CheckBox.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/AttachedMenu.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/ComboBox.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/TileListBox.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/TaskGroupBarSummary.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/TaskGroupStatusBreakdown.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/Expander.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/TaskGroupTile.axaml" />
+    <StyleInclude Source="avares://Centurion-AIO/AvaloniaUI/Controls/NotificationsListBox.axaml" />
+
+    <Style Selector="TextBlock.WidgetTitle">
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="FontWeight" Value="Bold" />
+      <Setter Property="FontFamily" Value="{StaticResource AccentThemeFontFamily}" />
+    </Style>
+
+    <Style Selector="TextBlock.SectionTitle">
+      <Setter Property="Foreground" Value="#fff" />
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="LineHeight" Value="21" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style Selector="TextBlock.SecondaryTitle">
+      <Setter Property="Foreground" Value="#A9B5E0" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="LineHeight" Value="17" />
+      <Setter Property="FontWeight" Value="Normal" />
+    </Style>
+
+    <Style Selector="TextBlock.RegularTableHeader">
+      <Setter Property="Foreground" Value="#A9B5E0" />
+      <Setter Property="FontSize" Value="11" />
+      <Setter Property="LineHeight" Value="17" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="FontWeight" Value="Bold" />
+    </Style>
+
+    <Style Selector="Grid.RegularTableHeaderCell">
+      <Setter Property="Margin" Value="9, 0,0, 0" />
+      <Setter Property="Height" Value="30" />
+    </Style>
+  </Application.Styles>
+
+
+</Application>

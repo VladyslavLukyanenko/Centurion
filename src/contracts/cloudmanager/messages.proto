@@ -1,0 +1,31 @@
+﻿syntax = "proto3";
+
+package cloudmanager;
+option csharp_namespace = "Centurion.Contracts.CloudManager";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/cloudmanager";
+option java_package = "gg.centurion.cloudmanager";
+
+import "google/protobuf/timestamp.proto";
+
+enum NodeStatus {
+  NOT_EXISTS = 0;
+  CREATING = 1;
+  RUNNING = 2;
+  TERMINATING = 3;
+  TERMINATED = 4;
+}
+
+message ImageInfoData {
+  string image_name = 1;
+  string image_version = 2;
+  google.protobuf.Timestamp created_at = 3;
+  map<string, string> env = 4;
+}
+
+message NodeInfo {
+  string user_id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  repeated ImageInfoData images = 3;
+  string dns_name = 4;
+  NodeStatus status = 5;
+}

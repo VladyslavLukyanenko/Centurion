@@ -1,0 +1,25 @@
+<p-dialog
+  *ngIf="isVisible"
+  (visibleChange)="isVisibleChange.emit($event)"
+  [visible]="isVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog is-autoHeight"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <h2 class="AppDialog-title">{{title}}</h2>
+  </ng-template>
+  <div class="AppDialog-content AppForm-wrap is-autoHeight">
+    {{message}}
+  </div>
+
+  <p-footer (click)="isVisibleChange.emit(false)" class="AppDialog-footer">
+    <button (click)="cancelled.emit()" class="AppDialog-btn">
+      {{cancelText}}
+    </button>
+    <button (click)="confirmed.emit()" class="AppDialog-btn is-primary" [class.is-danger]="type === 'danger'">
+      {{confirmText}}
+    </button>
+  </p-footer>
+</p-dialog>

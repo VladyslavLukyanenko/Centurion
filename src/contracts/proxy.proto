@@ -1,0 +1,14 @@
+syntax = "proto3";
+option csharp_namespace = "Centurion.Contracts";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts";
+option java_package = "gg.centurion.contract";
+
+message ProxyData {
+  string value = 1;
+}
+
+message ProxyPoolData {
+  string id = 1;
+  string name = 2;
+  repeated ProxyData proxies = 3;
+}

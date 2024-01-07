@@ -1,0 +1,205 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Centurion.Cli.Core.ViewModels"
+             xmlns:ctrl="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+             xmlns:converters="clr-namespace:Centurion.Cli.AvaloniaUI.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="750"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.SettingsView">
+
+  <Design.DataContext>
+    <vm:SettingsViewModel />
+  </Design.DataContext>
+  <ScrollViewer>
+    <Grid>
+      <StackPanel MaxWidth="560" HorizontalAlignment="Stretch">
+        <StackPanel.Styles>
+          <Style Selector="Border.SettingsSection">
+            <Setter Property="Padding" Value="0 24" />
+            <Setter Property="BorderThickness" Value="0 0 0 1" />
+            <Setter Property="BorderBrush" Value="#141E5A" />
+          </Style>
+        </StackPanel.Styles>
+        <Border Classes="SettingsSection">
+          <StackPanel>
+            <TextBlock
+              Classes="SectionTitle"
+              FontSize="18"
+              LineHeight="26"
+              VerticalAlignment="Center"
+              Text="Settings" />
+            <TextBlock
+              FontSize="8"
+              Opacity=".5"
+              Text="{Binding AppVersionStr, FallbackValue=Centurion AIO v1.0.0.0}"
+              Classes="SecondaryTitle" />
+          </StackPanel>
+        </Border>
+
+        <Border Classes="SettingsSection">
+          <Grid ColumnDefinitions="250, 10, *">
+            <StackPanel>
+              <TextBlock Text="Account Settings" Classes="SectionTitle" />
+              <TextBlock Margin="0 3 0 0" Text="Subscription and dashboard" Classes="SecondaryTitle" />
+            </StackPanel>
+            <Grid Grid.Column="2" ColumnDefinitions="Auto, 18, *">
+              <ctrl:UserAvatarButton
+                Height="40"
+                Width="40"
+                IsChecked="True"
+                VerticalAlignment="Top"
+                Picture="{Binding User.Avatar}" />
+
+
+              <StackPanel Grid.Column="2">
+                <TextBlock Text="{Binding User.FullUserName, FallbackValue=FullUsername}" />
+                <TextBlock
+                  FontSize="12"
+                  Foreground="#A9B5E0"
+                  FontWeight="Bold"
+                  IsVisible="{Binding !!UserExpiryTotalDays}"
+                  Margin="0 2 0 0"
+                  Text="{Binding UserExpiryTotalDays, StringFormat=expiry in {}{0} days, FallbackValue=21}" />
+
+                <TextBlock
+                  FontSize="12"
+                  Foreground="#A9B5E0"
+                  FontWeight="Bold"
+                  Margin="0 2 0 0"
+                  Text="Lifetime"
+                  IsVisible="{Binding !UserExpiryTotalDays}">
+                </TextBlock>
+
+                <StackPanel Orientation="Horizontal" Spacing="5" Margin="0 14 0 0">
+                  <Button Classes="RegularButton" Content="Dashboard" IsEnabled="False" />
+                  <Button Classes="RegularButton Secondary" Content="Renew" IsEnabled="False" />
+                  <Button
+                    Command="{Binding LogOutCommand}"
+                    Classes="RegularButton Secondary"
+                    Content="Log Out" />
+                </StackPanel>
+              </StackPanel>
+            </Grid>
+          </Grid>
+        </Border>
+
+        <Border Classes="SettingsSection">
+          <Grid ColumnDefinitions="250, 10, *">
+            <StackPanel>
+              <TextBlock Text="Webhooks" Classes="SectionTitle" />
+              <TextBlock Margin="0 3 0 0" Text="Discord Webhooks" Classes="SecondaryTitle" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+              <Label Content="Success Webhook" Target="Success" />
+              <Grid ColumnDefinitions="*, 9, Auto">
+                <TextBox
+                  Name="Success"
+                  Text="{Binding SuccessWebHookUrl}"
+                  Watermark="Enter success webhook URL" />
+
+                <Button
+                  Content="Test"
+                  Command="{Binding TestSuccessWebhookCommand}"
+                  Classes="ToolButton"
+                  Grid.Column="2" />
+              </Grid>
+
+              <Label Margin="0 15 0 0" Content="Failure Webhook" Target="Failure" />
+              <Grid ColumnDefinitions="*, 9, Auto">
+                <TextBox
+                  Name="Failure"
+                  Text="{Binding FailureWebHookUrl}"
+                  Watermark="Enter failure webhook URL" />
+
+                <Button
+                  Content="Test"
+                  Command="{Binding TestFailureWebhookCommand}"
+                  Classes="ToolButton"
+                  Grid.Column="2" />
+              </Grid>
+            </StackPanel>
+          </Grid>
+        </Border>
+
+        <Border Classes="SettingsSection">
+          <Grid ColumnDefinitions="250, 10, *">
+            <StackPanel>
+              <TextBlock Text="Sounds" Classes="SectionTitle" />
+              <TextBlock Margin="0 3 0 0" Text="Edit Notification Sounds" Classes="SecondaryTitle" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+              <CheckBox Margin="0 15 0 0" Content="Checkout Sound"
+                        IsChecked="{Binding GeneralSettings.CheckoutSoundEnabled}" />
+              <Grid ColumnDefinitions="Auto, *, 9, Auto, 9, Auto"
+                    IsEnabled="{Binding GeneralSettings.CheckoutSoundEnabled}">
+                <Button
+                  Content="Change"
+                  Height="{Binding #CheckoutMp3FileTb.Bounds.Height}"
+                  CornerRadius="3 0 0 3"
+                  Command="{Binding ChangeCheckoutSoundCommand}"
+                  Classes="ToolButton" />
+
+                <TextBox
+                  CornerRadius="0 3 3 0"
+                  Grid.Column="1"
+                  Name="CheckoutMp3FileTb"
+                  IsReadOnly="True"
+                  IsEnabled="False"
+                  Text="{Binding GeneralSettings.CheckoutSoundMp3FilePath}"
+                  Watermark="Checkout Sound MP3" />
+
+                <Button
+                  Content="Reset"
+                  Command="{Binding ResetCheckoutSoundCommand}"
+                  Classes="ToolButton"
+                  Grid.Column="3" />
+
+                <Button
+                  Content="Test"
+                  Command="{Binding TestCheckoutSoundCommand}"
+                  Classes="ToolButton"
+                  Grid.Column="5" />
+              </Grid>
+
+              <CheckBox Margin="0 15 0 0" Content="Decline Sound"
+                        IsChecked="{Binding GeneralSettings.DeclineSoundEnabled}" />
+              <Grid ColumnDefinitions="Auto, *, 9, Auto, 9, Auto"
+                    IsEnabled="{Binding GeneralSettings.DeclineSoundEnabled}">
+                <Button
+                  Content="Change"
+                  Height="{Binding #DeclineMp3FileTb.Bounds.Height}"
+                  CornerRadius="3 0 0 3"
+                  Command="{Binding ChangeDeclineSoundCommand}"
+                  Classes="ToolButton" />
+
+                <TextBox
+                  CornerRadius="0 3 3 0"
+                  Grid.Column="1"
+                  Name="DeclineMp3FileTb"
+                  IsReadOnly="True"
+                  IsEnabled="False"
+                  Text="{Binding GeneralSettings.DeclineSoundMp3FilePath}"
+                  Watermark="Decline Sound MP3" />
+
+                <Button
+                  Content="Reset"
+                  Command="{Binding ResetDeclineSoundCommand}"
+                  Classes="ToolButton"
+                  Grid.Column="3" />
+
+                <Button
+                  Content="Test"
+                  Command="{Binding TestDeclineSoundCommand}"
+                  Classes="ToolButton"
+                  Grid.Column="5" />
+              </Grid>
+            </StackPanel>
+          </Grid>
+        </Border>
+      </StackPanel>
+    </Grid>
+  </ScrollViewer>
+</UserControl>

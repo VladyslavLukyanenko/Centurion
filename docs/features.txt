@@ -1,0 +1,31 @@
+= PROJECT DASHBOARDS FEATURES
+
+
++ (Infra) Embeds builder
++ (Infra) Roles
+!! landing pages
+- stuff payments
+! Analytics (Discord ones too?)
++ Forms Infra
+!! Custom solution for Tickets (Discord bot + Website integration)
++ Shared Stripe Chargeback list between clients
+!!- ProjectMonitors Integration With statistics providen by ProjectMonitors
+- checkout modes (currently supported we have on old dashboard only)
+!! (Don't know which customizations are allowed by design)- Email system to delivery licenses (partially)
+
+--- Affinity Features ---
+
++ Enable/Disable unbinding from admin panel (as I understood it should be globally for plan not for licensekey) As I see it already works for new keys
+
+!! (Need design)- Customize license key delivery email
+!- Easy to use client dashboard where clients can change payment, cancel, join discord, view key, unbind (if allowed), and reactive subscription if they cancel
+! (Create/Update API support)- Add custom image to the background of client dashboard (gif supported)
+! (Create/Update API support)- Change logo and motto on client dashboard
+- Allow client to reactive subscription after they cancel
+
+
+Webhooks for when a purchase is made, a user cancels, a user reactivates, unauthorized attempt to login to admin dashboard, and a settings change (IN PROGRESS)
+
+
+
+!! - CAN'T DO RIGHT NOW

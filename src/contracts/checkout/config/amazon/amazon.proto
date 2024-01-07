@@ -1,0 +1,56 @@
+﻿syntax = "proto3";
+
+package checkout;
+
+import "module.proto";
+import "session.proto";
+
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/checkout/amazon";
+option csharp_namespace = "Centurion.Contracts.Checkout.Amazon";
+option java_package = "gg.centurion.checkout.amazon";
+
+message AmazonCheckoutConfig {
+  option (centurion_checkout_mode) = "Checkout";
+
+  string purchase_id = 1;
+  bool use_smile = 2;
+  string csrf = 3;
+//  optional AmazonMonitorFastConfig monitor_config = 4;
+}
+
+message AmazonTurboConfig {
+  option (centurion_checkout_mode) = "Turbo";
+
+  string offer_id = 1;
+  bool use_smile = 2;
+  bool send_all_cookies = 3;
+//  optional AmazonMonitorFastConfig monitor_config = 4;
+
+}
+
+message AmazonMonitorFastConfig {
+  string offer_id = 1;
+  //  google.protobuf.Duration reset_delay = 2;
+}
+
+
+message AmazonConfig {
+  option (centurion_module) = AMAZON;
+  option (centurion_module_display_name) = "Amazon";
+  option (centurion_version) = "20211227";
+
+  string region = 1;
+  optional double max_price = 2;
+  optional string ua = 3;
+  optional string sec_ua = 4;
+  optional int32 max_checkout_attempts = 5;
+  SessionData session = 6;
+  uint32 qty = 7;
+  
+  oneof mode {
+    option (centurion_module_modes) = true;
+    
+    AmazonTurboConfig turbo = 8;
+    AmazonCheckoutConfig checkout = 9;
+  }
+}

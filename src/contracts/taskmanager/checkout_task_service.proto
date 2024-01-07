@@ -1,0 +1,40 @@
+﻿syntax = "proto3";
+
+package taskmanager;
+option csharp_namespace = "Centurion.Contracts.TaskManager";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/taskmanager";
+option java_package = "gg.centurion.taskmanager";
+
+import "google/protobuf/empty.proto";
+
+import "common/payloads.proto";
+import "checkout_task.proto";
+import "product.proto";
+
+message CheckoutTaskGroupList {
+  repeated CheckoutTaskGroupData groups = 1;
+  repeated ProductData products = 2;
+}
+
+//message RuntimeCheckoutTaskList {
+//  repeated RuntimeCheckoutTaskData tasks = 1;
+//}
+//
+//message RuntimeCheckoutTaskData {
+//  CheckoutTaskData task = 1;
+//  optional TaskStatusData status = 2;
+//}
+
+message CheckoutTaskList {
+  string group_id = 1;
+  repeated CheckoutTaskData tasks = 2;
+}
+
+service CheckoutTask {
+  rpc GetGroups(google.protobuf.Empty) returns (CheckoutTaskGroupList);
+  rpc SaveGroup(CheckoutTaskGroupData) returns (CheckoutTaskGroupData);
+  rpc RemoveGroup(ByIdRequest) returns (google.protobuf.Empty);
+
+  rpc BulkSaveTasks(CheckoutTaskList) returns (google.protobuf.Empty);
+  rpc BulkRemoveTasks(ByIdsRequest) returns (google.protobuf.Empty);
+}

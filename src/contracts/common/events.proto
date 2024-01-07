@@ -1,0 +1,12 @@
+syntax = "proto3";
+option csharp_namespace = "Centurion.Contracts.Integration";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/common";
+option java_package = "gg.centurion.contract.common";
+
+import "google/protobuf/timestamp.proto";
+
+message EventMetadata {
+  google.protobuf.Timestamp timestamp = 1;
+  string task_id = 2;
+  optional string user_id = 3;
+}

@@ -1,0 +1,90 @@
+<nz-card
+  [nzTitle]="nodeTableTitleTpl"
+  [nzActions]="[startActionTmpl, shutdownActionTmpl, terminateActionTmpl]">
+  <nz-table
+    #nodesTbl
+    nzSize="small"
+    [nzLoading]="asyncTrack.isLoading$ | async"
+    [nzData]="node.images"
+    [nzShowPagination]="false"
+  >
+    <thead>
+    <tr>
+      <th>Container ID</th>
+      <th>Image</th>
+      <th>Type</th>
+      <th>State</th>
+      <th>Status</th>
+      <th>Options</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let img of node.images; trackBy: trackImagesBy">
+      <td>{{img.containerId.substr(0, 8)}}</td>
+      <td>{{img.imageInfo.name}}</td>
+      <td>{{img.imageInfo.imageType}}</td>
+      <td>{{img.state}}</td>
+      <td>{{img.status}}</td>
+      <td>
+        <button
+          (click)="shutdown(img)"
+          nz-button
+          [nz-tooltip]="'Shut down this container'|translate"
+          nzType="link"
+        >
+          <i nz-icon nzType="poweroff" nzTheme="outline"></i>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+<ng-template #nodeTableTitleTpl>
+  <ng-container *ngTemplateOutlet="node.isAvailable ? availableBudgeTmpl : unAvailableBudgeTmpl"></ng-container>
+  <span
+    style="display: inline-block; margin-left: 15px;"
+    [style.color]="getColor()"
+  >
+    {{node.id}}
+    <small>
+      <strong>{{node.status}}</strong>
+    </small>
+  </span>
+  <div>
+    <small>{{node.supportedHostingTargets}}</small>
+  </div>
+  <div>
+    <small>{{node.publicDnsName}}</small>
+  </div>
+</ng-template>
+<ng-template #availableBudgeTmpl>
+  <i nz-icon nzType="check-circle" nzTheme="outline" style="color: #52c41a"></i>
+</ng-template>
+<ng-template #unAvailableBudgeTmpl>
+  <i nz-icon nzType="warning" nzTheme="outline" style="color: #f5222d"></i>
+</ng-template>
+
+<ng-template #startActionTmpl>
+  <i
+    (click)="startServer()"
+    nz-tooltip="Start this server."
+    [style.opacity]="!node.isStopped ? .3 : 1"
+    nz-icon nzType="play-circle"
+  ></i>
+</ng-template>
+<ng-template #shutdownActionTmpl>
+  <i
+    (click)="stopServer()"
+    nz-tooltip="Stop this server. It will be possible to start it again."
+    [style.opacity]="!node.isRunning ? .3 : 1"
+    nz-icon nzType="poweroff"
+  ></i>
+</ng-template>
+<ng-template #terminateActionTmpl>
+  <i
+    (click)="terminateServer()"
+    nz-tooltip="Terminate this server. It will be eventually removed from the list."
+    [style.opacity]="!node.isRunning && !node.isStopped  ? .3 : 1"
+    nz-icon nzType="delete"
+  ></i>
+</ng-template>

@@ -1,0 +1,16 @@
+:host {
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 15px 15px 0;
+  display: flex;
+  flex-shrink: 0;
+}
+
+
+@media (max-width: 768px) {
+  :host {
+    padding: 10px;
+    min-height: auto;
+  }
+}

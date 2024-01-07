@@ -1,0 +1,152 @@
+﻿syntax = "proto3";
+
+package checkout;
+
+import "checkout/integration/events.proto";
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/timestamp.proto";
+import "module.proto";
+import "product.proto";
+import "profile.proto";
+import "proxy.proto";
+import "task_status.proto";
+
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/checkout";
+option csharp_namespace = "Centurion.Contracts.Checkout";
+option java_package = "gg.centurion.checkout";
+
+// checkout
+
+message InitializedCheckoutTaskData {
+  string id = 1;
+  Module module = 2;
+  repeated ProfileData profile_list = 3;
+  ProxyPoolData proxy_pool = 4;
+  ProductData product = 5;
+  bytes config = 6;
+  string user_id = 7;
+}
+
+message StopCheckoutDetails {
+  string id = 1;
+}
+
+message StopCheckoutCommand {
+  repeated StopCheckoutDetails tasks = 1;
+}
+
+message ForceStopCheckoutCommand {
+  StopCheckoutCommand cmd = 1;
+  string user_id = 2;
+}
+
+message StartCheckoutCommand {
+  repeated InitializedCheckoutTaskData tasks = 1;
+}
+
+message CheckoutCommand {
+  oneof command {
+    StartCheckoutCommand start = 1;
+    StopCheckoutCommand stop = 2;
+  };
+}
+
+message CheckoutStatusChangedList {
+  map<string, checkout.integration.CheckoutStatusChanged> statuses = 1;
+}
+
+message CheckoutStatusChangedBatch {
+  map<string, TaskStatusData> changes = 1;
+}
+
+message TasksExecutingStats {
+  int32 total_count = 1;
+  map<string, int32> per_user_count = 2;
+}
+
+message SupportedModuleList {
+  repeated ModuleMetadata modules = 1;
+}
+
+// rpc
+
+
+message RpcMessage {
+  string session_id = 1;
+
+  oneof payload {
+    InitHarvesterCommand init = 2;
+    InitHarvesterReply init_reply = 3;
+    HarvesterActionError action_error = 4;
+
+    SolveCaptchaHarvesterCommand solve_captcha = 5;
+    SolveCaptchaHarvesterReply solve_captcha_reply = 6;
+
+    Solve3DS2Command solve_3ds2 = 7;
+    Solve3DS2CommandReply solve_3ds2_reply = 8;
+
+    SmsConfirmationCommand sms_confirmation = 9;
+    SmsConfirmationCommandReplyAck sms_confirmation_ack = 10;
+    SmsConfirmationCommandReply sms_confirmation_reply = 11;
+  };
+}
+
+message InitHarvesterCommand {
+//  optional string site_key = 2;
+//  optional string action = 3;
+}
+
+message InitHarvesterReply {
+  string harvester_id = 1;
+}
+
+message HarvesterActionError {
+  optional string harvester_id = 1;
+}
+
+message SolveCaptchaHarvesterCommand {
+  string harvester_id = 1;
+  string product_url = 2;
+}
+
+message ReCaptchaToken {
+  string captcha_token = 1;
+  google.protobuf.Timestamp solved_at = 2;
+}
+
+message SolveCaptchaHarvesterReply {
+  ReCaptchaToken token = 1;
+}
+
+message SmsConfirmationCommand {
+  string phone_number = 1;
+  string display_task_id = 2;
+}
+
+message SmsConfirmationCommandReplyAck {
+  string phone_number = 1;
+  string display_task_id = 2;
+}
+
+message SmsConfirmationCommandReply {
+  string sms_code = 1;
+  bool skip = 2;
+}
+
+message Solve3DS2Command {
+  string user_agent = 1;
+  string form_method = 2;
+  string form_action = 3;
+  map<string, string> form_fields = 4;
+  string encoded_data = 5;
+  string term_url = 6;
+  string proxy_url = 7;
+}
+
+message Solve3DS2CommandReply {
+  map<string, string> payload = 1;
+}
+
+extend google.protobuf.ServiceOptions {
+  string centurion_header_user_id = 50000;
+}

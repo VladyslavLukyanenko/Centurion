@@ -1,0 +1,12 @@
+/*@import "~ng-zorro-antd/style/index.min.css"; !* Import basic styles *!*/
+/*@import "~ng-zorro-antd/button/style/index.min.css"; !* Import styles of the component *!*/
+/*@import "~ng-zorro-antd/table/style/index.min.css"; !* Import styles of the component *!*/
+/*@import "~ng-zorro-antd/divider/style/index.min.css"; !* Import styles of the component *!*/
+
+.ant-input-group-addon {
+  width: 34px !important;
+}
+
+.ant-input-wrapper {
+  table-layout: fixed !important;
+}

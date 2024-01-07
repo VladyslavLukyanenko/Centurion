@@ -1,0 +1,32 @@
+<p-dialog
+  *ngIf="isVisible"
+  (visibleChange)="isVisibleChange.emit($event)"
+  [visible]="isVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog is-autoHeight"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <h2 class="AppDialog-title">Add extra days</h2>
+  </ng-template>
+  <div class="AppDialog-content AppForm-wrap is-autoHeight">
+
+    <div class="row AppForm-row no-gutters">
+      <div class="col-12 AppForm-col">
+        <div class="AppForm-field p-field">
+          <label class="AppForm-label">Days</label>
+          <span class="AppForm-hint is-top">New Expiry: {{computedExpiration$ | async}}</span>
+          <input [formControl]="addExtraDaysCtrl" class="AppForm-control" placeholder="Days">
+        </div>
+      </div>
+    </div>
+    <p-progressSpinner *ngIf="isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+  </div>
+
+  <p-footer>
+    <button (click)="addExtraDays()" [disabled]="asyncTracker.isLoading$ | async" class="AppDialog-btn is-primary">
+      Confirm
+    </button>
+  </p-footer>
+</p-dialog>

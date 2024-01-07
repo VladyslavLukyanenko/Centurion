@@ -1,0 +1,129 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>Enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Tools" Version="2.41.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Centurion.Net.Http" Version="0.1.40" />
+    <PackageReference Include="GitVersion.MsBuild" Version="5.8.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Elastic.Apm" Version="1.12.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\..\contracts\checkout\integration\events.proto" ProtoRoot="..\..\..\contracts\">
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+      <Link>protos\checkout\integration\events.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\..\..\contracts\monitor\integration\events.proto" ProtoRoot="..\..\..\contracts\">
+      <Link>protos\monitor\integration\events.proto</Link>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="..\..\..\contracts\task_status.proto" ProtoRoot="..\..\..\contracts\">
+      <Link>protos\task_status.proto</Link>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="..\..\..\contracts\module.proto" ProtoRoot="..\..\..\contracts\">
+      <Link>protos\module.proto</Link>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="..\..\..\contracts\product.proto" ProtoRoot="..\..\..\contracts\">
+      <Link>protos\product.proto</Link>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="..\..\..\contracts\account.proto" ProtoRoot="..\..\..\contracts\">
+      <Link>protos\account.proto</Link>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="..\..\..\contracts\proxy.proto" ProtoRoot="..\..\..\contracts\">
+      <Link>protos\proxy.proto</Link>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="..\..\..\contracts\session.proto" ProtoRoot="..\..\..\contracts\">
+      <Link>protos\session.proto</Link>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="..\..\..\contracts\checkout\config\amazon\amazon.proto" ProtoRoot="..\..\..\contracts\">
+      <Link>protos\checkout\config\amazon\amazon.proto</Link>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+    <Protobuf Include="..\..\..\contracts\checkout\config\yeezysupply\yeezysupply.proto" ProtoRoot="..\..\..\contracts\">
+      <Link>protos\checkout\config\yeezysupply\yeezysupply.proto</Link>
+      <Access>Public</Access>
+      <ProtoCompile>True</ProtoCompile>
+      <CompileOutputs>True</CompileOutputs>
+      <OutputDir>obj/Debug/net6.0/</OutputDir>
+      <Generator>MSBuild:Compile</Generator>
+    </Protobuf>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\task-manager\Core\SupportedSites.cs">
+      <Link>SupportedSites.cs</Link>
+    </Compile>
+    <Compile Include="..\..\task-manager\Contracts\TaskStatusData.cs">
+      <Link>Contracts\TaskStatusData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\task-manager\TracerExtensions.cs">
+      <Link>TracerExtensions.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="..\..\..\contracts\taskmanager">
+      <Link>protos\taskmanager</Link>
+    </Folder>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\seed-work\Centurion.SeedWork\Centurion.SeedWork.csproj" />
+  </ItemGroup>
+</Project>

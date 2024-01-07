@@ -1,0 +1,64 @@
+﻿syntax = "proto3";
+
+package analytics;
+option csharp_namespace = "Centurion.Contracts.Analytics";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/analytics";
+option java_package = "gg.centurion.analytics";
+
+import "google/protobuf/timestamp.proto";
+
+message CheckoutInfoData {
+  string id = 1;
+  google.protobuf.Timestamp checked_out_at = 2;
+  
+  string price = 3;
+  
+  string product_name = 4;
+  string product_sku = 5;
+  string product_picture = 6;
+  
+  string store = 7;
+  string mode = 8;
+}
+
+message CheckoutInfoPagedList {
+  int32 page_index = 1;
+  int32 limit = 2;
+  int32 total_elements = 3;
+  int32 total_pages = 4;
+  
+  repeated CheckoutInfoData content = 5;
+}
+
+message CheckoutInfoPageRequest {
+  int32 page_index = 1;
+  int32 limit = 2;
+  optional string search_term = 3;
+  google.protobuf.Timestamp start_at = 4;
+  google.protobuf.Timestamp end_at = 5;
+}
+
+message CheckoutEntry {
+  string date = 1;
+  uint32 count = 2;
+  double total_price = 3;
+}
+
+message TodayStats {
+  uint32 checkouts_count = 1;
+  double spent_total = 2;
+}
+
+message AnalyticsSummary {
+  TodayStats today_stats = 1;
+  repeated CheckoutEntry entries = 2;
+}
+
+message AnalyticsSummaryRequest {
+  string time_zone = 1;
+}
+
+service Analytics {
+  rpc GetCheckoutInfoPage(CheckoutInfoPageRequest) returns (CheckoutInfoPagedList);
+  rpc GetSummary(AnalyticsSummaryRequest) returns (AnalyticsSummary);
+}

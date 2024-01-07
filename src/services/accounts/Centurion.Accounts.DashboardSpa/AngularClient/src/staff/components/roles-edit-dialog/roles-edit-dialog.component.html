@@ -1,0 +1,79 @@
+<form (ngSubmit)="createRole()">
+  <p-dialog
+    (visibleChange)="isVisibleChange.emit($event)"
+    [visible]="isVisible && !selectEditRole"
+    [modal]="true"
+    [dismissableMask]="true"
+    styleClass="AppDialog"
+    class="dialogHeaderIconless"
+  >
+    <ng-template pTemplate="header">
+      <h2 class="AppDialog-title">Edit roles</h2>
+    </ng-template>
+    <div class="AppDialog-content">
+      <ul class="AppDialog-list">
+        <li *ngFor="let r of roles$ | async" class="AppDialog-item RolesEditor-item">
+          <span class="RolesEditor-label">{{r.name}}</span>
+          <button (click)="selectRoleToEdit(r)" type="button" class="RolesEditor-editBtn">Edit</button>
+        </li>
+        <li class="AppDialog-item RolesEditor-item">
+          <input
+            [formControl]="newRoleNameCtrl"
+            type="text"
+            class="RolesEditor-nameInput"
+            placeholder="Begin typing new role..."
+          >
+        </li>
+      </ul>
+    </div>
+
+    <p-footer>
+      <button [disabled]="!newRoleNameCtrl.value" class="AppDialog-btn is-primary">
+        Save role
+      </button>
+    </p-footer>
+  </p-dialog>
+</form>
+
+<p-dialog
+  *ngIf="selectEditRole"
+  (visibleChange)="selectEditRole = null"
+  [visible]="!!selectEditRole"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <div class="AppDialog-header">
+      <h2 class="AppDialog-title">Edit permissions</h2>
+      <a
+        (click)="$event.preventDefault();deleteRole(selectEditRole, $event)"
+        href="#"
+        class="RolesEditor-removeLink"
+      >
+        Delete
+      </a>
+    </div>
+  </ng-template>
+  <div class="AppDialog-content">
+    <ul class="AppDialog-list">
+      <li *ngFor="let p of supportedPermissions$ | async" class="AppDialog-item has-noMarker">
+        <span class="RolesEditor-label">{{p.description}}</span>
+        <p-inputSwitch
+          (ngModelChange)="toggleRolePermission(selectEditRole, p.permission)"
+          class="RolesEditor-ctrl"
+          [ngModel]="selectEditRole.permissions.indexOf(p.permission) !== -1"
+        ></p-inputSwitch>
+      </li>
+    </ul>
+  </div>
+
+  <p-footer>
+    <button (click)="updateRole(selectEditRole)" class="AppDialog-btn is-primary">
+      Save permissions
+    </button>
+  </p-footer>
+</p-dialog>
+
+<p-confirmPopup *ngIf="selectEditRole"></p-confirmPopup>

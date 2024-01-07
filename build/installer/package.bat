@@ -1,0 +1,1 @@
+rem dotnet publish -c Release -o ./dist -p:PublishTrimmed=true --self-contained=true -p:TrimMode=link -r win-x64 -p:PublishSingleFile=true -p:PublishReadyToRun=true

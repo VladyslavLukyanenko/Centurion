@@ -1,0 +1,60 @@
+@page "/"
+@model MonitoringFakeShop.Pages.Shop
+@{
+  Layout = "_ShopLayout";
+}
+<div class="page-header">
+  <h1>Unbelievable shop</h1>
+</div>
+Total products count - <strong class="products-count">@Model.TotalProductsCount</strong>
+<div class="row row-cols-1 row-cols-md-2">
+  @foreach (var p in Model.ProductsToDisplay)
+  {
+    <div class="col-4 mb-4">
+      <div class="card product-card">
+        <img src="@p.ProductPic" class="card-img-top product-pic" alt="@p.Name">
+        <div class="card-body">
+          <a asp-page="./ProductDetails" asp-route-id="@p.Id" class="product-link">
+            <h5 class="product-title card-title">@p.Name</h5>
+          </a>
+          <p class="card-text">Price: <strong>$<span class="product-price">@p.Price</span></strong></p>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+<nav>
+  <ul class="pagination">
+    <li class="page-item @(Model.PageIdx == 0 ? "disabled" : "")">
+      <a asp-page="./Shop"
+         asp-route-pageIdx="@(Model.PageIdx - 1)"
+         asp-route-withDelay="@Model.WithDelay"
+         class="page-link">
+        Previous
+      </a>
+    </li>
+
+    @for (var i = 0; i < Model.PagesCount; i++)
+    {
+      <li class="page-item @(i == Model.PageIdx ? "active" : "")">
+        <a
+          asp-page="./Shop"
+          asp-route-pageIdx="@i"
+          asp-route-withDelay="@Model.WithDelay"
+          class="page-link">
+          @(i + 1)
+        </a>
+      </li>
+    }
+
+    <li class="page-item @(Model.PageIdx == Model.PagesCount - 1 ? "disabled" : "")">
+      <a
+        asp-page="./Shop"
+        asp-route-pageIdx="@(Model.PageIdx + 1)"
+        asp-route-withDelay="@Model.WithDelay"
+        class="page-link">
+        Next
+      </a>
+    </li>
+  </ul>
+</nav>

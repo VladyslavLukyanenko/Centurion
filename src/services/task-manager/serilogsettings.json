@@ -1,0 +1,50 @@
+﻿{
+  "ElasticApm:Enabled": true,
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Warning",
+      "Override": {
+        "Microsoft.Hosting.Lifetime": "Information",
+        "Elastic.Apm": "Error",
+        "Microsoft.AspNetCore": "Warning",
+        "Grpc": "Fatal",
+        "IdentityServer4": "Warning",
+        "EFCoreSecondLevelCacheInterceptor": "Warning"
+//        "Microsoft.EntityFrameworkCore.Infrastructure": "Warning",
+//        "Microsoft.EntityFrameworkCore": "Warning"
+      }
+    },
+    "Using": [
+      "Serilog.Enrichers.ClientInfo"
+    ],
+    "Enrich": [
+      "FromLogContext",
+      "WithMachineName",
+      "WithProcessId",
+      "WithThreadId",
+      "WithClientIp",
+      "WithClientAgent",
+      "WithMemoryUsage"
+    ],
+    "WriteTo": [
+      {
+        "Name": "ColoredConsole",
+        "Args": {
+          "outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Exception}{NewLine}"
+        }
+      },
+      {
+        "Name": "Elasticsearch",
+        "Args": {
+          "nodeUris": "http://elastic:NotASecretPassword@localhost:9200",
+          "customFormatter": "Serilog.Formatting.Elasticsearch.ExceptionAsObjectJsonFormatter, Serilog.Formatting.Elasticsearch",
+          "inlineFields": true,
+          "connectionTimeout": 5,
+          "emitEventFailure": "WriteToSelfLog",
+          "queueSizeLimit": "100000",
+          "autoRegisterTemplate": true
+        }
+      }
+    ]
+  }
+}

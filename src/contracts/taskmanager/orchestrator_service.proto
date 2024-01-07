@@ -1,0 +1,42 @@
+﻿syntax = "proto3";
+
+package taskmanager;
+option csharp_namespace = "Centurion.Contracts.TaskManager";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/taskmanager";
+option java_package = "gg.centurion.taskmanager";
+
+import "checkout/messages.proto";
+import "cloudmanager/messages.proto";
+import "proxy.proto";
+import "profile.proto";
+import "google/protobuf/empty.proto";
+
+message StartTasksRequest {
+  repeated string task_ids = 1;
+  map<string, ProfileList> profiles = 2;
+  map<string, ProxyPoolData> proxies = 3;
+}
+
+message StopTasksRequest {
+  repeated string task_ids = 1;
+}
+
+message OrchestratorCommand {
+  oneof command {
+    StartTasksRequest start = 1;
+    StopTasksRequest stop = 2;
+  }
+}
+
+message CloudStatusResponse {
+  cloudmanager.NodeStatus status = 1;
+}
+
+service Orchestrator {
+  rpc ConnectRpc(stream checkout.RpcMessage) returns (stream checkout.RpcMessage);
+  rpc ConnectCheckout(stream OrchestratorCommand) returns (stream checkout.CheckoutStatusChangedBatch);
+  rpc ConnectCloud(google.protobuf.Empty) returns (stream CloudStatusResponse);
+
+  rpc GetTasksStats(google.protobuf.Empty) returns (checkout.TasksExecutingStats);
+  rpc GetSupportedModules(google.protobuf.Empty) returns (checkout.SupportedModuleList);
+}

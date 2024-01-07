@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "module.proto";
+
+option csharp_namespace = "Centurion.Contracts";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts";
+option java_package = "gg.centurion.contract";
+
+enum SessionStatus {
+  NOT_READY = 0;
+  READY = 1;
+  EXPIRED = 2;
+}
+
+message SessionData {
+  string id = 1;
+  Module module = 2;
+  string name = 3;
+  optional string account_id = 4;
+  repeated string cookies = 5;
+  SessionStatus status = 6;
+  map<string, string> extra = 7;
+}

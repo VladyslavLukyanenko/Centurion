@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+option csharp_namespace = "Centurion.Contracts";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts";
+option java_package = "gg.centurion.contract";
+
+message TaskStatusData {
+  TaskCategory category = 1;
+  string title = 2;
+  optional string description = 3;
+  TaskStage stage = 4;
+}
+
+enum TaskCategory {
+  TASK_CATEGORY_UNSPECIFIED = 0;
+  TASK_CATEGORY_CHECKED_OUT = 1;
+  TASK_CATEGORY_CARTED = 2;
+  TASK_CATEGORY_DECLINED = 3;
+  TASK_CATEGORY_TERMINATED = 4;
+  TASK_CATEGORY_FAILED = 5;
+  TASK_CATEGORY_FATAL_ERROR = 6;
+}
+
+enum TaskStage {
+  TASK_STAGE_UNSPECIFIED = 0;
+  TASK_STAGE_STARTING = 1;
+  TASK_STAGE_RUNNING = 2;
+  TASK_STAGE_CHECKING_OUT = 3;
+  TASK_STAGE_ERROR = 4;
+  TASK_STAGE_IDLE = 5;
+}

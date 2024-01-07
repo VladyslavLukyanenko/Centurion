@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Centurion.Contracts.Common";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/common";
+option java_package = "gg.centurion.contract.common";
+
+message ByIdRequest {
+  string id = 1;
+}
+
+message ByIdsRequest {
+  repeated string ids = 1;
+}

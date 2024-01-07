@@ -1,0 +1,32 @@
+<p-dialog
+  *ngIf="isVisible"
+  (visibleChange)="isVisibleChange.emit($event)"
+  [visible]="isVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog is-autoHeight"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <h2 class="AppDialog-title">Bind license key</h2>
+  </ng-template>
+  <div class="AppDialog-content AppForm-wrap is-autoHeight">
+    <div class="row AppForm-row no-gutters mb-2">
+      <div class="col-12 AppForm-col">
+        <app-members-picker
+          (memberClick)="selectedMemberId = $event.id"
+          [dataSource]="membersDataSource"
+          [selectedMemberIds]="[selectedMemberId]"
+          [listHeight]="235"
+        ></app-members-picker>
+      </div>
+    </div>
+    <p-progressSpinner *ngIf="isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+  </div>
+
+  <p-footer>
+    <button (click)="bind()" [disabled]="asyncTracker.isLoading$ | async" class="AppDialog-btn is-primary">
+      Bind key
+    </button>
+  </p-footer>
+</p-dialog>

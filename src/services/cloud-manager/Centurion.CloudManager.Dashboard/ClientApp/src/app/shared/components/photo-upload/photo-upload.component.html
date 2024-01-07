@@ -1,0 +1,28 @@
+<div (click)="!readOnly && fileInput.click()" class="PhotoUploader">
+  <label class="PhotoUploader-title">{{label}}</label>
+  <input
+    #fileInput (change)="handleFileSelected($event)"
+    [accept]="supportedImageTypes"
+    class="PhotoUploader-file"
+    type="file">
+
+  <div class="PhotoUploader-wrapper">
+    <button
+      *ngIf="showCloseBtn"
+      (click)="buttonClicked.emit($event)"
+      nz-button
+      type="button"
+      class="delete-btn-wrapper"
+    >
+      <i nz-icon nzType="close"></i>
+    </button>
+
+    <div *ngIf="!readOnly" class="buttons-wrapper" [ngStyle]="{'display': previewSrc ? 'none' : 'flex'}">
+      <button nz-button type="button">
+        <i nz-icon nzType="upload"></i>
+      </button>
+    </div>
+
+    <img [alt]="label" [src]="getPreviewSrc()" class="PhotoUploader-photo">
+  </div>
+</div>

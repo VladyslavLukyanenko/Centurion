@@ -1,0 +1,7 @@
+﻿/env/**/data/
+
+wwwroot/*
+uploads/
+!wwwroot/no-user-picture.svg
+
+appsettings.local.json

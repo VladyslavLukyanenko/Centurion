@@ -1,0 +1,43 @@
+syntax = "proto3";
+option csharp_namespace = "Centurion.Contracts";
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts";
+option java_package = "gg.centurion.contract";
+
+message ProfileList {
+  repeated ProfileData profiles = 1;
+}
+
+message ProfileData {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  optional AddressData shipping_address = 4;
+  AddressData billing_address = 5;
+  optional string phone_number = 6;
+  string email = 7;
+  optional BillingData billing = 8;
+  string name = 9;
+  bool billing_as_shipping = 10;
+}
+
+message AddressData {
+  string line1 = 1;
+  optional string line2 = 2;
+  string country_id = 3;
+  string city = 4;
+  optional string province_code = 5;
+  string zip_code = 6;
+}
+
+message BillingData {
+  string card_number = 1;
+  uint32 expiration_month = 2;
+  uint32 expiration_year = 3;
+  string cvv = 4;
+  optional string holder_name = 5;
+}
+
+message ProfileGroupData {
+  string id = 1;
+  string name = 2;
+}

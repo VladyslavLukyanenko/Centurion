@@ -1,0 +1,239 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="using:Centurion.Cli.Core.ViewModels.Proxies"
+             xmlns:controls="using:Centurion.Cli.AvaloniaUI.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:behaviors="clr-namespace:Centurion.Cli.AvaloniaUI.Behaviors"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             behaviors:BlurEffect.Popup="{Binding #ProxiesGroupEditorPopup}"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.ProxiesView">
+
+  <Design.DataContext>
+    <vm:ProxiesViewModel />
+  </Design.DataContext>
+  <Grid Margin="{StaticResource PageContainerPadding}">
+    <Popup
+      Name="ProxiesGroupEditorPopup"
+      IsLightDismissEnabled="True"
+      IsOpen="{Binding #NewListBtn.IsChecked, Mode=TwoWay}"
+      PlacementTarget="NewListBtn"
+      VerticalOffset="5"
+      PlacementGravity="BottomLeft"
+      PlacementMode="Bottom"
+      Topmost="False">
+      <Border
+        Background="{StaticResource PrimaryBackgroundColor}"
+        CornerRadius="8"
+        Width="730"
+        Height="330"
+        BorderThickness="1"
+        BorderBrush="#111A55">
+        <Grid RowDefinitions="*,  52">
+          <Grid ColumnDefinitions="*,1, *">
+            <Grid Margin="13 12" RowDefinitions="36, *">
+              <TextBlock Text="New Proxies List" Foreground="#A9B5E0" />
+              <DockPanel Grid.Row="1">
+                <Label Content="Proxies" DockPanel.Dock="Top" Target="RawProxies" />
+                <TextBox
+                  IsEnabled="{Binding !CreateCommand.IsExecuting^}"
+                  Text="{Binding RawProxies}"
+                  AcceptsReturn="True"
+                  Name="RawProxies"
+                  Watermark="Enter proxies here"
+                  DockPanel.Dock="Top" />
+              </DockPanel>
+            </Grid>
+            <GridSplitter MinWidth="1" Background="#111A55" Grid.Column="1" Width="1" />
+            <Grid Grid.Column="2" Margin="13 12" RowDefinitions="36, *">
+              <StackPanel Grid.Row="1" Spacing="5">
+                <Label Content="Group Name" Target="NewGroupName" Margin="0" />
+                <TextBox
+                  IsEnabled="{Binding !CreateCommand.IsExecuting^}"
+                  Text="{Binding NewGroupName}"
+                  Name="NewGroupName"
+                  Watermark="Enter group name" />
+
+                <CheckBox
+                  IsEnabled="{Binding !CreateCommand.IsExecuting^}"
+                  IsChecked="{Binding SkipAvailabilityCheck}"
+                  Content="Skip availability test" />
+              </StackPanel>
+            </Grid>
+          </Grid>
+
+          <Border
+            Grid.Column="0"
+            Grid.Row="1"
+            Padding="12"
+            BorderThickness="0 1 0 0"
+            BorderBrush="#111A55">
+            <Grid ColumnDefinitions="*, *">
+              <ProgressBar
+                Height="15"
+                Margin="0 0 7 0"
+                Value="{Binding ParseProgress}" />
+
+              <Button
+                Margin="7 0 0 0"
+                Grid.Column="1"
+                Name="CreateBtn"
+                Classes="RegularButton"
+                HorizontalAlignment="Stretch"
+                Command="{Binding CreateCommand}"
+                Content="Create" />
+            </Grid>
+          </Border>
+        </Grid>
+      </Border>
+    </Popup>
+    <Grid MaxWidth="762" HorizontalAlignment="Stretch" ColumnDefinitions="166, 32, *">
+      <Grid RowDefinitions="Auto, *">
+        <ToggleButton Classes="OutlinedButton" Content="New List" Name="NewListBtn" />
+        <ListBox
+          Grid.Row="1"
+          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+          Margin="0 32 0 0"
+          Classes="MenuListBox"
+          SelectionMode="AlwaysSelected"
+          Items="{Binding ProxyGroups}"
+          SelectedItem="{Binding SelectedProxyGroup}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock LineHeight="NaN">
+                <TextBlock.Text>
+                  <MultiBinding StringFormat="{}{0} ({1})">
+                    <Binding Path="Name" />
+                    <Binding Path="Proxies.Count" />
+                  </MultiBinding>
+                </TextBlock.Text>
+              </TextBlock>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+
+      <Grid Grid.Column="2" RowDefinitions="Auto, *">
+        <!--Page Title -->
+        <Grid ColumnDefinitions="Auto, *, Auto">
+          <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="7">
+            <TextBlock
+              Classes="SectionTitle"
+              Margin="11 0 0 0"
+              VerticalAlignment="Center"
+              Text="{Binding SelectedProxyGroup.Name, FallbackValue=Group Name}" />
+            <ToggleButton
+              Name="OptionsBtn"
+              VerticalAlignment="Center"
+              Classes="OptionsButton">
+              <ToggleButton.ContextMenu>
+                <controls:AttachedMenu IsShown="{Binding #OptionsBtn.IsChecked, Mode=TwoWay}">
+                  <!-- <MenuItem Header="Edit" Command="{Binding }" /> -->
+                  <MenuItem Header="Remove" Command="{Binding RemoveGroupCommand}" />
+                  <MenuItem Header="Import" Command="{Binding Header.ImportGroupsCommand}" />
+                  <Separator />
+                  <MenuItem Header="Export">
+                    <MenuItem Header="JSON" Command="{Binding Header.ExportGroupsToJsonCommand}" />
+                    <MenuItem Header="CSV" Command="{Binding Header.ExportGroupsToCsvCommand}" />
+                  </MenuItem>
+                </controls:AttachedMenu>
+              </ToggleButton.ContextMenu>
+            </ToggleButton>
+          </StackPanel>
+
+          <Button
+            IsEnabled="False"
+            Classes="RegularButton"
+            VerticalAlignment="Center"
+            Content="Edit List"
+            Grid.Column="2" />
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0 17 0 0" RowDefinitions="30, *">
+          <!-- Table Header -->
+          <Grid>
+            <Grid ColumnDefinitions="172, 172, *">
+              <Grid Classes="RegularTableHeaderCell">
+                <TextBlock
+                  Classes="RegularTableHeader"
+                  Text="IP"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left" />
+
+                <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+              </Grid>
+              <Grid Classes="RegularTableHeaderCell" Grid.Column="1">
+                <TextBlock
+                  Classes="RegularTableHeader"
+                  Text="User"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left" />
+
+                <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+              </Grid>
+              <Grid Classes="RegularTableHeaderCell" Grid.Column="2">
+                <TextBlock
+                  Classes="RegularTableHeader"
+                  Text="Status"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left" />
+              </Grid>
+              <Rectangle
+                Grid.ColumnSpan="3"
+                Grid.Column="0"
+                Fill="#141E5A"
+                HorizontalAlignment="Stretch"
+                Height="1"
+                VerticalAlignment="Bottom" />
+            </Grid>
+          </Grid>
+
+          <!--Table-->
+          <controls:GridLikeListBox Grid.Row="1" Items="{Binding ProxyRows}">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Grid ColumnDefinitions="172, 172, *" Background="#01000000">
+                  <Grid.ContextMenu>
+                    <ContextMenu>
+                      <!-- <MenuItem Header="Edit" Command="{Binding $parent[vm:ProxiesViewModel].EditCommand}" /> -->
+                      <MenuItem Header="Remove" Command="{Binding RemoveProxyCommand}" />
+                    </ContextMenu>
+                  </Grid.ContextMenu>
+                  <Grid Classes="RegularTableHeaderCell">
+                    <TextBlock
+                      Text="{Binding Proxy.Url}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left" />
+
+                    <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+                  </Grid>
+                  <Grid Classes="RegularTableHeaderCell" Grid.Column="1">
+                    <TextBlock
+                      Text="{Binding Proxy.Username}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left" />
+
+                    <Rectangle Fill="#141E5A" HorizontalAlignment="Right" Width="1" />
+                  </Grid>
+                  <Grid Classes="RegularTableHeaderCell" Grid.Column="2">
+                    <TextBlock
+                      Text="24 ms"
+                      Foreground="#fff"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left" />
+
+                    <Button
+                      Classes="ToolButton"
+                      Content="Test"
+                      HorizontalAlignment="Right"
+                      Margin="0 0 6 0" />
+                  </Grid>
+                </Grid>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </controls:GridLikeListBox>
+        </Grid>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

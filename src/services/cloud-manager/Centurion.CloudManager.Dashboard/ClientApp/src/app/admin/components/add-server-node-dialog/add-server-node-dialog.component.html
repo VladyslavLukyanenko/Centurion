@@ -1,0 +1,32 @@
+<form (ngSubmit)="create()" nz-form nzLayout="vertical" [formGroup]="form">
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="endPoint">Server URL</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="endPoint" placeholder="Enter server url including protocol... (http://ect...)" name="endPoint">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="supportedTargets">Supported Hosting Targets</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="supportedTargets" nzMode="multiple" nzPlaceHolder="Supported Hosting Targets (can be multiple)">
+        <nz-option
+          *ngFor="let t of supportedTargets"
+          [nzValue]="t"
+          [nzLabel]="t"
+        ></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="username">Username</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="username" placeholder="Enter username" name="username">
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzFor="password">Password</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="password" placeholder="Enter password" name="password">
+    </nz-form-control>
+  </nz-form-item>
+</form>

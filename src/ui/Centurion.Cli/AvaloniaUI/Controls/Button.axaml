@@ -1,0 +1,283 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20" Width="400" Background="#777">
+      <StackPanel>
+        <Button
+          Classes="OutlinedButton"
+          Content="OutlinedButton"
+          Margin="0 6 0 0" />
+        <Button
+          Classes="LinkButton BtnDanger"
+          Content="LinkButton"
+          Margin="0 6 0 0" />
+        <ToggleButton
+          Classes="OutlinedButton "
+          Content="OutlinedButton (Toggle)"
+          Margin="0 6 0 0" />
+        <Button
+          Classes="ToolButton"
+          Content="ToolButton"
+          Margin="0 6 0 0" />
+        <Button
+          Classes="RegularButton Secondary"
+          Content="Secondary"
+          Margin="0 6 0 0" />
+        <Button
+          Classes="RegularButton"
+          Content="RegularButton"
+          Margin="0  6 0 0" />
+        <Button IsEnabled="False" Classes="gold" Content="gold" Margin="0 58 0 0" />
+        <Button IsEnabled="True" Classes="gold" Content="gold" Margin="0 58 0 0" />
+      </StackPanel>
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="Button.gold">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="Height" Value="37" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="FontFamily" Value="{DynamicResource AccentThemeFontFamily}" />
+    <Setter Property="Foreground" Value="#fff" />
+  </Style>
+
+  <Style Selector="Button.gold /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="CornerRadius" Value="5" />
+    <Setter Property="Opacity" Value="1" />
+    <Setter Property="Background" Value="{DynamicResource GoldGradientBrush}" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="0:0:0.2"></DoubleTransition>
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.LinkButton">
+    <Setter Property="Padding" Value="10 6" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="#fff" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter
+          x:Name="PART_ContentPresenter"
+          Background="{TemplateBinding Background}"
+          BorderBrush="{TemplateBinding BorderBrush}"
+          BorderThickness="{TemplateBinding BorderThickness}"
+          CornerRadius="{TemplateBinding CornerRadius}"
+          Content="{TemplateBinding Content}"
+          ContentTemplate="{TemplateBinding ContentTemplate}"
+          TextBlock.FontSize="{TemplateBinding FontSize}"
+          TextBlock.FontWeight="{TemplateBinding FontWeight}"
+          TextBlock.Foreground="{TemplateBinding Foreground}"
+          TextBlock.FontFamily="{TemplateBinding FontFamily}"
+          Padding="{TemplateBinding Padding}"
+          RecognizesAccessKey="True"
+          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.LinkButton /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Opacity" Value="1" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="0:0:0.2"></DoubleTransition>
+        <BrushTransition Property="TextBlock.Foreground" Duration="0:0:.2" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.LinkButton.BtnDanger">
+    <Setter Property="Foreground" Value="#E483B2" />
+  </Style>
+
+  <Style Selector="Button.gold:pointerover">
+    <Setter Property="Foreground" Value="#fff" />
+  </Style>
+
+  <Style Selector="Button.gold:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Opacity" Value="0.85" />
+    <Setter Property="Background" Value="{DynamicResource GoldGradientBrush}" />
+    <Setter Property="TextBlock.Foreground" Value="#ffc" />
+  </Style>
+
+  <Style Selector="Button.gold:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource GoldGradientBrushDisabled}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource AccentButtonBorderBrushDisabled}" />
+    <Setter Property="TextBlock.Foreground" Value="#777" />
+  </Style>
+
+  <Style Selector="Button.ToolButton">
+    <Setter Property="CornerRadius" Value="4" />
+    <Setter Property="Background" Value="#253778" />
+    <Setter Property="Padding" Value="6,3" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="#A9B5E0" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <BrushTransition Property="Background" Duration="0:0:.15" />
+        <BrushTransition Property="Foreground" Duration="0:0:.15" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.DefaultButton">
+    <Setter Property="Padding" Value="9 6" />
+  </Style>
+
+  <Style Selector="Button.RegularButton">
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Background" Value="#4254C5" />
+    <Setter Property="Padding" Value="9 6" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="#fff" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <BrushTransition Property="Background" Duration="0:0:.15" />
+        <BrushTransition Property="Foreground" Duration="0:0:.15" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.RegularButton.Secondary">
+    <Setter Property="Background" Value="#253778" />
+    <Setter Property="Foreground" Value="#A9B5E0" />
+  </Style>
+
+  <Style Selector="Button.OutlinedButton">
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Background" Value="#01000000" />
+    <Setter Property="Padding" Value="9 7" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="#2E3670" />
+    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="#A9B5E0" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border
+          Background="{TemplateBinding Background}"
+          BorderBrush="{TemplateBinding BorderBrush}"
+          BorderThickness="{TemplateBinding BorderThickness}"
+          CornerRadius="{TemplateBinding CornerRadius}"
+          Padding="{TemplateBinding Padding}">
+          <Grid ColumnDefinitions="*, Auto">
+            <ContentPresenter
+              x:Name="PART_OutlinedContentPresenter"
+              Content="{TemplateBinding Content}"
+              ContentTemplate="{TemplateBinding ContentTemplate}"
+              TextBlock.FontSize="{TemplateBinding FontSize}"
+              TextBlock.FontWeight="{TemplateBinding FontWeight}"
+              TextBlock.Foreground="{TemplateBinding Foreground}"
+              TextBlock.FontFamily="{TemplateBinding FontFamily}"
+              RecognizesAccessKey="True"
+              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            <Path
+              x:Name="PART_OutlinedIconPath"
+              Grid.Column="1"
+              Margin="5 0 0 0"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Center"
+              Data="M4.69715 0.661682C4.30384 0.661682 3.985 0.980524 3.985 1.37383V3.98502L1.37377 3.98502C0.980463 3.98502 0.661621 4.30386 0.661621 4.69717C0.661621 5.09048 0.980462 5.40932 1.37377 5.40932L3.985 5.40932V8.0206C3.985 8.41391 4.30384 8.73275 4.69715 8.73275C5.09046 8.73275 5.40931 8.41391 5.40931 8.0206V5.40932L8.02053 5.40932C8.41385 5.40932 8.73269 5.09048 8.73269 4.69717C8.73269 4.30386 8.41385 3.98502 8.02053 3.98502L5.40931 3.98502V1.37383C5.40931 0.980524 5.09046 0.661682 4.69715 0.661682Z"
+              Fill="#A9B5E0" />
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <BrushTransition Property="Background" Duration="0:0:.15" />
+        <BrushTransition Property="Foreground" Duration="0:0:.15" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="Button.OutlinedButton:pointerover">
+    <Setter Property="Background" Value="#4f000000"></Setter>
+  </Style>
+
+
+  <Style Selector="ToggleButton.OutlinedButton">
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Background" Value="#01000000" />
+    <Setter Property="Padding" Value="9 7" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="BorderBrush" Value="#2E3670" />
+    <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Foreground" Value="#A9B5E0" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border
+          Background="{TemplateBinding Background}"
+          BorderBrush="{TemplateBinding BorderBrush}"
+          BorderThickness="{TemplateBinding BorderThickness}"
+          CornerRadius="{TemplateBinding CornerRadius}"
+          Padding="{TemplateBinding Padding}">
+          <Grid ColumnDefinitions="*, Auto">
+            <ContentPresenter
+              x:Name="PART_OutlinedContentPresenter"
+              Content="{TemplateBinding Content}"
+              ContentTemplate="{TemplateBinding ContentTemplate}"
+              TextBlock.FontSize="{TemplateBinding FontSize}"
+              TextBlock.FontWeight="{TemplateBinding FontWeight}"
+              TextBlock.Foreground="{TemplateBinding Foreground}"
+              TextBlock.FontFamily="{TemplateBinding FontFamily}"
+              RecognizesAccessKey="True"
+              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+            <Path
+              x:Name="PART_OutlinedIconPath"
+              Grid.Column="1"
+              Margin="5 0 0 0"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Center"
+              Data="M4.69715 0.661682C4.30384 0.661682 3.985 0.980524 3.985 1.37383V3.98502L1.37377 3.98502C0.980463 3.98502 0.661621 4.30386 0.661621 4.69717C0.661621 5.09048 0.980462 5.40932 1.37377 5.40932L3.985 5.40932V8.0206C3.985 8.41391 4.30384 8.73275 4.69715 8.73275C5.09046 8.73275 5.40931 8.41391 5.40931 8.0206V5.40932L8.02053 5.40932C8.41385 5.40932 8.73269 5.09048 8.73269 4.69717C8.73269 4.30386 8.41385 3.98502 8.02053 3.98502L5.40931 3.98502V1.37383C5.40931 0.980524 5.09046 0.661682 4.69715 0.661682Z"
+              Fill="#A9B5E0" />
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <BrushTransition Property="Background" Duration="0:0:.15" />
+        <BrushTransition Property="Foreground" Duration="0:0:.15" />
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style Selector="ToggleButton.OutlinedButton:pointerover">
+    <Setter Property="Background" Value="#4f000000"></Setter>
+  </Style>
+
+  <Style Selector="ToggleButton.OutlinedButton:checked">
+    <Setter Property="Background" Value="#4f000000"></Setter>
+  </Style>
+</Styles>

@@ -1,0 +1,54 @@
+FROM ubuntu:18.04 as tar_files
+WORKDIR /tar
+COPY . .
+RUN find . -name "*.csproj" -print0 | tar -cvf projectfiles.tar --null -T -
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /app
+
+COPY ./*.sln  ./
+
+COPY --from=tar_files /tar/projectfiles.tar .
+RUN tar -xvf projectfiles.tar
+RUN rm projectfiles.tar
+
+RUN dotnet restore src/services/cloud-manager/Centurion.CloudManager
+
+COPY . .
+WORKDIR src/services/cloud-manager/Centurion.CloudManager/
+RUN dotnet publish -c Debug --self-contained=false -o /app/dist
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+
+##############################
+### Remote debug stuff
+##############################
+
+RUN apt-get update
+RUN apt-get install -y openssh-server openrc curl
+
+RUN mkdir -p /var/run/sshd && chmod 0755 /var/run/sshd
+RUN /usr/bin/ssh-keygen -A
+RUN /usr/sbin/sshd
+RUN ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
+RUN cat ~/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
+RUN chmod 0600 /root/.ssh/authorized_keys
+RUN chmod 644 /root/.ssh/id_rsa.pub
+RUN chmod 600 /root/.ssh/id_rsa
+RUN chmod 700 /root/.ssh
+
+RUN	sed -i s/#PermitRootLogin.*/PermitRootLogin\ yes/ /etc/ssh/sshd_config
+RUN echo "root:root" | chpasswd
+RUN /etc/init.d/ssh restart
+CMD ["/usr/sbin/ssh","-D"]
+RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -r linux-x64 -v latest -l ~/vsdbg
+
+############################
+
+COPY --from=build /app/dist .
+ENTRYPOINT ["dotnet", "Centurion.CloudManager.dll"]
+EXPOSE 443
+EXPOSE 81
+EXPOSE 80
+

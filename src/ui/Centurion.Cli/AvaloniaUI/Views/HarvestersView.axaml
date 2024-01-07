@@ -1,0 +1,191 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:harvesters="clr-namespace:Centurion.Cli.Core.ViewModels.Harvesters"
+             xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+             xmlns:domain="clr-namespace:Centurion.Cli.Core.Domain"
+             xmlns:contracts="clr-namespace:Centurion.Contracts"
+             xmlns:accounts="clr-namespace:Centurion.Cli.Core.Domain.Accounts"
+             xmlns:flexbox="clr-namespace:Avalonia.Flexbox;assembly=Avalonia.Flexbox"
+             xmlns:behaviors="clr-namespace:Centurion.Cli.AvaloniaUI.Behaviors"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             behaviors:BlurEffect.Popup="{Binding #HarvesterEditorPopup}"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.HarvestersView">
+  <Design.DataContext>
+    <harvesters:HarvestersViewModel />
+  </Design.DataContext>
+
+
+  <Grid Margin="{StaticResource PageContainerPadding}">
+    <Popup
+      Name="HarvesterEditorPopup"
+      IsLightDismissEnabled="True"
+      PlacementGravity="BottomLeft"
+      PlacementMode="Bottom"
+      IsOpen="{Binding #NewHarvesterBtn.IsChecked, Mode=TwoWay}"
+      PlacementTarget="NewHarvesterBtn"
+      VerticalOffset="5"
+      Topmost="False">
+      <Border
+        Background="{StaticResource PrimaryBackgroundColor}"
+        CornerRadius="8"
+        Width="430"
+        Height="370"
+        BorderThickness="1"
+        BorderBrush="#111A55">
+        <Grid RowDefinitions="*,  52">
+          <Grid Margin="13 12" RowDefinitions="36, *">
+            <TextBlock Text="Harvester Create/Edit" Foreground="#A9B5E0" />
+            <StackPanel Grid.Row="1">
+              <Label Content="Module" Target="ModulesCb" />
+              <ComboBox
+                Name="ModulesCb"
+                SelectedItem="{Binding Editor.SelectedModule}"
+                Items="{Binding Editor.SupportedModules}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate DataType="contracts:ModuleMetadata">
+                    <TextBlock Text="{Binding DisplayName}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+
+              <Label Content="Account" Target="AccountCb" Margin="0 5 0 0" />
+              <ComboBox
+                Name="AccountCb"
+                SelectedItem="{Binding Editor.SelectedAccount}"
+                Items="{Binding Editor.Accounts}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate DataType="accounts:Account">
+                    <TextBlock Text="{Binding Email}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+
+              <Label Content="Proxy" Target="Proxy" Margin="0 5 0 0" />
+              <ComboBox
+                SelectedItem="{Binding Editor.SelectedGroup}"
+                Items="{Binding Editor.ProxyGroups}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate DataType="domain:ProxyGroup">
+                    <TextBlock Text="{Binding Name}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+
+              <controls:GridLikeListBox
+                Height="100"
+                Margin="0 10 0 0"
+                BorderBrush="#111A55"
+                BorderThickness="1"
+                CornerRadius="4"
+                Items="{Binding Editor.SelectedGroup.Proxies}"
+                Name="Proxy"
+                SelectedItem="{Binding Editor.SelectedProxy}">
+                <ListBox.ItemTemplate>
+                  <DataTemplate DataType="domain:Proxy">
+                    <TextBlock
+                      Padding="10 3"
+                      Text="{Binding Url}"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left" />
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </controls:GridLikeListBox>
+            </StackPanel>
+          </Grid>
+
+          <Border
+            Grid.Column="0"
+            Grid.Row="1"
+            Padding="12"
+            BorderThickness="0 1 0 0"
+            BorderBrush="#111A55">
+            <Grid ColumnDefinitions="*, *">
+
+              <Button
+                Margin="7 0 0 0"
+                Grid.Column="1"
+                Name="CreateBtn"
+                Classes="RegularButton"
+                HorizontalAlignment="Stretch"
+                Command="{Binding Editor.SaveCommand}"
+                Content="Create" />
+            </Grid>
+          </Border>
+        </Grid>
+      </Border>
+    </Popup>
+    <Grid MaxWidth="762" HorizontalAlignment="Stretch" ColumnDefinitions="166, 32, *">
+      <Grid Grid.ColumnSpan="3" RowDefinitions="Auto, *, Auto">
+        <!--Page Title -->
+        <Grid ColumnDefinitions="Auto, *, Auto">
+          <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+            <TextBlock
+              Classes="SectionTitle"
+              Margin="11 0 0 0"
+              VerticalAlignment="Center"
+              Text="Harvesters" />
+
+
+            <Border CornerRadius="4" Background="#1F2969" Padding="11 2">
+              <TextBlock
+                FontSize="11"
+                FontWeight="500"
+                Foreground="#fff"
+                Text="{Binding RunningCount, StringFormat={}{0} Running}" />
+            </Border>
+          </StackPanel>
+
+          <StackPanel Orientation="Horizontal" Grid.Column="2" Spacing="4">
+            <Button
+              Foreground="#E4C983"
+              Content="Clear Harvester Cookies"
+              Command="{Binding RemoveCachesCommand}"
+              Classes="LinkButton" />
+
+            <ToggleButton
+              Name="NewHarvesterBtn"
+              Classes="OutlinedButton"
+              Command="{Binding CreateNewCommand}"
+              Content="Add Harvester" />
+          </StackPanel>
+        </Grid>
+        <ScrollViewer Grid.Row="1" Margin="0 17 0 0" Padding="0 2 2 5">
+          <ItemsControl Items="{Binding Harvesters}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <flexbox:FlexPanel
+                  JustifyContent="SpaceBetween"
+                  AlignItems="Stretch"
+                  AlignContent="FlexStart"
+                  Wrap="Wrap"
+                  ColumnSpacing="8"
+                  RowSpacing="8" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="harvesters:HarvesterItemViewModel">
+                <ContentControl
+                  Content="{Binding}"
+                  HorizontalContentAlignment="Stretch"
+                  VerticalContentAlignment="Stretch" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Height="45">
+          <Border CornerRadius="5" Background="#E4C983" />
+
+          <TextBlock
+            FontSize="11"
+            FontWeight="Bold"
+            Foreground="#E4C983"
+            Text="{Binding TokensHarvestedTotal, StringFormat={}{0} Tokens Harvested (Total)}" />
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,100 @@
+<form (ngSubmit)="create()" [formGroup]="form" class="AppForm">
+  <p-dialog
+    (visibleChange)="isVisibleChange.emit($event)"
+    [visible]="isVisible"
+    [modal]="true"
+    [dismissableMask]="true"
+    styleClass="AppDialog"
+    class="dialogHeaderIconless"
+  >
+    <ng-template pTemplate="header">
+      <h2 class="AppDialog-title">Create releases</h2>
+    </ng-template>
+    <div class="AppDialog-content AppForm-wrap">
+      <div class="row AppForm-row no-gutters">
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Release name</label>
+            <input formControlName="title" class="AppForm-control" placeholder="Release name">
+            <app-field-error-required [control]="form.titleCtrl"></app-field-error-required>
+          </div>
+        </div>
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Release type</label>
+            <p-dropdown
+              formControlName="type"
+              class="AppForm-control"
+              appendTo="body"
+              [options]="releaseTypes"
+              placeholder="Release Type"
+              optionLabel="key"
+              optionValue="value"
+            ></p-dropdown>
+
+            <app-field-error-required [control]="form.typeCtrl"></app-field-error-required>
+          </div>
+        </div>
+      </div>
+      <div class="row AppForm-row no-gutters">
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Stock</label>
+            <input formControlName="initialStock" class="AppForm-control" placeholder="Stock">
+            <app-field-error-required [control]="form.initialStockCtrl"></app-field-error-required>
+          </div>
+        </div>
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Plan</label>
+            <p-dropdown
+              formControlName="planId"
+              class="AppForm-control"
+              [options]="plans$ | async"
+              optionValue="id"
+              optionLabel="description"
+              appendTo="body"
+              placeholder="Plan"
+            ></p-dropdown>
+
+            <app-field-error-required [control]="form.planIdCtrl"></app-field-error-required>
+          </div>
+        </div>
+      </div>
+      <div class="row AppForm-row no-gutters">
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Password</label>
+            <input formControlName="password" class="AppForm-control" placeholder="Password">
+
+            <app-field-error-required [control]="form.passwordCtrl"></app-field-error-required>
+          </div>
+        </div>
+
+        <div class="col-6 AppForm-col">
+          <div class="AppForm-field p-field">
+            <label class="AppForm-label">Is active</label>
+            <p-dropdown
+              formControlName="isActive"
+              class="AppForm-control"
+              [options]="activeStates"
+              optionValue="value"
+              optionLabel="key"
+              appendTo="body"
+              placeholder="Is Active"
+            ></p-dropdown>
+
+            <app-field-error-required [control]="form.planIdCtrl"></app-field-error-required>
+          </div>
+        </div>
+      </div>
+      <p-progressSpinner *ngIf="isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+    </div>
+
+    <p-footer>
+      <button [disabled]="asyncTracker.isLoading$ | async" class="AppDialog-btn is-primary">
+        Save Release
+      </button>
+    </p-footer>
+  </p-dialog>
+</form>

@@ -1,0 +1,12 @@
+<nz-select
+  [formControl]="control"
+  [nzPlaceHolder]="placeholder"
+  nzShowSearch [nzSize]="size"
+  class="EnumSelect-select"
+>
+  <nz-option
+    *ngFor="let o of getKeyValuePairs()"
+    [nzValue]="o.key"
+    [nzLabel]="o.value"
+  ></nz-option>
+</nz-select>

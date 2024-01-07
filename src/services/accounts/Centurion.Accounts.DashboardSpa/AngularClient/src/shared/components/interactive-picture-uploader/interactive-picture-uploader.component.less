@@ -1,0 +1,59 @@
+:host {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  flex: 1 1 100%;
+}
+
+.InteractivePictureUploader {
+  font-size: 0;
+  line-height: 1;
+
+  &-uploadBtn {
+    border-radius: 3px;
+    position: relative;
+    font-size: 0;
+    line-height: 1;
+    flex: 1 1 100%;
+
+    &.has-no-pic {
+      background: #667;
+    }
+  }
+
+  &-pic {
+    //height: 100%;
+    width: 100%;
+    border-radius: 3px;
+  }
+
+  &-label {
+    position: absolute;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.57);
+    left: 50%;
+    top: 9px;
+    transform: translateX(-50%);
+  }
+
+  &-editBtn {
+    position: absolute;
+
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    color: #FFFFFF;
+    left: 50%;
+    bottom: 9px;
+    transform: translateX(-50%);
+  }
+}

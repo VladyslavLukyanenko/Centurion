@@ -1,0 +1,64 @@
+<nz-layout class="Layout">
+
+  <nz-sider [(nzCollapsed)]="isCollapsed" nzCollapsible nzWidth="200px" class="Layout-sider">
+
+    <div class="Layout-logo">
+      <img src="assets/images/logo-wide.png" alt="Logo" class="Layout-logoImg is-wide">
+    </div>
+
+    <ul nz-menu nzMode="inline" nzTheme="dark" class="Layout-secondLvlMenu" [nzInlineCollapsed]="isCollapsed">
+      <li
+        *ngFor="let route of secondLvlRoutes$ | async"
+        nz-menu-item
+        nzMatchRouter
+        [nz-tooltip]="isCollapsed ? (route.routeItem.title | translate) : null"
+        nzTooltipPlacement="right"
+      >
+        <a [routerLink]="route.navSegments">
+          <i
+            *ngIf="route.routeItem.icon"
+            nz-icon
+            [nzType]="route.routeItem.icon"
+          ></i>
+          <ng-container *ngIf="!isCollapsed">
+            {{route.routeItem.title | translate}}
+          </ng-container>
+        </a>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+
+    <nz-header class="Layout-header">
+      <nz-breadcrumb class="Layout-breadcrumbs">
+        <nz-breadcrumb-item *ngFor="let nav of navPath$ | async; let last = last">
+          <a [routerLink]="nav.url" [class.is-active]="last" class="Layout-breadcrumbItem">
+            {{nav.data.title | translate}}
+          </a>
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <ul nz-menu nzTheme="light" nzMode="horizontal" class="Layout-mainMenu">
+        <li *ngFor="let route of rootRoutes$ | async" nz-menu-item nzMatchRouter>
+          <a [routerLink]="route.navSegments">
+            {{route.routeItem.title | translate}}
+          </a>
+        </li>
+      </ul>
+      <div class="Layout-env">
+        <button
+          (click)="logOut()"
+          nz-button
+          [nz-tooltip]="'core.layout.logOut'|translate"
+          nzType="link"
+          class="Layout-logOut"
+        >
+          <i nz-icon nzType="logout" nzTheme="outline"></i>
+        </button>
+      </div>
+    </nz-header>
+    <nz-content class="Layout-content">
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+

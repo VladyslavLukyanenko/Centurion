@@ -1,0 +1,93 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="40" Background="#050A2A">
+      <RadioButton
+        Content="Home"
+        Classes="MainNavigationItem"
+        GroupName="MainNavigation" />
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="RadioButton.MainNavigationItem">
+    <Setter Property="Padding" Value="0 6 " />
+    <Setter Property="Background" Value="#01000000" />
+    <Setter Property="Foreground" Value="#A9B5E0" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="FontWeight" Value="Bold" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Foreground" Duration="0:0:.2" />
+      </Transitions>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid>
+          <ContentPresenter
+            Name="PART_ContentPresenter"
+            TextBlock.Foreground="{TemplateBinding Foreground}"
+            Margin="{TemplateBinding Padding}"
+            TextBlock.FontSize="{TemplateBinding FontSize}"
+            TextBlock.FontWeight="{TemplateBinding FontWeight}"
+            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+            Content="{TemplateBinding Content}" />
+          <Grid
+            Width="6"
+            Height="2"
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Center">
+            <Border
+              Name="PART_BottomLine"
+              CornerRadius="26">
+              <Border.Styles>
+                <Style Selector="Border">
+                  <Setter Property="Opacity" Value="0" />
+                  <Setter Property="Width" Value="50" />
+                  <Setter Property="Height" Value="0" />
+                  <Setter Property="Background" Value="#FFF" />
+                  <Setter Property="Transitions">
+                    <Transitions>
+                      <DoubleTransition Property="Opacity" Duration="0:0:.1" />
+                      <BrushTransition Property="Background" Duration="0:0:.1" />
+                      <DoubleTransition Property="Width" Duration="0:0:.2" />
+                    </Transitions>
+                  </Setter>
+                </Style>
+              </Border.Styles>
+            </Border>
+          </Grid>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+  </Style>
+
+  <Style Selector="RadioButton.MainNavigationItem:pointerover">
+    <Setter Property="Foreground" Value="#FFF" />
+  </Style>
+
+  <Style Selector="RadioButton.MainNavigationItem:pressed">
+    <Setter Property="Foreground" Value="#FFF" />
+  </Style>
+  <Style Selector="RadioButton.MainNavigationItem:pressed /template/ Border#PART_BottomLine">
+    <Setter Property="Width" Value="7" />
+    <Setter Property="Opacity" Value="1" />
+  </Style>
+
+  <Style Selector="RadioButton.MainNavigationItem:disabled">
+    <Setter Property="Foreground" Value="#999" />
+  </Style>
+
+
+  <Style Selector="RadioButton.MainNavigationItem:checked">
+    <Setter Property="Foreground" Value="#FFF" />
+  </Style>
+  <Style Selector="RadioButton.MainNavigationItem:checked /template/ Border#PART_BottomLine">
+    <Setter Property="Width" Value="7" />
+    <Setter Property="Height" Value="3" />
+    <Setter Property="Opacity" Value="1" />
+    <Setter Property="Background" Value="#E4C983" />
+  </Style>
+</Styles>

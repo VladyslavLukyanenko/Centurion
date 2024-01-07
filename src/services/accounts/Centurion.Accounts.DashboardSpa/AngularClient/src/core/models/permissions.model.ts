@@ -1,0 +1,16 @@
+﻿export enum AppPermissions {
+  AnalyticsGeneralRead = "AnalyticsGeneralRead",
+  AnalyticsDiscordRead = "AnalyticsDiscordRead",
+  LicenseKeysToggleSuspend = "LicenseKeysToggleSuspend",
+  LicenseKeysStatsUsedCount = "LicenseKeysStatsUsedCount",
+  LicenseKeysManage = "LicenseKeysManage",
+  LicenseKeysDelete = "LicenseKeysDelete",
+  PlansManage = "PlansManage",
+  PlansDelete = "PlansDelete",
+  ReleaseManage = "ReleaseManage",
+  ReleaseDelete = "ReleaseDelete",
+  RolesManage = "RolesManage",
+  RolesDelete = "RolesDelete",
+  StaffManage = "StaffManage",
+  StaffDelete = "StaffDelete",
+}

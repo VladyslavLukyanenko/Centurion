@@ -1,0 +1,142 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:tasks="clr-namespace:Centurion.Cli.Core.ViewModels.Tasks"
+             xmlns:controls="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+             xmlns:behaviors="clr-namespace:Centurion.Cli.AvaloniaUI.Behaviors"
+             behaviors:BlurEffect.Popup="{Binding #TaskGroupEditorPopup}"
+             mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="450"
+             x:Class="Centurion.Cli.AvaloniaUI.Views.Tasks.TasksView">
+
+  <Design.DataContext>
+    <tasks:TasksViewModel />
+  </Design.DataContext>
+  <Grid>
+    <Grid ColumnDefinitions="316, *" MaxWidth="1200" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <Popup
+        Name="TaskGroupEditorPopup"
+        IsLightDismissEnabled="True"
+        PlacementGravity="BottomLeft"
+        PlacementMode="Bottom"
+        IsOpen="{Binding #NewGroupBtn.IsChecked, Mode=TwoWay}"
+        PlacementTarget="NewGroupBtn"
+        VerticalOffset="5"
+        Topmost="False">
+        <Border
+          Background="{StaticResource PrimaryBackgroundColor}"
+          CornerRadius="8"
+          Width="230"
+          Height="160"
+          BorderThickness="1"
+          BorderBrush="#111A55">
+          <Grid RowDefinitions="*,  52">
+            <Grid Margin="13 12" RowDefinitions="36, *">
+              <TextBlock Text="Group Editor" Foreground="#A9B5E0" />
+              <StackPanel Grid.Row="1">
+                <Label Content="Group Name" Target="GroupName" />
+                <TextBox
+                  IsEnabled="{Binding !SaveCommand.IsExecuting^}"
+                  Text="{Binding EditingGroup.Name}"
+                  Name="GroupName"
+                  Watermark="Enter group name" />
+              </StackPanel>
+            </Grid>
+
+            <Border
+              Grid.Column="0"
+              Grid.Row="1"
+              Padding="12"
+              BorderThickness="0 1 0 0"
+              BorderBrush="#111A55">
+              <Grid ColumnDefinitions="*, *">
+
+                <Button
+                  Margin="7 0 0 0"
+                  Grid.Column="1"
+                  Name="CreateBtn"
+                  Classes="RegularButton"
+                  HorizontalAlignment="Stretch"
+                  Command="{Binding SaveCommand}"
+                  Content="Create" />
+              </Grid>
+            </Border>
+          </Grid>
+        </Border>
+      </Popup>
+      <Border
+        Grid.Column="0"
+        BorderThickness="1 0 1 0"
+        BorderBrush="#141E5A">
+
+        <Grid RowDefinitions="80, *">
+          <TextBlock
+            Grid.Row="0"
+            Text="Task Groups"
+            Classes="WidgetTitle"
+            Margin="32 0 0 0"
+            VerticalAlignment="Center" />
+
+          <ToggleButton
+            Name="NewGroupBtn"
+            Grid.Row="0"
+            Classes="LinkButton"
+            Command="{Binding CreateGroupCommand}"
+            Content="New Group +"
+            Background="Transparent"
+            Foreground="#A9B5E0"
+            FontSize="11"
+            Margin="0 0 24 0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center" />
+          <controls:TileListBox
+            BorderThickness="0 1 0 0"
+            BorderBrush="#141E5A"
+            Grid.Row="1"
+            Items="{Binding TaskGroups}"
+            SelectedItem="{Binding SelectedGroup}">
+            <controls:TileListBox.ContextFlyout>
+              <MenuFlyout>
+                <MenuFlyout.Items>
+                  <MenuItem Header="Tasks">
+                    <MenuItem Header="Start" Command="{Binding StartTasksCommand}" />
+                    <MenuItem Header="Stop" Command="{Binding StopTasksCommand}" />
+                    <MenuItem Header="Edit" Command="{Binding EditTasksCommand}" />
+                  </MenuItem>
+                  <Separator />
+                  <MenuItem Header="Remove group" Command="{Binding RemoveCommand}" />
+                </MenuFlyout.Items>
+              </MenuFlyout>
+            </controls:TileListBox.ContextFlyout>
+            <ListBox.ItemTemplate>
+              <DataTemplate DataType="tasks:TaskGroupViewModel">
+                <controls:TaskGroupTile
+                  TaskGroup="{Binding TaskGroup}"
+                  IsSelected="{Binding $parent[ListBoxItem].IsSelected}" />
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </controls:TileListBox>
+        </Grid>
+      </Border>
+      <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+        <TextBlock
+          Margin="0, 35, 0, 0"
+          Foreground="#8F57619B"
+          FontWeight="Bold"
+          IsVisible="{Binding SelectedGroup, Converter={x:Static ObjectConverters.IsNull}}"
+          FontSize="10"
+          Text="No group selected"
+          HorizontalAlignment="Center" />
+
+        <ContentControl
+          Padding="30 0 0 0"
+          IsVisible="{Binding SelectedGroup, Converter={x:Static ObjectConverters.IsNotNull}}"
+          Content="{Binding SelectedGroup}"
+          HorizontalContentAlignment="Stretch"
+          VerticalContentAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          HorizontalAlignment="Stretch" />
+      </Grid>
+    </Grid>
+  </Grid>
+</UserControl>

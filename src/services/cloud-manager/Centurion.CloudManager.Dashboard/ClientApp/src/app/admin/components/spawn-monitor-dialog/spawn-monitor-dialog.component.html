@@ -1,0 +1,41 @@
+<form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="create()">
+  <input type="hidden" formControlName="imageId" name="imageId">
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="serverId">Server to spawn on</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="serverId" nzAllowClear>
+        <nz-option-group *ngFor="let g of groups$ | async" [nzLabel]="g.providerName">
+          <nz-option
+            *ngFor="let node of g.instances"
+            nzCustomContent
+            [nzValue]="node.id"
+            [nzLabel]="node.id"
+          >
+            <div class="SpawnMonitorDialog-option is-idle">
+              <div class="SpawnMonitorDialog-nodeId">{{node.id}}</div>
+              <small class="SpawnMonitorDialog-nodeStatus">
+                <ng-container *ngIf="node.isIdle">Idle,</ng-container>
+                {{node.status}}
+              </small>
+            </div>
+          </nz-option>
+        </nz-option-group>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-card nzTitle="Required spawn parameters" formGroupName="parameters">
+    <nz-form-item *ngFor="let p of monitorImage.requiredSpawnParameters">
+      <nz-form-label nzRequired [nzFor]="p">{{p}}</nz-form-label>
+      <nz-form-control>
+        <textarea
+          nz-input
+          rows="3"
+          [formControlName]="p"
+          [placeholder]="'Enter value for ' + p"
+          [name]="p"
+        ></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </nz-card>
+</form>

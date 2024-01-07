@@ -1,0 +1,162 @@
+<header class="Page-header Releases-header">
+  <h1 class="Page-title">Releases</h1>
+
+  <div class="Releases-filters">
+    <ul class="ActiveFilters">
+      <li *ngFor="let f of activeFilters$ | async" class="ActiveFilters-item">
+        <div class="ActiveFilters-label">{{f.displayName}}</div>
+        <a (click)="$event.preventDefault();pushFilterToRoute(f.kind)" href="#" class="ActiveFilters-removeBtn"></a>
+      </li>
+    </ul>
+    <div class="Releases-filterControls">
+      <button
+        (click)="isCreateDialogVisible = true;"
+        type="button"
+        class="CreateBtn"
+      ></button>
+      <button type="button" class="StdButton" (click)="menu.toggle($event)" style="min-width: 120px;">
+        Filters
+        <svg style="width: 12px;height: 8px;">
+          <use href="#angle-down"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<p-menu #menu [popup]="true" [model]="supportedFilters" class="StdMenu"></p-menu>
+
+<div class="Releases-content Page-content">
+  <div class="AppTable-wrap">
+    <cdk-virtual-scroll-viewport itemSize="44" style="height: 100%;">
+      <table class="AppTable ReleasesGrid">
+        <thead>
+        <tr class="AppTable-headerRow">
+          <th class="AppTable-headerCell">Release Name</th>
+          <th class="AppTable-headerCell ReleasesGrid-stockCell">Total Stock</th>
+          <th class="AppTable-headerCell ReleasesGrid-stockCell">Remaining Stock</th>
+          <th class="AppTable-headerCell ReleasesGrid-releaseCell">Release Type</th>
+          <th class="AppTable-headerCell ReleasesGrid-typeCell">Key Type</th>
+          <th class="AppTable-headerCell ReleasesGrid-statusCell">Status</th>
+          <th class="AppTable-headerCell ReleasesGrid-actionsCell"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *cdkVirtualFor="let l of releasesDataSource; trackBy: trackById" class="ReleasesGrid-dataRow">
+          <ng-container *ngIf="l">
+            <td class="AppTable-dataCell">{{ l.title }}</td>
+            <td class="AppTable-dataCell">{{ l.initialStock }} initial stock</td>
+            <td class="AppTable-dataCell">{{ l.stock }} stock remaining</td>
+            <td class="AppTable-dataCell">via {{ l.type }}</td>
+            <td class="AppTable-dataCell">{{ l.planDesc }}</td>
+            <td
+              class="AppTable-dataCell"
+              [class.is-successText]="l.isActive"
+              [class.is-dangerText]="!l.isActive"
+            >
+              {{ l.isActive ? "Active" : "Inactive" }}
+            </td>
+            <td class="AppTable-dataCell">
+              <a [routerLink]="[l.id]" class="ActionButton is-primary" type="button">
+                View
+              </a>
+
+              <button *appPermission="appPermissions.ReleaseDelete" (click)="remove(l, $event)" class="ActionButton is-danger" type="button">
+                Delete
+              </button>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="!l">
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+            <td class="AppTable-dataCell">
+              <p-skeleton width="100%"></p-skeleton>
+            </td>
+          </ng-container>
+        </tr>
+        </tbody>
+      </table>
+      <div *ngIf="releasesDataSource.noData$ | async" class="AppTable-noData">No releases found</div>
+    </cdk-virtual-scroll-viewport>
+    <p-progressSpinner *ngIf="asyncTracker.isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+  </div>
+</div>
+<p-confirmPopup></p-confirmPopup>
+
+
+<p-dialog
+  *ngIf="isPlanPickerVisible"
+  [(visible)]="isPlanPickerVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <h2 class="AppDialog-title">Releases with plan</h2>
+  </ng-template>
+  <div class="AppDialog-content" style="min-height: 0;">
+    <div class="AppForm-field p-field">
+      <p-dropdown
+        (ngModelChange)="isPlanPickerVisible = false;pushFilterToRoute(sortKinds.planId, $event)"
+        ngModel
+        appendTo="body"
+        class="AppForm-control"
+        [options]="plans$ | async"
+        optionValue="id"
+        optionLabel="description"
+        placeholder="Plan"
+      ></p-dropdown>
+    </div>
+  </div>
+</p-dialog>
+
+
+<p-dialog
+  *ngIf="isReleaseTypeVisible"
+  [(visible)]="isReleaseTypeVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog has-overflowAllowed"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <h2 class="AppDialog-title">Release type</h2>
+  </ng-template>
+  <div class="AppDialog-content" style="min-height: 0;">
+    <div class="AppForm-field p-field">
+      <p-dropdown
+        (ngModelChange)="isReleaseTypeVisible = false;pushFilterToRoute(sortKinds.type, $event)"
+        ngModel
+        appendTo="body"
+        class="AppForm-control"
+        [options]="releaseTypes"
+        optionValue="value"
+        optionLabel="key"
+        placeholder="Type"
+      ></p-dropdown>
+    </div>
+  </div>
+</p-dialog>
+
+<app-release-edit-dialog
+  *ngIf="isCreateDialogVisible"
+  (saved)="refresh()"
+  [(isVisible)]="isCreateDialogVisible"
+></app-release-edit-dialog>

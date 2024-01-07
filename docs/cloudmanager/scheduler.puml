@@ -1,0 +1,12 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class ExecutionSchedule {
+  ScheduleStartContainers();
+  ScheduleStopContainers();
+
+  ScheduleStartNewNodes();
+  ScheduleShutdown();
+}
+
+@enduml

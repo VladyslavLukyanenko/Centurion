@@ -1,0 +1,63 @@
+﻿syntax = "proto3";
+
+package checkout;
+
+import "google/protobuf/duration.proto";
+import "module.proto";
+
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/checkout/yeezysupply";
+option csharp_namespace = "Centurion.Contracts.Checkout.YeezySupply";
+option java_package = "gg.centurion.checkout.yeezysupply";
+
+
+message YeezySupplyConfig {
+  option (centurion_module) = YEEZY_SUPPLY;
+  option (centurion_module_display_name) = "Yeezy Supply";
+  option (centurion_version) = "20211227";
+
+  oneof mode {
+    option (centurion_module_modes) = true;
+
+    YeezySupplyDefaultConfig default = 1;
+  }
+}
+
+message YeezySupplyDefaultConfig {
+  option (centurion_checkout_mode) = "Default";
+
+  repeated YeezySupplySize sizes = 1;
+  google.protobuf.Duration retry_delay = 2;
+  google.protobuf.Duration monitor_delay = 3;
+  bool skip_queue = 4;
+}
+
+enum YeezySupplySize {
+  option (centurion_allowed_values_definition) = true;
+
+  YEEZYSUPPLY_SIZE_RANDOM = 0 [(centurion_allowed_value) = {display_name: "Random", id: "RANDOM", discard_others: true}];
+  YEEZYSUPPLY_SIZE_4 = 1 [(centurion_allowed_value) = {display_name: "4", id: "530"}];
+  YEEZYSUPPLY_SIZE_4_5 = 2 [(centurion_allowed_value) = {display_name: "4.5", id: "540"}];
+  YEEZYSUPPLY_SIZE_5 = 3 [(centurion_allowed_value) = {display_name: "5", id: "550"}];
+  YEEZYSUPPLY_SIZE_5_5 = 4 [(centurion_allowed_value) = {display_name: "5.5", id: "560"}];
+  YEEZYSUPPLY_SIZE_6 = 5 [(centurion_allowed_value) = {display_name: "6", id: "570"}];
+  YEEZYSUPPLY_SIZE_6_5 = 6 [(centurion_allowed_value) = {display_name: "6.5", id: "580"}];
+  YEEZYSUPPLY_SIZE_7 = 7 [(centurion_allowed_value) = {display_name: "7", id: "590"}];
+  YEEZYSUPPLY_SIZE_7_5 = 8 [(centurion_allowed_value) = {display_name: "7.5", id: "600"}];
+  YEEZYSUPPLY_SIZE_8 = 9 [(centurion_allowed_value) = {display_name: "8", id: "610"}];
+  YEEZYSUPPLY_SIZE_8_5 = 10 [(centurion_allowed_value) = {display_name: "8.5", id: "620"}];
+  YEEZYSUPPLY_SIZE_9 = 11 [(centurion_allowed_value) = {display_name: "9", id: "630"}];
+  YEEZYSUPPLY_SIZE_9_5 = 12 [(centurion_allowed_value) = {display_name: "9.5", id: "640"}];
+  YEEZYSUPPLY_SIZE_10 = 13 [(centurion_allowed_value) = {display_name: "10", id: "650"}];
+  YEEZYSUPPLY_SIZE_10_5 = 14 [(centurion_allowed_value) = {display_name: "10.5", id: "660"}];
+  YEEZYSUPPLY_SIZE_11 = 15 [(centurion_allowed_value) = {display_name: "11", id: "670"}];
+  YEEZYSUPPLY_SIZE_11_5 = 16 [(centurion_allowed_value) = {display_name: "11.5", id: "680"}];
+  YEEZYSUPPLY_SIZE_12 = 17 [(centurion_allowed_value) = {display_name: "12", id: "690"}];
+  YEEZYSUPPLY_SIZE_12_5 = 18 [(centurion_allowed_value) = {display_name: "12.5", id: "700"}];
+  YEEZYSUPPLY_SIZE_13 = 19 [(centurion_allowed_value) = {display_name: "13", id: "710"}];
+  YEEZYSUPPLY_SIZE_13_5 = 20 [(centurion_allowed_value) = {display_name: "13.5", id: "720"}];
+  YEEZYSUPPLY_SIZE_14 = 21 [(centurion_allowed_value) = {display_name: "14", id: "730"}];
+  YEEZYSUPPLY_SIZE_14_5 = 22 [(centurion_allowed_value) = {display_name: "14.5", id: "740"}];
+  YEEZYSUPPLY_SIZE_15 = 23 [(centurion_allowed_value) = {display_name: "15", id: "750"}];
+  YEEZYSUPPLY_SIZE_16 = 24 [(centurion_allowed_value) = {display_name: "16", id: "760"}];
+  YEEZYSUPPLY_SIZE_17 = 25 [(centurion_allowed_value) = {display_name: "17", id: "780"}];
+}

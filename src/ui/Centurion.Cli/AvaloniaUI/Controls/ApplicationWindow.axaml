@@ -1,0 +1,155 @@
+﻿<Styles
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:ctrl="using:Centurion.Cli.AvaloniaUI.Controls">
+
+  <Design.PreviewWith>
+    <ctrl:ApplicationWindow ShowTitleBarDecorations="True" ShowTitleBarDelim="True">
+      <ctrl:ApplicationWindow.TitleBarAppIcon>
+        <TextBlock>Icon</TextBlock>
+      </ctrl:ApplicationWindow.TitleBarAppIcon>
+      <ctrl:ApplicationWindow.TitleBarContent>
+        <TextBlock>Title</TextBlock>
+      </ctrl:ApplicationWindow.TitleBarContent>
+      <ctrl:ApplicationWindow.TitleBarAdditionalControls>
+        <Path
+          Width="16"
+          Height="17.5"
+          Fill="#606B90"
+          Stretch="UniformToFill"
+          Data="M11.9954 2.12994C11.9984 2.08951 12 2.04625 12 2C12 0.89543 11.1046 0 10 0C8.89545 0 8.00002 0.89543 8.00002 2C8.00002 2.04625 8.00159 2.08949 8.00467 2.12992C6.44083 2.35227 5.24772 2.85867 4.35186 3.63844C3.11014 4.71927 2.60782 6.1818 2.33149 7.60064C2.193 8.31171 2.1044 9.05212 2.0201 9.76032L2.01699 9.78642C1.93229 10.498 1.85098 11.1812 1.72784 11.8466C1.47894 13.1918 1.07743 14.3488 0.254978 15.2674C0.0517103 15.4944 -0.0369407 15.8018 0.0141811 16.1022C0.0653028 16.4026 0.250618 16.6633 0.51754 16.8103C2.14853 17.7087 4.05436 18.3241 6.05628 18.6685C6.06335 18.7102 6.07108 18.7518 6.07945 18.7932C6.19045 19.3419 6.41556 19.8619 6.74103 20.3193C7.10703 20.8336 7.58956 21.2539 8.14916 21.546C8.70876 21.8381 9.32954 21.9936 9.96076 21.9998C10.592 22.006 11.2157 21.8627 11.7809 21.5817C12.3461 21.3006 12.8368 20.8898 13.2129 20.3828C13.5472 19.9319 13.7825 19.4164 13.9043 18.87C13.9191 18.8033 13.9323 18.7361 13.9437 18.6685C15.9457 18.3241 17.8515 17.7087 19.4825 16.8103C19.7494 16.6633 19.9347 16.4026 19.9858 16.1022C20.037 15.8018 19.9483 15.4944 19.745 15.2674C18.9226 14.3488 18.5211 13.1918 18.2721 11.8466C18.149 11.1812 18.0677 10.498 17.983 9.78637L17.9799 9.76031C17.8955 9.05211 17.8069 8.31169 17.6684 7.60062C17.3921 6.18178 16.8897 4.71927 15.648 3.63844C14.7522 2.85869 13.5591 2.35231 11.9954 2.12994ZM11.7682 18.9346C11.1801 18.9783 10.5892 19 10 19C9.41078 19 8.81996 18.9783 8.2318 18.9346C8.27291 19.0123 8.31922 19.0875 8.37052 19.1596C8.55352 19.4168 8.79479 19.627 9.07459 19.773C9.35439 19.919 9.66478 19.9968 9.98038 19.9999C10.296 20.003 10.6078 19.9313 10.8905 19.7908C11.1731 19.6503 11.4184 19.4449 11.6064 19.1914C11.667 19.1097 11.721 19.0239 11.7682 18.9346ZM10 17C7.31721 17 4.67257 16.5102 2.51162 15.5643C3.1577 14.4976 3.48689 13.3323 3.69446 12.2105C3.82948 11.4808 3.91737 10.7422 3.99973 10.05L4.00608 9.99672C4.09182 9.27643 4.17259 8.60947 4.29461 7.98297C4.53928 6.72667 4.92247 5.79329 5.66496 5.14701C6.40522 4.50267 7.67104 4 9.99995 4C12.3288 4 13.5946 4.50267 14.3349 5.14701C15.0774 5.7933 15.4606 6.72669 15.7053 7.98299C15.8273 8.60948 15.9081 9.27645 15.9939 9.99674L16.0002 10.05C16.0826 10.7422 16.1705 11.4808 16.3055 12.2106C16.5131 13.3323 16.8423 14.4976 17.4884 15.5643C15.3274 16.5102 12.6828 17 10 17Z" />
+
+      </ctrl:ApplicationWindow.TitleBarAdditionalControls>
+      <ctrl:ApplicationWindow.Content>
+        <Grid Width="450" Height="150" Margin="30 0">
+          <TextBlock Background="Red" Text="Test" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        </Grid>
+      </ctrl:ApplicationWindow.Content>
+    </ctrl:ApplicationWindow>
+  </Design.PreviewWith>
+  <Style Selector="ctrl|ApplicationWindow">
+    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="ShowTitleBarDecorations" Value="False" />
+    <Setter Property="Padding" Value="5 0 5 5" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border Background="{StaticResource PrimaryBackgroundColor}" CornerRadius="5">
+            <Grid Name="PART_RootContainer" RowDefinitions="Auto, *">
+              <Grid
+                Name="PART_DecorationsContainer"
+                Grid.RowSpan="2"
+                Height="0"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Width="0"
+                Margin="15" />
+              <Grid
+                Height="{TemplateBinding TitleBarHeight}"
+                Background="#01000000"
+                Margin="15, 0"
+                Name="PART_TitleBar"
+                ColumnDefinitions="150, *, 150">
+                <ContentControl
+                  Content="{TemplateBinding TitleBarAppIcon}"
+                  VerticalAlignment="Center"
+                  VerticalContentAlignment="Center"
+                  HorizontalContentAlignment="Left"
+                  HorizontalAlignment="Left" />
+                <ContentControl
+                  Grid.Column="1"
+                  Content="{TemplateBinding TitleBarContent}"
+                  VerticalAlignment="Center"
+                  VerticalContentAlignment="Center"
+                  HorizontalContentAlignment="Center"
+                  HorizontalAlignment="Center" />
+                <StackPanel
+                  Grid.Column="2"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Right"
+                  Orientation="Horizontal"
+                  Spacing="18"
+                  Margin="3">
+
+                  <ContentControl
+                    Content="{TemplateBinding TitleBarAdditionalControls}"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Left"
+                    HorizontalAlignment="Left" />
+                  <Button Name="PART_MinimizeButton" Classes="WindowBtn">
+                    <Button.Content>
+                      <Border Classes="WindowControlSegment"></Border>
+                    </Button.Content>
+                  </Button>
+                  <Button Name="PART_CloseButton" Classes="WindowBtn">
+                    <Button.Content>
+                      <Grid Height="{Binding $parent.Height}" Width="{Binding $parent.Width}">
+                        <Grid.RenderTransform>
+                          <RotateTransform Angle="45"></RotateTransform>
+                        </Grid.RenderTransform>
+                        <Border Classes="WindowControlSegment" Width="14" />
+                        <Border Classes="WindowControlSegment" Height="14" Width="1.5" />
+                      </Grid>
+                    </Button.Content>
+                  </Button>
+                </StackPanel>
+              </Grid>
+              <Rectangle
+                IsVisible="{TemplateBinding ShowTitleBarDelim}"
+                VerticalAlignment="Bottom"
+                Height="1"
+                Fill="#141E5A" />
+              <ContentPresenter
+                Grid.Row="1"
+                Content="{TemplateBinding Content}"
+                Margin="{TemplateBinding Padding}"
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+  <Style Selector="ctrl|ApplicationWindow /template/ Border.WindowControlSegment">
+    <Setter Property="Background" Value="#606B90" />
+    <Setter Property="CornerRadius" Value="21 " />
+    <Setter Property="Width" Value="10" />
+    <Setter Property="Height" Value="1.5" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="HorizontalAlignment" Value="Center" />
+  </Style>
+
+
+  <Style Selector="ctrl|ApplicationWindow /template/ Button.WindowBtn">
+    <Setter Property="Background" Value="#01000000" />
+    <Setter Property="Height" Value="10" />
+    <Setter Property="Width" Value="10" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+
+
+  <Style
+    Selector="ctrl|ApplicationWindow /template/ Button.WindowBtn /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Opacity" Value="1" />
+    <Setter Property="Background" Value="#01000000" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <DoubleTransition Property="Opacity" Duration="0:0:0.2"></DoubleTransition>
+      </Transitions>
+    </Setter>
+  </Style>
+
+  <Style
+    Selector="ctrl|ApplicationWindow /template/ Button.WindowBtn:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Opacity" Value="0.85" />
+    <Setter Property="Background" Value="#01000000" />
+  </Style>
+
+</Styles>

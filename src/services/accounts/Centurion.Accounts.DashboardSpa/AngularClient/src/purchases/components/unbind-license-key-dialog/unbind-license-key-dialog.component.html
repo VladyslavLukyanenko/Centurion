@@ -1,0 +1,48 @@
+<p-dialog
+  *ngIf="isVisible"
+  (visibleChange)="isVisibleChange.emit($event)"
+  [visible]="isVisible"
+  [modal]="true"
+  [dismissableMask]="false"
+  styleClass="AppDialog is-autoHeight"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <h2 class="AppDialog-title">Unbind license key</h2>
+  </ng-template>
+  <div class="AppDialog-content is-autoHeight">
+
+    <div class="row  AppForm-colno-gutters mb-2">
+      <div [ngSwitch]="generatedKey$ | async" class="col-12">
+        <span *ngSwitchCase="null" class="UnbindLicenseKeyDialog-warningMessage">
+          <strong class="UnbindLicenseKeyDialog-unbindTargetKey">{{licenseKey}}</strong>
+          If you proceed key will be removed from your account, generated new value and returned to you so you can copy it.
+        </span>
+        <span *ngSwitchDefault class="UnbindLicenseKeyDialog-keyValue">{{generatedKey$.value}}</span>
+      </div>
+    </div>
+    <p-progressSpinner *ngIf="isLoading$ | async" class="AppProgressSpinner"></p-progressSpinner>
+  </div>
+
+  <p-footer [ngSwitch]="generatedKey$ | async">
+    <button
+      *ngSwitchCase="null"
+      (click)="unbind()"
+      [disabled]="asyncTracker.isLoading$ | async"
+      class="AppDialog-btn is-danger mb-1"
+    >
+      Unbind
+    </button>
+    <button *ngSwitchCase="null" (click)="cancel()" [disabled]="asyncTracker.isLoading$ | async" class="AppDialog-btn">
+      Cancel
+    </button>
+    <button
+      *ngSwitchDefault
+      (click)="copyToClipboardAndClose()"
+      [disabled]="asyncTracker.isLoading$ | async"
+      class="AppDialog-btn is-primary mb-1"
+    >
+      Copy and close
+    </button>
+  </p-footer>
+</p-dialog>

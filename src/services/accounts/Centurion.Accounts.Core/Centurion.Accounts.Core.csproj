@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>Enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.24.4" />
+    <PackageReference Include="FastExpressionCompiler" Version="3.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NodaTime" Version="3.0.9" />
+    <PackageReference Include="Unidecode.NET" Version="2.1.0" />
+  </ItemGroup>
+</Project>

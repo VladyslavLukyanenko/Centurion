@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+package checkout;
+
+import "profile.proto";
+
+option go_package = "github.com/CenturionLabs/centurion/checkout-service/contracts/checkout";
+option java_package = "gg.centurion.checkout";
+option csharp_namespace = "Centurion.Contracts.Checkout";
+
+message EncryptionResult {
+  string encrypted = 1;
+}
+
+service Crypto {
+  rpc Encrypt(ProfileData) returns (EncryptionResult);
+}

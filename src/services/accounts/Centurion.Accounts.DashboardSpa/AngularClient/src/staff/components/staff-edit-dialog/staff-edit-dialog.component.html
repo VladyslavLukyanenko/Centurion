@@ -1,0 +1,47 @@
+<p-dialog
+  (visibleChange)="isVisibleChange.emit($event)"
+  [visible]="isVisible"
+  [modal]="true"
+  [dismissableMask]="true"
+  styleClass="AppDialog"
+  class="dialogHeaderIconless"
+>
+  <ng-template pTemplate="header">
+    <div class="AppDialog-header">
+      <h2 class="AppDialog-title">Add Staff Member</h2>
+    </div>
+  </ng-template>
+  <div class="AppDialog-content MemberList-content">
+    <app-members-picker
+      [actionsTmpl]="memberActionsTmpl"
+      [dataSource]="membersDataSource"
+      [listHeight]="235"
+      [selectedMemberIds]="selectedMemberIds$ | async"
+    ></app-members-picker>
+  </div>
+
+  <p-footer>
+    <button
+      (click)="assignRoles()"
+      [disabled]="!assignedMembers$.value.length || (isLoading$ | async)"
+      class="AppDialog-btn is-primary"
+    >
+      Add Staff Member
+    </button>
+  </p-footer>
+</p-dialog>
+
+<ng-template #memberActionsTmpl let-member>
+  <p-dropdown
+    (ngModelChange)="toggleAssigningMember(member, $event)"
+    [showClear]="true"
+    [ngModel]="member['selectedRole']"
+    class="StaffMember-roleSelect"
+    [class.is-selected]="!!member['selectedRole']"
+    placeholder="Role"
+    optionLabel="key"
+    optionValue="value"
+    appendTo="body"
+    [options]="roles"
+  ></p-dropdown>
+</ng-template>

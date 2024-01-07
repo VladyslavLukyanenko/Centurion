@@ -1,0 +1,18 @@
+<r-content-container>
+  <r-content style="padding: 30px;">
+    <nz-card *ngFor="let group of groups$ | async" [nzTitle]="titleTmpl" [nzLoading]="asyncTracker.isLoading$ | async">
+      <nz-row [nzGutter]="16">
+        <nz-col *ngFor="let node of group.instances; trackBy: trackNodesBy" [nzSpan]="12" style="margin-bottom: 10px;">
+          <r-node-runtime-info [node]="node"></r-node-runtime-info>
+        </nz-col>
+      </nz-row>
+
+      <ng-template #titleTmpl>
+        {{group.providerName}}
+        <button (click)="runInstance(group.providerName)" nz-button nzType="primary" nzSize="small">
+          <i nz-icon nzType="plus"></i> Start new server
+        </button>
+      </ng-template>
+    </nz-card>
+  </r-content>
+</r-content-container>

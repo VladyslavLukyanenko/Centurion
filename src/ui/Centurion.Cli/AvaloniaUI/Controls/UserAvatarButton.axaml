@@ -1,0 +1,53 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctrl="clr-namespace:Centurion.Cli.AvaloniaUI.Controls"
+        xmlns:converters="clr-namespace:Centurion.Cli.AvaloniaUI.Converters"
+        xmlns:behaviors="clr-namespace:Centurion.Cli.AvaloniaUI.Behaviors">
+  <Design.PreviewWith>
+    <Border Padding="40" Background="#999">
+      <ctrl:UserAvatarButton
+        Picture="https://cdn.discordapp.com/avatars/860559878878396427/7e6c9f3474fc9398c6b84c7250f0ec7c.png" />
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="ctrl|UserAvatarButton">
+    <Setter Property="Width" Value="21" />
+    <Setter Property="Height" Value="21" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Background" Value="#141E5A" />
+    <Setter Property="RenderTransform" Value="none" />
+    <Setter Property="Transitions">
+      <Transitions>
+        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+        <DoubleTransition Property="Opacity" Duration="0:0:.1" />
+        <BrushTransition Property="Background" Duration="0:0:.1" />
+      </Transitions>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border
+          Name="PART_Border"
+          CornerRadius="{Binding $parent[ctrl:UserAvatarButton].Width, Converter={x:Static converters:Int32ToCornerRadiusConverter.Instance}}"
+          BorderThickness="1"
+          behaviors:BitmapLoader.Source="{Binding Path=$parent[ctrl:UserAvatarButton].Picture}"
+          BorderBrush="{TemplateBinding Background}" />
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="ctrl|UserAvatarButton:pointerover">
+    <Setter Property="Background" Value="#A9B5E0" />
+  </Style>
+
+  <Style Selector="ctrl|UserAvatarButton:pressed">
+    <Setter Property="RenderTransform" Value="scale(0.98)" />
+  </Style>
+
+  <Style Selector="ctrl|UserAvatarButton:disabled">
+    <Setter Property="Opacity" Value=".7" />
+  </Style>
+
+  <Style Selector="ctrl|UserAvatarButton:checked">
+    <Setter Property="Background" Value="#E4C983" />
+  </Style>
+</Styles>

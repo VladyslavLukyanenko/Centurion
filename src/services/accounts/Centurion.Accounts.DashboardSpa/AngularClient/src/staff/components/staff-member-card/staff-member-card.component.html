@@ -1,0 +1,19 @@
+<div class="StaffMember-decoration">
+  <div class="StaffMember-decorationPicContainer">
+    <img [src]="member.avatar" [alt]="member.name" class="StaffMember-decorationPic">
+  </div>
+  <div class="StaffMember-pic">
+    <img [src]="member.avatar" [alt]="member.name" class="StaffMember-img">
+  </div>
+</div>
+
+<div class="StaffMember-name">
+  {{member.name}}
+  <ng-container *ngIf="isCurrentUser">
+    (You)
+  </ng-container>
+
+  <a (click)="$event.preventDefault();removeClick.emit($event)" href="#" class="StaffMember-removeBtn">
+    x
+  </a>
+</div>
